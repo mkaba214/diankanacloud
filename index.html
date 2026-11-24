@@ -447,7 +447,7 @@ function renderArticle(id){
     <div class="flex flex-wrap items-center gap-2 mb-4">
       <span class="badge badge-topic">${a.topicLabel[LANG]}</span>
       <span class="badge badge-ai">🤖 ${LANG==='fr'?'Rédigé avec assistance IA':'Drafted with AI assistance'}</span>
-      <span class="badge badge-verified">✓ ${LANG==='fr'?'Vérifié par Mo':'Verified by Mo'}</span>
+      <span class="badge badge-verified">✓ ${LANG==='fr'?'Vérifié par l’administrateur':'Verified by the Administrator'}</span>
     </div>
     <h1 class="font-display font-800 text-2xl sm:text-3xl leading-tight mb-3">${a.title[LANG]}</h1>
     <p class="text-[var(--ink)]/70 mb-6">${a.summary[LANG]}</p>
