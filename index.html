@@ -217,11 +217,13 @@
   <h2 class="font-display font-700 text-2xl sm:text-3xl i18n" data-fr="Contact" data-en="Contact">Contact</h2>
   <p class="text-[var(--ink)]/70 mt-2 i18n" data-fr="Une idée de sujet, une source à proposer, une correction à signaler ? Écrivez." data-en="A topic idea, a source to suggest, a correction to flag? Write in.">Une idée de sujet, une source à proposer, une correction à signaler ? Écrivez.</p>
   <form id="contact-form" class="mt-6 space-y-3 bg-white border border-black/10 rounded-2xl p-5" onsubmit="return submitContact(event)">
-    <input id="contact-name" required type="text" placeholder="Nom / Name" class="w-full border border-black/15 rounded-lg px-3 py-2.5 text-sm">
-    <input id="contact-email" required type="email" placeholder="Email" class="w-full border border-black/15 rounded-lg px-3 py-2.5 text-sm">
-    <textarea id="contact-message" required rows="4" placeholder="Message" class="w-full border border-black/15 rounded-lg px-3 py-2.5 text-sm"></textarea>
-    <button class="px-5 py-2.5 rounded-lg bg-[var(--teal)] text-white text-sm font-semibold i18n" data-fr="Envoyer" data-en="Send">Envoyer</button>
-    <p id="contact-note" class="text-xs text-[var(--ink)]/50 hidden i18n" data-fr="Votre application e-mail s'ouvre avec le message prêt — il ne reste plus qu'à l'envoyer." data-en="Your email app opens with the message ready — just hit send.">Votre application e-mail s'ouvre avec le message prêt — il ne reste plus qu'à l'envoyer.</p>
+    <input id="contact-name" required maxlength="100" type="text" autocomplete="name" placeholder="Nom / Name" class="w-full border border-black/15 rounded-lg px-3 py-2.5 text-sm">
+    <input id="contact-email" required maxlength="200" type="email" autocomplete="email" placeholder="Email" class="w-full border border-black/15 rounded-lg px-3 py-2.5 text-sm">
+    <textarea id="contact-message" required maxlength="5000" rows="4" placeholder="Message" class="w-full border border-black/15 rounded-lg px-3 py-2.5 text-sm"></textarea>
+    <!-- honeypot: hidden from people, bots tend to fill it -->
+    <input id="contact-website" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
+    <button id="contact-submit" class="px-5 py-2.5 rounded-lg bg-[var(--teal)] text-white text-sm font-semibold disabled:opacity-60 i18n" data-fr="Envoyer" data-en="Send">Envoyer</button>
+    <p id="contact-note" class="text-sm hidden" role="status"></p>
   </form>
 </section>
 
@@ -808,18 +810,40 @@ function askBot(){
     </div>`;
 }
 
-/* ---------------- CONTACT (opens the visitor's email app, no server needed) ---------------- */
+/* ---------------- CONTACT (messages stored in Firestore "messages"; read them in the Firebase console) ---------------- */
 const CONTACT_EMAIL = 'contact@diankanacloud.com';
 
-function submitContact(e){
+async function submitContact(e){
   e.preventDefault();
+  const form = document.getElementById('contact-form');
+  const note = document.getElementById('contact-note');
+  const btn = document.getElementById('contact-submit');
   const name = document.getElementById('contact-name').value.trim();
   const email = document.getElementById('contact-email').value.trim();
-  const msg = document.getElementById('contact-message').value.trim();
-  const subject = 'Diankana Cloud — ' + name;
-  const body = msg + '\n\n— ' + name + ' <' + email + '>';
-  location.href = 'mailto:' + CONTACT_EMAIL + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
-  document.getElementById('contact-note').classList.remove('hidden');
+  const message = document.getElementById('contact-message').value.trim();
+  const show = (ok, text) => {
+    note.textContent = text;
+    note.className = 'text-sm ' + (ok ? 'text-[var(--teal-dark)] font-semibold' : 'text-red-700');
+  };
+  if(document.getElementById('contact-website').value){   // bot filled the honeypot: pretend success
+    form.reset(); show(true, T('Merci ! Votre message a bien été envoyé.','Thank you! Your message has been sent.'));
+    return false;
+  }
+  if(!name || !email || !message) return false;
+  btn.disabled = true;
+  try{
+    await initFirebase();
+    const {f, db} = fb;
+    await f.addDoc(f.collection(db,'messages'), {
+      name: name.slice(0,100), email: email.slice(0,200), message: message.slice(0,5000),
+      lang: LANG, createdAt: f.serverTimestamp()
+    });
+    form.reset();
+    show(true, T('Merci ! Votre message a bien été envoyé.','Thank you! Your message has been sent.'));
+  }catch(err){
+    show(false, T("L'envoi a échoué. Réessayez, ou écrivez directement à ","Sending failed. Please try again, or email ") + CONTACT_EMAIL + '.');
+  }
+  btn.disabled = false;
   return false;
 }
 
