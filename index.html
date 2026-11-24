@@ -181,20 +181,20 @@
 <section id="view-about" class="view py-10 sm:py-14">
   <div class="grid md:grid-cols-3 gap-10 items-start">
     <div class="md:col-span-1">
-      <div class="w-28 h-28 rounded-2xl bg-[var(--teal)] text-white flex items-center justify-center font-display font-800 text-3xl">M</div>
-      <h2 class="font-display font-700 text-2xl mt-4">Mo</h2>
+      <img src="img/mohamed-kaba.jpg" alt="Mohamed Kaba" width="160" height="160" class="w-40 h-40 rounded-2xl object-cover shadow-sm">
+      <h2 class="font-display font-700 text-2xl mt-4">Mohamed Kaba</h2>
       <p class="text-sm text-[var(--teal-dark)] font-semibold i18n" data-fr="Fondateur, Diankana Cloud" data-en="Founder, Diankana Cloud">Fondateur, Diankana Cloud</p>
     </div>
     <div class="md:col-span-2 space-y-4 text-[var(--ink)]/80 leading-relaxed">
       <p class="i18n"
-        data-fr="Je m'appelle Mo. Je suis consultant IT basé à New York, avec plus de 14 ans d'expérience en administration réseau, management IT et opérations cloud — un parcours qui m'a mené d'administrateur réseau, à manager IT, à consultant IT aujourd'hui chez Miles IT."
-        data-en="I'm Mo, an IT consultant based in New York with 14+ years of experience spanning network administration, IT management, and cloud operations — a path that took me from network administrator, to IT manager, to IT consultant today at Miles IT.">
-        Je m'appelle Mo. Je suis consultant IT basé à New York, avec plus de 14 ans d'expérience en administration réseau, management IT et opérations cloud — un parcours qui m'a mené d'administrateur réseau, à manager IT, à consultant IT aujourd'hui chez Miles IT.
+        data-fr="Je m'appelle Mohamed Kaba. Je suis consultant IT basé à New York, avec plus de 14 ans d'expérience en support technique, administration réseau, management IT et opérations cloud. Mon parcours, commencé à Conakry, m'a mené d'administrateur réseau à manager IT, puis à consultant IT aujourd'hui chez Miles IT, où j'apporte au quotidien une assistance technique aux utilisateurs et aux équipes."
+        data-en="I'm Mohamed Kaba, an IT consultant based in New York with 14+ years of experience across technical support, network administration, IT management and cloud operations. My path started in Conakry and took me from network administrator to IT manager, and today to IT consultant at Miles IT, where I provide day-to-day technical assistance to users and teams.">
+        Je m'appelle Mohamed Kaba. Je suis consultant IT basé à New York, avec plus de 14 ans d'expérience en support technique, administration réseau, management IT et opérations cloud. Mon parcours, commencé à Conakry, m'a mené d'administrateur réseau à manager IT, puis à consultant IT aujourd'hui chez Miles IT, où j'apporte au quotidien une assistance technique aux utilisateurs et aux équipes.
       </p>
       <p class="i18n"
-        data-fr="Je dirige aussi un groupe d'étude (Scholars Group Lead) dans le programme Google Cloud Career Launchpad animé par Mentor Me Collective, où j'accompagne d'autres apprenants vers la certification cloud."
-        data-en="I also lead a scholars study group in the Google Cloud Career Launchpad program run by Mentor Me Collective, helping other learners work toward cloud certification.">
-        Je dirige aussi un groupe d'étude (Scholars Group Lead) dans le programme Google Cloud Career Launchpad animé par Mentor Me Collective, où j'accompagne d'autres apprenants vers la certification cloud.
+        data-fr="Je continue de me former au cloud : j'ai étudié au Queensborough Community College (CUNY) et suivi le programme AWS Cloud Application Developer. Je dirige aussi un groupe d'étude (Scholars Group Lead) dans le programme Google Cloud Career Launchpad animé par Mentor Me Collective, où j'accompagne d'autres apprenants vers la certification cloud."
+        data-en="I keep building my cloud skills: I studied at Queensborough Community College (CUNY) and completed the AWS Cloud Application Developer program. I also lead a scholars study group in the Google Cloud Career Launchpad program run by Mentor Me Collective, helping other learners work toward cloud certification.">
+        Je continue de me former au cloud : j'ai étudié au Queensborough Community College (CUNY) et suivi le programme AWS Cloud Application Developer. Je dirige aussi un groupe d'étude (Scholars Group Lead) dans le programme Google Cloud Career Launchpad animé par Mentor Me Collective, où j'accompagne d'autres apprenants vers la certification cloud.
       </p>
       <p class="i18n"
         data-fr="Diankana Cloud est un projet personnel, pas un média d'information formel : c'est simplement un pro de l'IT qui partage, en français et en anglais, des sujets utiles pour la jeunesse guinéenne — technologie, mines, pétrole — sous forme de guides courts, vérifiés avant publication."
@@ -204,7 +204,9 @@
       <ul class="text-sm space-y-1.5 pt-2">
         <li>📍 <span class="i18n" data-fr="New York, États-Unis" data-en="New York, USA">New York, États-Unis</span></li>
         <li>💼 <span class="i18n" data-fr="Consultant IT sur site — Miles IT" data-en="Onsite IT Consultant — Miles IT">Consultant IT sur site — Miles IT</span></li>
+        <li>🏫 <span>Queensborough Community College (CUNY)</span></li>
         <li>🎓 <span class="i18n" data-fr="Scholars Group Lead — Google Cloud Career Launchpad (Mentor Me Collective)" data-en="Scholars Group Lead — Google Cloud Career Launchpad (Mentor Me Collective)">Scholars Group Lead — Google Cloud Career Launchpad (Mentor Me Collective)</span></li>
+        <li>🔗 <a class="underline text-[var(--teal-dark)]" href="https://www.linkedin.com/in/mohamed-a-kaba/" target="_blank" rel="noopener">LinkedIn — Mohamed Kaba</a></li>
       </ul>
     </div>
   </div>
@@ -768,7 +770,7 @@ function submitContact(e){
 }
 
 /* ---------------- COMMENTS (Firebase Auth + Firestore) ----------------
-   Sign-in is required to comment: email/password or Google.
+   Sign-in with Google is required to comment.
    Paste the web app config of the dedicated "diankanacloud" Firebase project below.
    While it is null, the discussion area shows a "coming soon" message. */
 const FIREBASE_CONFIG = {
@@ -785,7 +787,6 @@ let fb = null;               // {auth, db, fns}
 let currentUser = null;
 let commentsUnsub = null;
 let currentArticleId = null;
-let authMode = 'signin';     // 'signin' | 'signup'
 let replyTo = null;
 
 const T = (fr, en) => LANG==='fr' ? fr : en;
@@ -918,60 +919,9 @@ function renderAuthArea(){
   }
 
   box.appendChild(el('p','text-sm font-semibold mb-3', T('Connectez-vous pour commenter','Sign in to comment')));
-  const providers = el('div','grid gap-2 mb-4');
-  [['google','Google', () => new a.GoogleAuthProvider()]].forEach(([k,label,mk])=>{
-    const b = el('button','border border-black/15 rounded-lg px-3 py-2 text-sm font-semibold hover:bg-black/5', T('Continuer avec ','Continue with ')+label);
-    b.onclick = async () => { msg.classList.add('hidden'); try{ await a.signInWithPopup(auth, mk()); }catch(e){ msg.textContent = authError(e); msg.classList.remove('hidden'); } };
-    providers.appendChild(b);
-  });
-  box.appendChild(providers);
-  box.appendChild(el('div','text-xs text-[var(--ink)]/45 mb-3', T('ou avec votre e-mail','or with your email')));
-
-  const form = el('form','space-y-2');
-  const name = el('input','w-full border border-black/15 rounded-lg px-3 py-2 text-sm');
-  name.placeholder = T('Nom affiché','Display name'); name.maxLength = 60;
-  const email = el('input','w-full border border-black/15 rounded-lg px-3 py-2 text-sm');
-  email.type = 'email'; email.required = true; email.placeholder = 'Email'; email.autocomplete = 'email';
-  const pw = el('input','w-full border border-black/15 rounded-lg px-3 py-2 text-sm');
-  pw.type = 'password'; pw.required = true; pw.minLength = 6; pw.placeholder = T('Mot de passe','Password');
-  pw.autocomplete = authMode==='signup' ? 'new-password' : 'current-password';
-  if(authMode==='signup'){ name.required = true; form.appendChild(name); }
-  form.append(email, pw);
-  const submit = el('button','px-4 py-2 rounded-lg bg-[var(--teal)] text-white text-sm font-semibold',
-    authMode==='signup' ? T('Créer un compte','Create account') : T('Se connecter','Sign in'));
-  form.appendChild(submit);
-  form.onsubmit = async (ev) => {
-    ev.preventDefault(); msg.classList.add('hidden');
-    try{
-      if(authMode==='signup'){
-        const cred = await a.createUserWithEmailAndPassword(auth, email.value.trim(), pw.value);
-        await a.updateProfile(cred.user, {displayName: name.value.trim().slice(0,60)});
-        await a.sendEmailVerification(cred.user);
-        renderAuthArea();
-      } else {
-        await a.signInWithEmailAndPassword(auth, email.value.trim(), pw.value);
-      }
-    }catch(e){ msg.textContent = authError(e); msg.classList.remove('hidden'); }
-  };
-  box.appendChild(form);
-
-  const links = el('div','flex flex-wrap gap-4 mt-3 text-xs font-semibold');
-  const toggle = el('button','text-[var(--teal-dark)]', authMode==='signup'
-    ? T('Déjà un compte ? Se connecter','Have an account? Sign in')
-    : T('Pas de compte ? En créer un','No account? Create one'));
-  toggle.onclick = () => { authMode = authMode==='signup' ? 'signin' : 'signup'; renderAuthArea(); };
-  links.appendChild(toggle);
-  if(authMode==='signin'){
-    const reset = el('button','text-[var(--ink)]/60', T('Mot de passe oublié ?','Forgot password?'));
-    reset.onclick = async () => {
-      if(!email.value.trim()){ msg.textContent = T("Saisissez d'abord votre e-mail.","Enter your email first."); msg.classList.remove('hidden'); return; }
-      try{ await a.sendPasswordResetEmail(auth, email.value.trim()); msg.textContent = T("E-mail de réinitialisation envoyé.","Reset email sent."); }
-      catch(e){ msg.textContent = authError(e); }
-      msg.classList.remove('hidden');
-    };
-    links.appendChild(reset);
-  }
-  box.append(links, msg);
+  const g = el('button','w-full border border-black/15 rounded-lg px-3 py-2.5 text-sm font-semibold hover:bg-black/5', T('Continuer avec Google','Continue with Google'));
+  g.onclick = async () => { msg.classList.add('hidden'); try{ await a.signInWithPopup(auth, new a.GoogleAuthProvider()); }catch(e){ msg.textContent = authError(e); msg.classList.remove('hidden'); } };
+  box.append(g, msg);
 }
 
 function renderCommentForm(container, parentId){
