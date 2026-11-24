@@ -768,10 +768,17 @@ function submitContact(e){
 }
 
 /* ---------------- COMMENTS (Firebase Auth + Firestore) ----------------
-   Sign-in is required to comment: email/password, Google, Facebook or GitHub.
+   Sign-in is required to comment: email/password or Google.
    Paste the web app config of the dedicated "diankanacloud" Firebase project below.
    While it is null, the discussion area shows a "coming soon" message. */
-const FIREBASE_CONFIG = null;
+const FIREBASE_CONFIG = {
+  apiKey: "AIzaSyBjYCI2z2kgPFI-XgCkMp6xv-RQ_OlInsU",
+  authDomain: "diankanacloud-a3ef1.firebaseapp.com",
+  projectId: "diankanacloud-a3ef1",
+  storageBucket: "diankanacloud-a3ef1.firebasestorage.app",
+  messagingSenderId: "638471550862",
+  appId: "1:638471550862:web:7d0d3a66eaa0962f6656df"
+};
 
 const FB_VERSION = '11.0.2';
 let fb = null;               // {auth, db, fns}
@@ -911,10 +918,8 @@ function renderAuthArea(){
   }
 
   box.appendChild(el('p','text-sm font-semibold mb-3', T('Connectez-vous pour commenter','Sign in to comment')));
-  const providers = el('div','grid sm:grid-cols-3 gap-2 mb-4');
-  [['google','Google', () => new a.GoogleAuthProvider()],
-   ['facebook','Facebook', () => new a.FacebookAuthProvider()],
-   ['github','GitHub', () => new a.GithubAuthProvider()]].forEach(([k,label,mk])=>{
+  const providers = el('div','grid gap-2 mb-4');
+  [['google','Google', () => new a.GoogleAuthProvider()]].forEach(([k,label,mk])=>{
     const b = el('button','border border-black/15 rounded-lg px-3 py-2 text-sm font-semibold hover:bg-black/5', T('Continuer avec ','Continue with ')+label);
     b.onclick = async () => { msg.classList.add('hidden'); try{ await a.signInWithPopup(auth, mk()); }catch(e){ msg.textContent = authError(e); msg.classList.remove('hidden'); } };
     providers.appendChild(b);
