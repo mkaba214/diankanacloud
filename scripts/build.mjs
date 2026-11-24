@@ -84,6 +84,7 @@ const PAGES = {
   '/':          ['Diankana Cloud — Tech · Mines · Pétrole',
                  "Guides pratiques en français et en anglais sur la tech, les mines et le pétrole en Guinée, rédigés avec l'aide de l'IA et vérifiés avant publication."],
   '/topics/':   ['Sujets — Diankana Cloud', 'Tous les guides Diankana Cloud : technologie et certifications cloud, mines (bauxite, fer, or) et pétrole en Guinée.'],
+  '/world/':   ['Ce qui se passe dans le monde — Diankana Cloud', "L'actualité internationale qui compte pour la tech, l'énergie et l'économie, résumée simplement en français et en anglais, avec ses sources."],
   '/ask/':      ["Demander à l'IA — Diankana Cloud", "Posez une question sur la Guinée ou sur nos guides : réponses tirées de nos articles et de l'article Wikipédia sur la Guinée."],
   '/about/':    ['À propos — Diankana Cloud', 'Diankana Cloud est le projet personnel de Mohamed Kaba, consultant IT basé à New York, pour partager des guides utiles à la jeunesse guinéenne.'],
   '/contact/':  ['Contact — Diankana Cloud', 'Une idée de sujet, une source à proposer, une correction à signaler ? Écrivez à Diankana Cloud.'],

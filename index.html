@@ -71,6 +71,7 @@
     <nav class="hidden md:flex items-center gap-6 text-sm font-medium text-[var(--ink)]/80">
       <a href="/" class="nav-link hover:text-[var(--teal-dark)] i18n" data-fr="Accueil" data-en="Home">Accueil</a>
       <a href="/topics/" class="nav-link hover:text-[var(--teal-dark)] i18n" data-fr="Sujets" data-en="Topics">Sujets</a>
+      <a href="/world/" class="nav-link hover:text-[var(--teal-dark)] i18n" data-fr="Le monde" data-en="World">Le monde</a>
       <a href="/ask/" class="nav-link hover:text-[var(--teal-dark)] i18n" data-fr="Demander à l'IA" data-en="Ask the AI">Demander à l'IA</a>
       <a href="/about/" class="nav-link hover:text-[var(--teal-dark)] i18n" data-fr="À propos" data-en="About">À propos</a>
       <a href="/contact/" class="nav-link hover:text-[var(--teal-dark)] i18n" data-fr="Contact" data-en="Contact">Contact</a>
@@ -87,6 +88,7 @@
   <div id="mobilenav" class="hidden md:hidden border-t border-black/5 bg-white px-4 py-3 flex flex-col gap-3 text-sm font-medium">
     <a href="/" class="i18n" data-fr="Accueil" data-en="Home">Accueil</a>
     <a href="/topics/" class="i18n" data-fr="Sujets" data-en="Topics">Sujets</a>
+    <a href="/world/" class="i18n" data-fr="Ce qui se passe dans le monde" data-en="What's happening in the World">Ce qui se passe dans le monde</a>
     <a href="/ask/" class="i18n" data-fr="Demander à l'IA" data-en="Ask the AI">Demander à l'IA</a>
     <a href="/about/" class="i18n" data-fr="À propos" data-en="About">À propos</a>
     <a href="/contact/" class="i18n" data-fr="Contact" data-en="Contact">Contact</a>
@@ -144,7 +146,7 @@
 <!-- TOPICS VIEW -->
 <section id="view-topics" class="view py-10 sm:py-14">
   <h2 class="font-display font-700 text-2xl sm:text-3xl i18n" data-fr="Sujets" data-en="Topics">Sujets</h2>
-  <p class="text-[var(--ink)]/70 mt-2 max-w-2xl i18n" data-fr="Trois axes pour commencer : technologie, mines, pétrole. D'autres viendront." data-en="Three starting lanes: technology, mining, oil. More will follow.">Trois axes pour commencer : technologie, mines, pétrole. D'autres viendront.</p>
+  <p class="text-[var(--ink)]/70 mt-2 max-w-2xl i18n" data-fr="Technologie, mines, pétrole et finance. D'autres viendront." data-en="Technology, mining, oil and finance. More will follow.">Technologie, mines, pétrole et finance. D'autres viendront.</p>
 
   <div class="flex flex-wrap gap-2 mt-6" id="topic-filters"></div>
 
@@ -155,9 +157,16 @@
   </div>
 </section>
 
+<!-- WORLD VIEW -->
+<section id="view-world" class="view py-10 sm:py-14">
+  <h2 class="font-display font-700 text-2xl sm:text-3xl i18n" data-fr="Ce qui se passe dans le monde" data-en="What's happening in the World">Ce qui se passe dans le monde</h2>
+  <p class="text-[var(--ink)]/70 mt-2 max-w-2xl i18n" data-fr="L'actualité internationale qui compte pour la tech, l'énergie et l'économie, résumée simplement, avec ses sources." data-en="International news that matters for tech, energy and the economy, summarised simply, with sources.">L'actualité internationale qui compte pour la tech, l'énergie et l'économie, résumée simplement, avec ses sources.</p>
+  <div id="world-grid" class="space-y-10 mt-6"></div>
+</section>
+
 <!-- ARTICLE VIEW -->
 <section id="view-article" class="view py-8 sm:py-12">
-  <a href="/topics/" class="inline-block text-sm font-semibold text-[var(--teal-dark)] mb-5 i18n" data-fr="← Retour aux sujets" data-en="← Back to topics">← Retour aux sujets</a>
+  <a id="article-back" href="/topics/" class="inline-block text-sm font-semibold text-[var(--teal-dark)] mb-5 i18n" data-fr="← Retour aux sujets" data-en="← Back to topics">← Retour aux sujets</a>
   <div class="grid md:grid-cols-4 gap-8">
     <div class="md:col-span-3">
       <article id="article-body"></article>
@@ -578,6 +587,7 @@ const ARTICLES = [
     },
     takeaways: {
       fr:[
+        "Selon la BCRG, les recettes de l'État guinéen tirées de Simandou devraient atteindre environ 350 millions de dollars en 2026, à peu près autant que tous les autres projets miniers réunis.",
         "Simandou 2040 compte 5 piliers, 14 secteurs prioritaires, 36 réformes et plus de 122 méga-projets, selon le site officiel simandou2040.gn.",
         "Le coût total officiel de Simandou 2040 est de 200 milliards de dollars ; le chiffre de 330 milliards circule aussi depuis l'examen des lois au CNT.",
         "Partenariat avec la Banque africaine de développement (BAD) : son président, Sidi Ould Tah, a réaffirmé à Conakry le 17 janvier 2026 le soutien de la BAD au programme Simandou 2040.",
@@ -585,6 +595,7 @@ const ARTICLES = [
         "Prudence : les totaux publiés ne concordent pas toujours (par exemple 120 projets en additionnant les piliers contre « 122+ », et 39 réformes citées par Avenir Guinée contre 36)."
       ],
       en:[
+        "According to the BCRG, the Guinean state's revenue from Simandou should reach about 350 million dollars in 2026, roughly as much as all other mining projects combined.",
         "Simandou 2040 has 5 pillars, 14 priority sectors, 36 reforms and more than 122 mega-projects, according to the official website simandou2040.gn.",
         "The official total cost of Simandou 2040 is 200 billion dollars; a figure of 330 billion has also circulated since the laws were examined by the CNT.",
         "Partnership with the African Development Bank (AfDB): its president, Sidi Ould Tah, reaffirmed the AfDB's support for the Simandou 2040 programme in Conakry on 17 January 2026.",
@@ -737,6 +748,236 @@ const ARTICLES = [
     source: {name:"Site officiel Simandou 2040 (simandou2040.gn); Ledjely (rapport au CNT, mars 2026); Financial Afrik", url:"https://www.simandou2040.gn/en/the-program"}
   },
   {
+    id: "guinea-fintech-week",
+    hub: true,
+    date: "2026-11-24",
+    verified: false,
+    topic: "tech",
+    topicLabel: {fr:"Technologie", en:"Technology"},
+    title: {fr:"Guinea FinTech Week : les éditions de 2024, 2025 et 2026",
+            en:"Guinea FinTech Week: the 2024, 2025 and 2026 editions"},
+    summary: {fr:"La Guinea FinTech Week (GFW) est le grand rendez-vous annuel de la finance numérique à Conakry. Thèmes, dates, lieux et programme de chaque édition, et ce qui n'est pas encore connu.",
+              en:"Guinea FinTech Week (GFW) is Conakry's main annual digital-finance event. Themes, dates, venues and programme of each edition, and what is not known yet."},
+    howto: {
+      fr:[
+        "Qu'est-ce que c'est : la Guinea FinTech Week (GFW) est un forum annuel organisé à Conakry depuis 2023 sur la finance numérique, le paiement mobile, l'inclusion financière et l'innovation. Son organisateur et commissaire général est Ibrahima Kalil Kaba, directeur général de Trustee SAS. Site officiel : guineafintechweek.com.",
+        "Première édition (2023) : les détails du lancement de 2023 n'ont pas pu être confirmés par une source fiable.",
+        "Deuxième édition (2024) : la Guinea FinTech Week 2024 s'est tenue les 23 et 24 octobre 2024 à Conakry, sur le thème « Innovation fintech pour une inclusion financière durable », avec Orange Finances Mobiles comme partenaire ; l'inscription se faisait via l'application Max It.",
+        "Troisième édition (2025) : la Guinea FinTech Week 2025 s'est tenue les 22 et 23 octobre 2025 à l'hôtel Riviera Royal de Conakry (activités annexes du 20 au 24 octobre), sur le thème « Construire la finance numérique de demain en Afrique de l'Ouest ». Les organisateurs annonçaient plus de 1 500 participants, 45 intervenants internationaux, 25 startups et 15 pays.",
+        "Programme 2025 : panels sur la régulation, la cybersécurité, l'intelligence artificielle, les cryptoactifs et la Zone de libre-échange continentale africaine (ZLECAf), un hackathon Fintech Innovation Challenge, un espace investisseurs (Investor Lounge), une table ronde fermée avec Visa et le gouvernement, et une remise de prix GFW. La ministre du Commerce, Fatima Camara, a assisté à l'ouverture le 22 octobre 2025.",
+        "Quatrième édition (2026) : la Guinea FinTech Week 2026 a ouvert ses portes le mercredi 21 octobre 2026 à Conakry (21 et 22 octobre), sur le thème « Du dialogue à l'exécution : bâtir l'infrastructure financière de la Guinée de demain ». Le premier vice-gouverneur de la BCRG, Mohamed Lamine Conté, y a pris la parole.",
+        "Programme 2026 annoncé : panels, exposition avec démonstrations, ateliers, sessions de pitch, rencontres B2B, espace investisseurs et hackathon. Le bilan de l'édition 2026 (participants, prix, annonces) n'était pas encore publié fin novembre 2026.",
+        "Comment en profiter : suivez guineafintechweek.com et les pages de l'événement vers août-septembre pour l'inscription, préparez un pitch d'une minute si vous avez un projet, et participez au hackathon pour montrer vos compétences (paiement mobile, API, sécurité, données)."
+      ],
+      en:[
+        "What it is: Guinea FinTech Week (GFW) is an annual forum held in Conakry since 2023 on digital finance, mobile payments, financial inclusion and innovation. Its organiser and commissioner general is Ibrahima Kalil Kaba, CEO of Trustee SAS. Official website: guineafintechweek.com.",
+        "First edition (2023): details of the 2023 launch could not be confirmed by a reliable source.",
+        "Second edition (2024): Guinea FinTech Week 2024 took place on 23 and 24 October 2024 in Conakry, on the theme \"Fintech innovation for sustainable financial inclusion\", with Orange Finances Mobiles as a partner; registration was through the Max It app.",
+        "Third edition (2025): Guinea FinTech Week 2025 took place on 22 and 23 October 2025 at the Riviera Royal Hotel in Conakry (side events from 20 to 24 October), on the theme \"Building tomorrow's digital finance in West Africa\". Organisers announced more than 1,500 participants, 45 international speakers, 25 startups and 15 countries.",
+        "2025 programme: panels on regulation, cybersecurity, artificial intelligence, crypto-assets and the African Continental Free Trade Area (AfCFTA), a Fintech Innovation Challenge hackathon, an Investor Lounge, a closed-door roundtable with Visa and the government, and GFW awards. Commerce Minister Fatima Camara attended the opening on 22 October 2025.",
+        "Fourth edition (2026): Guinea FinTech Week 2026 opened on Wednesday 21 October 2026 in Conakry (21 and 22 October), on the theme \"From dialogue to execution: building the financial infrastructure of tomorrow's Guinea\". The BCRG's First Deputy Governor, Mohamed Lamine Conté, spoke there.",
+        "Announced 2026 programme: panels, an exhibition with live demos, workshops, pitch sessions, B2B meetings, an Investor Lounge and a hackathon. The results of the 2026 edition (attendance, awards, announcements) had not been published by late November 2026.",
+        "How to benefit: follow guineafintechweek.com and the event's pages around August-September for registration, prepare a one-minute pitch if you have a project, and join the hackathon to show your skills (mobile payments, APIs, security, data)."
+      ]
+    },
+    takeaways: {
+      fr:[
+        "La Guinea FinTech Week a lieu chaque année en octobre à Conakry : 23-24 octobre 2024, 22-23 octobre 2025, 21-22 octobre 2026.",
+        "La Banque centrale (BCRG) était représentée à l'ouverture de 2026 par son premier vice-gouverneur.",
+        "Les chiffres de participation publiés (plus de 1 500 participants en 2025) sont des annonces des organisateurs, pas des chiffres vérifiés."
+      ],
+      en:[
+        "Guinea FinTech Week takes place every October in Conakry: 23-24 October 2024, 22-23 October 2025, 21-22 October 2026.",
+        "The Central Bank (BCRG) was represented at the 2026 opening by its First Deputy Governor.",
+        "Published attendance figures (more than 1,500 participants in 2025) are organisers' announcements, not verified numbers."
+      ]
+    },
+    source: {name:"Guineenews; Kania News; Greenmedias; Aboukam; Al Huda Today", url:"https://greenmedias.com/2026/10/22/guinea-fintech-week-2026-du-dialogue-a-lexecution-batir-linfrastructure-financiere-de-la-guinee-de-demain/"}
+  },
+  {
+    id: "bcrg",
+    hub: true,
+    date: "2026-11-24",
+    verified: false,
+    topic: "finance",
+    topicLabel: {fr:"Finance", en:"Finance"},
+    title: {fr:"La BCRG expliquée : la Banque centrale de la République de Guinée",
+            en:"The BCRG explained: the Central Bank of the Republic of Guinea"},
+    summary: {fr:"La Banque centrale de la République de Guinée (BCRG) émet le franc guinéen, conduit la politique monétaire et surveille les banques. Son histoire, ses missions, ses dirigeants et son organisation.",
+              en:"The Central Bank of the Republic of Guinea (BCRG) issues the Guinean franc, runs monetary policy and supervises banks. Its history, missions, leaders and organisation."},
+    howto: {
+      fr:[
+        "Naissance : la Banque de la République de Guinée (BRG) est créée le 1er mars 1960, quand la Guinée choisit sa propre monnaie, le franc guinéen, au lieu du franc CFA. Elle devient la Banque centrale de la République de Guinée (BCRG) le 27 juillet 1961, par le décret n°276/PRG/61.",
+        "La monnaie : le franc guinéen (code GNF) a cours depuis 1960, sauf de 1972 à 1986, période où la monnaie de la Guinée était le syli. La BCRG compte cinq réformes monétaires, chacune avec une nouvelle famille de billets.",
+        "Les missions de la BCRG : émettre les billets et pièces, conduire la politique monétaire et de change, assurer la stabilité monétaire et financière, superviser les banques, les institutions de microfinance et les assurances, et réguler les systèmes de paiement.",
+        "Agréments : la BCRG accorde et retire les licences des établissements financiers par son Comité des agréments, présidé par le gouverneur, avec un représentant du ministère des Finances, un représentant du ministère de la Justice et une personnalité indépendante.",
+        "Dirigeants : le gouverneur de la BCRG, la banque centrale de Guinée, est le Dr Karamo Kaba, nommé en 2021 à la suite de Louncény Nabé (gouverneur de 2010 à 2021) et reconduit par décret le 13 mars 2026. Le premier vice-gouverneur est Mohamed Lamine Conté et le deuxième vice-gouverneur Almamy II Sylla.",
+        "Organisation : le gouverneur préside le Comité de politique monétaire (CPM), composé du gouverneur et de six membres dont les deux vice-gouverneurs, ainsi que le Conseil d'administration (le gouverneur et huit membres). Un comité d'audit de quatre membres complète la gouvernance.",
+        "Anciens gouverneurs : Moussa Diakité fut le premier gouverneur (1960). Depuis 1986 se sont succédé Kerfalla Yansané (1986-1996), Ibrahima Chérif Bah (1996-2004), Alkaly Mohamed Daffé (2004-2007), Daouda Bangoura (2007-2009), Alhassane Barry (2009-2010), Louncény Nabé (2010-2021) et Karamo Kaba (depuis 2021).",
+        "Paiements : la BCRG gère le système de règlement brut en temps réel (RTGS) « RTS/X », la chambre de compensation automatisée (ACP/ACH) et le système de règlement des titres « DEPO/X ». Selon la BCRG, les paiements mobiles sont en forte croissance.",
+        "Pour aller plus loin : le site officiel bcrg-guinee.org publie les derniers chiffres, les rapports des comités et les textes (statuts, lutte contre le blanchiment, code des assurances)."
+      ],
+      en:[
+        "Origins: the Bank of the Republic of Guinea (BRG) was created on 1 March 1960, when Guinea chose its own currency, the Guinean franc, instead of the CFA franc. It became the Central Bank of the Republic of Guinea (BCRG) on 27 July 1961, by decree no. 276/PRG/61.",
+        "The currency: the Guinean franc (code GNF) has been in use since 1960, except from 1972 to 1986, when Guinea's currency was the syli. The BCRG counts five monetary reforms, each with a new family of banknotes.",
+        "The BCRG's missions: issuing banknotes and coins, running monetary and exchange-rate policy, ensuring monetary and financial stability, supervising banks, microfinance institutions and insurers, and regulating payment systems.",
+        "Licences: the BCRG grants and withdraws financial institutions' licences through its Licensing Committee, chaired by the governor, with a Finance Ministry representative, a Justice Ministry representative and an independent member.",
+        "Leaders: the governor of the BCRG, Guinea's central bank, is Dr Karamo Kaba, appointed in 2021 after Louncény Nabé (governor from 2010 to 2021) and reappointed by decree on 13 March 2026. The First Deputy Governor is Mohamed Lamine Conté and the Second Deputy Governor is Almamy II Sylla.",
+        "Organisation: the governor chairs the Monetary Policy Committee (MPC), made up of the governor and six members including both deputy governors, as well as the Board (the governor and eight members). A four-member audit committee completes the governance.",
+        "Past governors: Moussa Diakité was the first governor (1960). Since 1986 the governors have been Kerfalla Yansané (1986-1996), Ibrahima Chérif Bah (1996-2004), Alkaly Mohamed Daffé (2004-2007), Daouda Bangoura (2007-2009), Alhassane Barry (2009-2010), Louncény Nabé (2010-2021) and Karamo Kaba (since 2021).",
+        "Payments: the BCRG runs the real-time gross settlement system (RTGS) \"RTS/X\", the automated clearing house (ACP/ACH) and the securities settlement system \"DEPO/X\". According to the BCRG, mobile payments are growing strongly.",
+        "Going further: the official website bcrg-guinee.org publishes the latest figures, committee reports and legal texts (statutes, anti-money-laundering, insurance code)."
+      ]
+    },
+    takeaways: {
+      fr:[
+        "La BCRG appartient à 100 % à l'État guinéen.",
+        "La Guinée n'utilise pas le franc CFA : elle a sa propre monnaie, le franc guinéen, et sa propre banque centrale depuis 1960.",
+        "La BCRG est membre de l'Alliance pour l'inclusion financière (AFI)."
+      ],
+      en:[
+        "The BCRG is 100% owned by the Guinean state.",
+        "Guinea does not use the CFA franc: it has had its own currency, the Guinean franc, and its own central bank since 1960.",
+        "The BCRG is a member of the Alliance for Financial Inclusion (AFI)."
+      ]
+    },
+    source: {name:"BCRG (bcrg-guinee.org : histoire de la monnaie, gouvernance, systèmes de paiement); Wikipédia; Convergence Guinée", url:"https://www.bcrg-guinee.org/gouvernance"}
+  },
+  {
+    id: "bcrg-2026",
+    date: "2026-11-24",
+    verified: false,
+    topic: "finance",
+    topicLabel: {fr:"Finance", en:"Finance"},
+    title: {fr:"BCRG en 2026 : taux directeur, inflation, franc guinéen et ECO",
+            en:"The BCRG in 2026: policy rate, inflation, the Guinean franc and the ECO"},
+    summary: {fr:"Où en est la politique monétaire de la Guinée fin 2026 : taux directeur, inflation, cours du franc guinéen, position sur l'ECO, FMI, revenus de Simandou et lien avec Simandou 2040.",
+              en:"Where Guinea's monetary policy stands in late 2026: policy rate, inflation, the Guinean franc's exchange rate, the position on the ECO, the IMF, Simandou revenues and the link with Simandou 2040."},
+    howto: {
+      fr:[
+        "Taux directeur : le site de la BCRG affichait en novembre 2026 un taux directeur de 9,50 %. Le Comité de politique monétaire a baissé ce taux trois fois depuis début 2025 : en mars 2025 (-0,50 point), en septembre 2025 et le 30 mars 2026.",
+        "Réserves obligatoires : le coefficient de réserves obligatoires affiché par la BCRG en novembre 2026 est de 11,50 % (il était de 11,75 % début mars 2026).",
+        "Inflation : selon les chiffres présentés par la BCRG aux députés, l'inflation en glissement annuel est passée de 3,3 % fin 2025 à 6,4 % en juillet 2026, son plus haut niveau depuis janvier 2024. La BCRG dit mener une politique monétaire prudente.",
+        "Cours du franc guinéen (taux de change) : selon la BCRG, le cours de référence du dollar était de 8 662 francs guinéens (GNF) pour 1 dollar fin 2024, 8 719 fin 2025 et 8 795 au 30 septembre 2026, soit une dépréciation de moins de 1 % en 2026. Le fixing du 24 novembre 2026 indiquait environ 8 840 GNF pour 1 dollar et 9 670 GNF pour 1 euro.",
+        "Croissance : la BCRG estime la croissance de l'économie guinéenne à 7,1 % en 2025 et prévoit 8,6 % en 2026.",
+        "Simandou : selon la BCRG, les recettes de l'État tirées de Simandou devraient atteindre environ 350 millions de dollars en 2026, à peu près autant que tous les autres projets miniers réunis.",
+        "L'ECO : le 11 août 2026, le gouverneur Karamo Kaba a défendu le maintien du franc guinéen plutôt que l'adhésion à la monnaie unique de la CEDEAO, l'ECO. Selon lui, la Guinée détient 100 % de sa banque centrale mais aurait moins de 5 % d'une future banque centrale régionale, où le Nigeria pèserait au moins 60 %. Il juge possible à terme « une monnaie commune, pas unique ».",
+        "Critères de convergence : selon le gouverneur Kaba, la Guinée remplit trois des quatre critères de convergence de la CEDEAO (elle manque le critère du déficit), et seul le Bénin les remplit tous.",
+        "FMI : la BCRG a reçu en juin 2026 une mission du FMI (consultations de l'article IV et discussions sur un programme de Facilité élargie de crédit, FEC). La presse a fait état en août 2026 d'un accord d'environ 425 millions de dollars ; son approbation définitive par le conseil du FMI reste à confirmer sur imf.org.",
+        "Lien avec Simandou 2040 : le pilier 4 du programme Simandou 2040 (économie, finance et assurance) prévoit une infrastructure nationale de paiement (en conception), un nouveau Code des assurances (en consultation) et l'objectif d'intégrer 50 % des travailleurs informels au circuit financier."
+      ],
+      en:[
+        "Policy rate: in November 2026 the BCRG's website showed a policy rate of 9.50%. The Monetary Policy Committee cut this rate three times since early 2025: in March 2025 (-0.50 point), in September 2025 and on 30 March 2026.",
+        "Reserve requirements: the reserve requirement ratio shown by the BCRG in November 2026 is 11.50% (it was 11.75% in early March 2026).",
+        "Inflation: according to figures the BCRG presented to members of parliament, the year-on-year inflation rate rose from 3.3% at the end of 2025 to 6.4% in July 2026, its highest level since January 2024. The BCRG says it is running a prudent monetary policy.",
+        "Guinean franc exchange rate: according to the BCRG, the reference rate was 8,662 GNF per dollar at the end of 2024, 8,719 at the end of 2025 and 8,795 on 30 September 2026, a depreciation of less than 1% in 2026. The 24 November 2026 fixing showed about 8,840 GNF per dollar and 9,670 GNF per euro.",
+        "Growth: the BCRG estimates Guinea's economic growth at 7.1% in 2025 and forecasts 8.6% in 2026.",
+        "Simandou: according to the BCRG, state revenue from Simandou should reach about 350 million dollars in 2026, roughly as much as all other mining projects combined.",
+        "The ECO: on 11 August 2026, Governor Karamo Kaba defended keeping the Guinean franc rather than joining the ECOWAS single currency, the ECO. He said Guinea owns 100% of its central bank but would hold less than 5% of a future regional central bank, where Nigeria would weigh at least 60%. He sees a possible future \"common currency, not a single one\".",
+        "Convergence criteria: according to Governor Kaba, Guinea meets three of the four ECOWAS convergence criteria (it misses the deficit criterion), and only Benin meets them all.",
+        "IMF: the BCRG received an IMF mission in June 2026 (Article IV consultations and talks on an Extended Credit Facility, ECF, programme). The press reported an agreement of about 425 million dollars in August 2026; its final approval by the IMF board remains to be confirmed on imf.org.",
+        "Link with Simandou 2040: pillar 4 of the Simandou 2040 programme (economy, finance and insurance) includes a national payment infrastructure (in design), a new Insurance Code (under consultation) and a target of bringing 50% of informal workers into the financial system."
+      ]
+    },
+    takeaways: {
+      fr:[
+        "Les chiffres de la BCRG (taux directeur, fixing du GNF) évoluent : vérifiez toujours sur bcrg-guinee.org avant de les citer.",
+        "Le gouverneur a confirmé en 2026 que la Guinée garde le franc guinéen et n'adopte pas l'ECO pour l'instant.",
+        "L'inflation a remonté en 2026 (6,4 % en juillet) : c'est le principal point de vigilance de la politique monétaire."
+      ],
+      en:[
+        "The BCRG's figures (policy rate, GNF fixing) move over time: always check bcrg-guinee.org before quoting them.",
+        "In 2026 the governor confirmed that Guinea is keeping the Guinean franc and is not adopting the ECO for now.",
+        "Inflation picked up in 2026 (6.4% in July): it is the main point of attention for monetary policy."
+      ]
+    },
+    source: {name:"BCRG (bcrg-guinee.org); Vision Guinée; Mediaguinee; Guineenews; Orishas Finance", url:"https://www.bcrg-guinee.org/actualites-medias/actualites/"}
+  },
+  {
+    id: "nvidia-huang-2026",
+    date: "2026-11-24",
+    verified: false,
+    topic: "monde",
+    topicLabel: {fr:"Le monde", en:"World"},
+    title: {fr:"NVIDIA : Jensen Huang démissionne puis revient comme PDG en 11 jours",
+            en:"NVIDIA: Jensen Huang resigns, then returns as CEO 11 days later"},
+    summary: {fr:"Le cofondateur de NVIDIA, Jensen Huang, a quitté la direction le 12 novembre 2026 puis a été réintégré le 23 novembre. Chronologie, rôle du gouvernement américain, réaction de la Bourse et questions encore ouvertes.",
+              en:"NVIDIA co-founder Jensen Huang stepped down on 12 November 2026 and was reinstated on 23 November. Timeline, the US government's role, the market reaction and the questions still open."},
+    howto: {
+      fr:[
+        "Démission : le 12 novembre 2026, NVIDIA a annoncé que Jensen Huang, son cofondateur, quittait ses fonctions de président, directeur général (PDG) et administrateur, avec effet immédiat, sans en donner la raison. La directrice financière Colette Kress est devenue PDG par intérim et Harvey C. Jones président du conseil.",
+        "Contexte : selon la presse (New York Times, Financial Times, cités par NBC News), la démission a suivi des révélations sur sa vie privée, dont une relation avec une personne que les services de renseignement américains soupçonnaient de travailler pour la Chine. Pékin rejette ces accusations. NVIDIA n'a pas commenté ces informations.",
+        "Le 17 novembre 2026, le conseil de NVIDIA a créé un comité de surveillance de la sécurité nationale et du contrôle des exportations. Le même jour, NVIDIA a publié des résultats trimestriels meilleurs que prévu.",
+        "Retour : le 23 novembre 2026, le conseil d'administration de NVIDIA a voté à l'unanimité la réintégration de Jensen Huang comme président, PDG et administrateur, avec effet immédiat, après avoir reçu l'avis de « hauts responsables du gouvernement des États-Unis ». Colette Kress reste directrice financière.",
+        "Rôle de Washington : le président Donald Trump a salué sur Truth Social une décision « correcte et appropriée » et affirmé que le gouvernement n'avait « aucune raison de croire » que ce retour pose un risque pour la sécurité nationale. NBC News qualifie cette intervention de « très inhabituelle ».",
+        "Bourse : le 23 novembre 2026, l'action NVIDIA a clôturé en hausse d'environ 31 % (NBC News, Euronews), et l'indice Nasdaq d'environ 6,5 %."
+      ],
+      en:[
+        "Resignation: on 12 November 2026, NVIDIA announced that Jensen Huang, its co-founder, had resigned as President, Chief Executive Officer (CEO) and board member, effective immediately, without giving a reason. Chief Financial Officer Colette Kress became interim CEO and Harvey C. Jones board chair.",
+        "Background: according to the press (the New York Times and the Financial Times, cited by NBC News), the resignation followed revelations about his private life, including a relationship with a person US intelligence suspected of working for China. Beijing rejects the claims. NVIDIA did not comment on these reports.",
+        "On 17 November 2026, NVIDIA's board created a National Security and Export Control Oversight Committee. The same day, NVIDIA reported better-than-expected quarterly results.",
+        "Return: on 23 November 2026, NVIDIA's board voted unanimously to reinstate Jensen Huang as President, CEO and director, effective immediately, after receiving \"input from senior levels of the United States government\". Colette Kress remains Chief Financial Officer.",
+        "Washington's role: President Donald Trump praised \"the correct and proper decision\" on Truth Social and said the government had \"no reason to believe\" the return posed any risk to national security. NBC News described the intervention as \"highly unusual\".",
+        "Stock market: on 23 November 2026, NVIDIA shares closed up about 31% (NBC News, Euronews), and the Nasdaq index about 6.5%."
+      ]
+    },
+    takeaways: {
+      fr:[
+        "Une enquête interne, menée par des administrateurs indépendants avec un avocat indépendant, se poursuit sur des informations selon lesquelles Jensen Huang aurait été la cible d'une opération de renseignement étrangère.",
+        "D'autres enquêtes sont signalées : une enquête de la SEC sur des pratiques comptables (selon le WSJ et Reuters) et une enquête du procureur général de Californie. Des auditions au Congrès américain sont prévues début décembre 2026.",
+        "Pourquoi c'est important pour nous : les puces NVIDIA font tourner la plupart des IA et des services cloud ; leur prix et les règles d'exportation touchent aussi les entreprises et développeurs africains."
+      ],
+      en:[
+        "An internal investigation, led by independent directors with independent counsel, is continuing into reports that Jensen Huang was the target of a foreign intelligence effort.",
+        "Other investigations are reported: an SEC probe into accounting practices (according to the WSJ and Reuters) and an investigation by California's Attorney General. US congressional hearings are scheduled for early December 2026.",
+        "Why it matters for us: NVIDIA chips run most AI and cloud services; their prices and export rules also affect African companies and developers."
+      ]
+    },
+    source: {name:"NVIDIA (communiqués du 12 et du 23 novembre 2026); NBC News; Al Jazeera; Euronews", url:"https://nvidianews.nvidia.com/news/nvidia-board-reinstates-jensen-huang-as-president-ceo-and-board-director"}
+  },
+  {
+    id: "ai-news-november-2026",
+    date: "2026-11-24",
+    verified: false,
+    topic: "monde",
+    topicLabel: {fr:"Le monde", en:"World"},
+    title: {fr:"Intelligence artificielle : ce qui s'est passé en novembre 2026",
+            en:"Artificial intelligence: what happened in November 2026"},
+    summary: {fr:"Nouveau modèle de Google, introduction en Bourse record d'Anthropic, plainte de la Californie contre OpenAI, nouvelles règles américaines sur les puces : l'actualité de l'IA au 24 novembre 2026, limitée aux faits confirmés.",
+              en:"A new Google model, a record Anthropic IPO, California taking OpenAI to court, new US chip rules: AI news as of 24 November 2026, limited to confirmed facts."},
+    howto: {
+      fr:[
+        "Google Gemini 4 Carbon : le 10 novembre 2026, Google a lancé le modèle d'IA Gemini 4 Carbon, disponible par API (AI Studio et offres entreprises), au prix de lancement de 2 dollars par million de jetons en entrée et 10 dollars en sortie, puis 4 et 20 dollars après le 30 novembre.",
+        "Anthropic en Bourse : Anthropic, l'entreprise qui développe l'IA Claude, est entrée en Bourse au Nasdaq sous le code « ANT » le 19 novembre 2026. L'action a été fixée à 83 dollars (980 millions d'actions), soit 81,3 milliards de dollars levés, la plus grande introduction en Bourse de l'histoire. Elle a clôturé à 97,17 dollars le premier jour (Al Jazeera).",
+        "La Californie contre OpenAI : le 16 novembre 2026, le procureur général de Californie, Rob Bonta, a déposé plainte contre OpenAI devant un tribunal de San Francisco pour protection des consommateurs et nuisance publique, à la suite d'un incident survenu en juillet impliquant un modèle expérimental d'OpenAI et la plateforme Hugging Face (Al Jazeera).",
+        "Puces et exportations : selon Al Jazeera (20 novembre 2026), le département américain du Commerce a annoncé de nouvelles licences obligatoires pour empêcher les développeurs d'IA chinois d'accéder à distance à des capacités de calcul dans des pays tiers, surtout en Asie du Sud-Est. Une commission de la Chambre des représentants a publié des données montrant que Washington avait autorisé la vente d'environ 879 000 puces d'IA à des entreprises chinoises entre décembre 2025 et mai 2026.",
+        "NVIDIA : le fabricant des puces qui font tourner la plupart des IA a vécu une crise de direction, avec la démission puis le retour de son PDG Jensen Huang entre le 12 et le 23 novembre 2026 (voir notre article dédié).",
+        "Ce que ça change pour vous : les prix des API d'IA baissent et la concurrence s'intensifie ; apprendre à utiliser ces modèles (API, cloud, sécurité, protection des données) est une compétence recherchée, y compris en Guinée."
+      ],
+      en:[
+        "Google Gemini 4 Carbon: on 10 November 2026, Google launched the Gemini 4 Carbon AI model, available through its API (AI Studio and business plans), at an introductory price of 2 dollars per million input tokens and 10 dollars per million output tokens, then 4 and 20 dollars after 30 November.",
+        "Anthropic goes public: Anthropic, the company that develops the Claude AI, listed on the Nasdaq under the ticker \"ANT\" on 19 November 2026. The shares were priced at 83 dollars (980 million shares), raising 81.3 billion dollars, the largest IPO in history. The stock closed at 97.17 dollars on its first day (Al Jazeera).",
+        "California versus OpenAI: on 16 November 2026, California Attorney General Rob Bonta filed a lawsuit against OpenAI in a San Francisco court over consumer protection and public nuisance, after a July incident involving an experimental OpenAI model and the Hugging Face platform (Al Jazeera).",
+        "Chips and exports: according to Al Jazeera (20 November 2026), the US Commerce Department announced new licence requirements to stop Chinese AI developers from remotely accessing computing power in third countries, mainly in South-East Asia. A House of Representatives committee released data showing Washington had approved the sale of about 879,000 AI chips to Chinese companies between December 2025 and May 2026.",
+        "NVIDIA: the maker of the chips that run most AI went through a leadership crisis, with the resignation and then the return of its CEO Jensen Huang between 12 and 23 November 2026 (see our dedicated article).",
+        "What it means for you: AI API prices are falling and competition is growing; learning to use these models (APIs, cloud, security, data protection) is a sought-after skill, including in Guinea."
+      ]
+    },
+    takeaways: {
+      fr:[
+        "Nous n'avons gardé que les informations confirmées par une source officielle ou un grand média ; plusieurs annonces relayées par des sites agrégateurs n'ont pas pu être vérifiées.",
+        "Transparence : cet article a été rédigé avec l'aide de Claude, l'IA d'Anthropic, une des entreprises citées.",
+        "À suivre : les auditions de NVIDIA au Congrès début décembre et l'évolution de la plainte californienne contre OpenAI."
+      ],
+      en:[
+        "We kept only information confirmed by an official source or a major media outlet; several announcements relayed by aggregator sites could not be verified.",
+        "Transparency: this article was drafted with the help of Claude, Anthropic's AI, one of the companies mentioned.",
+        "To watch: NVIDIA's congressional hearings in early December and the progress of California's lawsuit against OpenAI."
+      ]
+    },
+    source: {name:"Google (blog, 10 novembre 2026); Al Jazeera (16, 19 et 20 novembre 2026)", url:"https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-4-carbon-now-available/"}
+  },
+  {
     id: "gold-guinea",
     date: "2026-11-24",
     verified: true,
@@ -862,7 +1103,9 @@ const ARTICLES = [
 const TOPICS = [
   {key:"tech", fr:"Technologie", en:"Technology", emoji:"💻"},
   {key:"mines", fr:"Mines", en:"Mining", emoji:"⛏️"},
-  {key:"petrole", fr:"Pétrole", en:"Oil", emoji:"🛢️"}
+  {key:"petrole", fr:"Pétrole", en:"Oil", emoji:"🛢️"},
+  {key:"finance", fr:"Finance", en:"Finance", emoji:"🏦"},
+  {key:"monde", fr:"Le monde", en:"World", emoji:"🌍"}
 ];
 
 /* ---------------- STATE ---------------- */
@@ -887,6 +1130,7 @@ function setLang(l){
   document.getElementById('btn-en').style.color = l==='en' ? '#fff' : 'inherit';
   renderLatest();
   renderTopics();
+  renderWorld();
   renderAskSuggestions();
   const route = currentRoute();
   if(route.startsWith('article-')){
@@ -920,7 +1164,7 @@ function articleCard(a){
     <h3 class="font-display font-700 text-base leading-snug mb-2">${a.title[LANG]}</h3>
     <div class="text-xs text-[var(--ink)]/45 mb-2">${fmtArticleDate(a.date)}</div>
     <p class="text-sm text-[var(--ink)]/65 leading-relaxed">${a.summary[LANG]}</p>
-    <div class="text-xs font-semibold text-[var(--teal-dark)] mt-3">${LANG==='fr'?'Lire le guide →':'Read the guide →'}</div>
+    <div class="text-xs font-semibold text-[var(--teal-dark)] mt-3">${a.topic==='monde' ? T("Lire l'article →",'Read the story →') : T('Lire le guide →','Read the guide →')}</div>
   </a>`;
 }
 
@@ -968,6 +1212,10 @@ function renderGrouped(list, containerId, emptyMsg){
     </div>`).join('') || `<p class="text-sm text-[var(--ink)]/50">${emptyMsg}</p>`;
 }
 
+function renderWorld(){
+  renderGrouped(ARTICLES.filter(a => a.topic === 'monde'), 'world-grid', T("Rien ici pour l'instant.","Nothing here yet."));
+}
+
 function renderLatest(){
   const latest = ARTICLES.slice().sort((x,y) => (y.date||'').localeCompare(x.date||'')).slice(0,6);
   renderGrouped(latest, 'latest-grid', T("Rien ici pour l'instant.","Nothing here yet."));
@@ -995,6 +1243,12 @@ function renderArticle(id){
   const a = ARTICLES.find(x=>x.id===id);
   if(!a) return;
   const steps = a.howto[LANG].map((s,i)=>`<li class="flex gap-3"><span class="shrink-0 w-6 h-6 rounded-full bg-[var(--teal)]/10 text-[var(--teal-dark)] text-xs font-bold flex items-center justify-center">${i+1}</span><span class="text-sm leading-relaxed">${s}</span></li>`).join('');
+  const news = a.topic === 'monde';
+  const back = document.getElementById('article-back');
+  back.href = news ? '/world/' : '/topics/';
+  back.dataset.fr = news ? '← Retour à « Le monde »' : '← Retour aux sujets';
+  back.dataset.en = news ? '← Back to World' : '← Back to topics';
+  back.textContent = T(back.dataset.fr, back.dataset.en);
   const takeaways = a.takeaways[LANG].map(t=>`<li class="flex gap-2 text-sm leading-relaxed"><span class="text-[var(--sun-dark)]">★</span><span>${t}</span></li>`).join('');
   document.getElementById('article-body').innerHTML = `
     <div class="flex flex-wrap items-center gap-2 mb-4">
@@ -1008,10 +1262,10 @@ function renderArticle(id){
     <div class="ad-slot h-24 w-full mb-6"><span>${LANG==='fr'?'Publicité':'Advertisement'}</span></div>
 
 
-    <h2 class="font-display font-700 text-lg mb-3">${LANG==='fr'?'Guide pratique':'How-to guide'}</h2>
+    <h2 class="font-display font-700 text-lg mb-3">${news ? T("Ce qu'il faut savoir",'What to know') : T('Guide pratique','How-to guide')}</h2>
     <ol class="space-y-3 mb-8">${steps}</ol>
 
-    <h2 class="font-display font-700 text-lg mb-3">${LANG==='fr'?'Points clés':'Key takeaways'}</h2>
+    <h2 class="font-display font-700 text-lg mb-3">${news ? T('À suivre','What to watch') : T('Points clés','Key takeaways')}</h2>
     <ul class="space-y-2 mb-8">${takeaways}</ul>
 
     <div class="bg-[var(--teal)]/5 border border-[var(--teal)]/20 rounded-xl p-4 text-xs text-[var(--ink)]/70">
@@ -1025,7 +1279,7 @@ function renderArticle(id){
    Wikipedia text: data/wikipedia-guinea.{en,fr}.json, CC BY-SA 4.0, loaded when needed. */
 const WIKI = {};          // lang -> {meta, docs}
 const STOP = new Set(('a an the of in on at to for from by with and or is are was were be been being do does did what which who whom whose when where why how much many there their its it this that these those as about into than then can could would should will shall may might tell me please give know i you we they he she his her our your guinea guinee guinean guineen guineenne republic republique ' +
-  'le la les l un une des du de d au aux et ou est sont etait etaient ete etre a ont avait quel quelle quels quelles qui que quoi quand ou comment pourquoi combien ce cet cette ces se sa son ses leur leurs en dans par pour sur avec y il elle ils elles on je tu nous vous me te moi est-ce qu c s n ne pas plus t dit-moi dis-moi seront sera serait become became happened happen use used like start starts devenue devenu devenir passe passee compte prend sait savoir parle-t-on est-elle').split(' '));
+  'le la les l un une des du de d au aux et ou est sont etait etaient ete etre a ont avait quel quelle quels quelles qui que quoi quand ou comment pourquoi combien ce cet cette ces se sa son ses leur leurs en dans par pour sur avec y il elle ils elles on je tu nous vous me te moi est-ce qu c s n ne pas plus t dit-moi dis-moi seront sera serait va vont vaut valent become became happened happen use used like start starts devenue devenu devenir passe passee compte prend sait savoir parle-t-on est-elle').split(' '));
 
 // Question words -> words the sources actually use (both languages), so "neighbours" finds "borders", etc.
 const CONCEPTS = [
@@ -1045,16 +1299,26 @@ const CONCEPTS = [
   ['lead leads leader leading head heads chair chairs dirige diriger dirigent preside', 'led chaired preside chair dirige'],
   ['create creates created creation creer cree creee crees', 'create creer creation'],
   ['complete completed finished done delivered livre livree livrees termine terminee acheve', 'delivered livre'],
-  ['ship ships shipping shipped shipment expedie expedition', 'vessel navire ship']
+  ['ship ships shipping shipped shipment expedie expedition', 'vessel navire ship'],
+  ['ai ia artificial artificielle intelligence', 'ai ia artificial artificielle intelligence'],
+  ['ceo pdg boss patron chief', 'ceo pdg chief'],
+  ['rate taux interest interet', 'rate taux'],
+  ['fintech fintechs', 'fintech'],
+  ['resign resigns resigned resignation quit demission demissionne demissionner quitte', 'resigned resignation demission quitte'],
+  ['sue sues sued suing lawsuit plainte poursuit poursuivre attaque', 'sued lawsuit plainte'],
+  ['adopt adopts adopter adopte adoption join joining rejoindre adherer adhesion', 'adoption adhesion joining'],
+  ['valeur worth value exchange change dollar dollars euro euros', 'exchange change cours rate'],
+  ['organise organises organised organize organizes organized organiser organizer organisateur organisateurs organise', 'organiser organisateur commissioner commissaire'],
+  ['bring brings revenue revenues income recette recettes rapporte rapporter', 'revenue recette']
 ].map(([from, to]) => [new Set(from.split(' ').map(w => stem(w))), to.split(' ').map(w => stem(w))]);
 const WHEN = new Set(['when','quand','year','annee','date']);
 const HOWMANY = new Set(['many','much','combien','population','habitant','size','big','area','superficie','taille']);
 
 function queryTokens(raw){
-  const base = tokens(raw), out = new Set(base);
-  base.forEach(w => CONCEPTS.forEach(([from, to]) => { if(from.has(w)) to.forEach(x => out.add(x)); }));
+  const base = tokens(raw), out = new Set(base), alts = {};
+  base.forEach(w => { alts[w] = [w]; CONCEPTS.forEach(([from, to]) => { if(from.has(w)) to.forEach(x => { out.add(x); alts[w].push(x); }); }); });
   const words = fold(raw).split(/[^a-z0-9]+/);
-  return {q: [...out], base: [...new Set(base)], wantsYear: words.some(w => WHEN.has(w)), wantsNumber: words.some(w => HOWMANY.has(stem(w)))};
+  return {q: [...out], base: [...new Set(base)], alts, wantsYear: words.some(w => WHEN.has(w)), wantsNumber: words.some(w => HOWMANY.has(stem(w)))};
 }
 
 function fold(s){ return s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,''); }
@@ -1086,6 +1350,10 @@ function bm25(index, q, opts){
     q.forEach(w => { const f = d.tf.get(w); if(!f) return; hits++;
       s += index.idf.get(w) * (f*(k1+1)) / (f + k1*(1 - b + b*d.len/index.avg[d.kind])); });
     if(hits && q.length > 1) s *= 1 + 0.5*(hits/q.length);       // reward covering more of the question
+    if(s && d.body){   // article passages all share the title: favour the one whose own text has the question's words
+      let have = 0, all = 0; q.forEach(w => { const v = index.idf.get(w) || 1; all += v; if(d.body.has(w)) have += v; });
+      s *= 0.6 + 0.8 * have / all;
+    }
     if(s && d.section === 'Introduction') s *= 1.35;
     // a question that only names a topic ("What is Simandou 2040?") gets that topic's main article summary
     if(s && d.lead && d.a.hub && q.every(w => d.titleToks.has(w))) s *= 2;             // the article's summary answers most basic questions
@@ -1111,7 +1379,7 @@ function siteDocs(){
   return ARTICLES.flatMap(a => {
     const title = a.title[LANG];
     const titleToks = new Set(tokens(title));
-    const doc = (text, lead) => ({kind:'article', a, section:title, lead, titleToks, text, toks: tokens(title + ' ' + title + ' ' + text)});
+    const doc = (text, lead) => ({kind:'article', a, section:title, lead, titleToks, text, body: new Set(tokens(text)), toks: tokens(title + ' ' + title + ' ' + text)});
     return [doc(a.summary[LANG] + ' ' + a.takeaways[LANG].join(' '), sentences(a.summary[LANG]).length)]
       .concat(a.howto[LANG].map(step => doc(step, 0)));
   });
@@ -1187,6 +1455,16 @@ function unknownNotice(question, nothing){
   return c;
 }
 
+// Share of the question found in a passage, rare words counting more than common ones
+// ("2026 World Cup" matching only "won" and "cup" in a football paragraph is not an answer).
+function coverage(qi, d, idf){
+  let have = 0, all = 0;
+  qi.base.forEach(w => { const v = idf.get(w) || 1; all += v; if((qi.alts[w] || [w]).some(x => d.tf.has(x))) have += v; });   // a synonym counts
+  const cov = all ? have / all : 0;
+  // a question about a given year can't be answered by a passage that never mentions that year
+  return qi.base.some(w => /^(1[5-9]|20)\d\d$/.test(w) && !d.tf.has(w)) ? Math.min(cov, 0.45) : cov;
+}
+
 let askSeq = 0;
 async function askBot(){
   const raw = document.getElementById('ask-input').value.trim();
@@ -1212,7 +1490,7 @@ async function askBot(){
     const from = r.d.kind === 'wiki'
       ? T('Wikipédia — Guinée › ','Wikipedia — Guinea › ') + r.d.section
       : T('Article Diankana Cloud — ','Diankana Cloud article — ') + r.d.section;
-    const covered = qi.base.filter(w => r.d.tf.has(w)).length / Math.max(1, qi.base.length);
+    const covered = coverage(qi, r.d, index.idf);
     const label = !main ? '' : covered >= 0.5 ? T('Réponse trouvée dans : ','Answer found in: ') : T('Passage le plus proche : ','Closest passage: ');
     c.appendChild(el('div','text-xs font-semibold text-[var(--teal-dark)] mb-1', label + from));
     const p = el('p', main ? 'mb-2' : 'text-[var(--ink)]/75');
@@ -1229,7 +1507,7 @@ async function askBot(){
     }
     return c;
   };
-  const topCovered = qi.base.filter(w => results[0].d.tf.has(w)).length / Math.max(1, qi.base.length);
+  const topCovered = coverage(qi, results[0].d, index.idf);
   if(topCovered < 0.5) box.appendChild(unknownNotice(raw, false));
   box.appendChild(card(results[0], true));
   const more = results.slice(1, 3).filter(r => r.s > results[0].s * 0.45);
@@ -1547,7 +1825,7 @@ function renderCommentList(docs){
 }
 
 /* ---------------- ROUTER (real URLs: /, /topics/, /articles/<id>/ ...) ---------------- */
-const PAGES = ['home','topics','ask','about','contact','privacy'];
+const PAGES = ['home','topics','world','ask','about','contact','privacy'];
 function pathFor(route){
   if(route === 'home') return '/';
   if(route.startsWith('article-')) return '/articles/' + route.slice(8) + '/';
@@ -1571,6 +1849,7 @@ function go(route){
 const PAGE_TITLES = {
   home:   ['Diankana Cloud — Tech · Mines · Pétrole', 'Diankana Cloud — Tech · Mining · Oil'],
   topics: ['Sujets — Diankana Cloud', 'Topics — Diankana Cloud'],
+  world:  ['Ce qui se passe dans le monde — Diankana Cloud', "What's happening in the World — Diankana Cloud"],
   ask:    ["Demander à l'IA — Diankana Cloud", 'Ask the AI — Diankana Cloud'],
   about:  ['À propos — Diankana Cloud', 'About — Diankana Cloud'],
   contact:['Contact — Diankana Cloud', 'Contact — Diankana Cloud'],
@@ -1610,7 +1889,7 @@ function render(){
       if(contactPrefill && ta && !ta.value.trim()) ta.value = contactPrefill;
       contactPrefill = '';
     }
-    if(['home','topics','ask','about','contact','privacy'].includes(hash)){
+    if(PAGES.includes(hash)){
       document.getElementById('view-'+hash).classList.add('active');
     } else {
       document.getElementById('view-home').classList.add('active');
@@ -1648,6 +1927,7 @@ document.addEventListener('click', e => {
 /* ---------------- INIT ---------------- */
 renderLatest();
 renderTopics();
+renderWorld();
 renderAskSuggestions();
 setLang(LANG);
 render();
