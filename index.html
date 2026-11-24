@@ -40,10 +40,12 @@
   .scroller::-webkit-scrollbar-thumb{background:#cbd2da;border-radius:99px;}
   .lang-pill{transition:all .15s ease;}
   .grecaptcha-badge{visibility:hidden;}
+  /* Ad spaces stay hidden until AdSense is approved and real ad units are added. */
+  .ad-slot{display:none !important;}
   mark.hl{background:#fbe9a8;color:inherit;border-radius:3px;padding:0 2px;}
   @media (max-width: 767px), (pointer: coarse){ input, textarea, select{ font-size:16px !important; } }
 </style>
-<link rel="stylesheet" href="assets/site.css?v=805f0261c3">
+<link rel="stylesheet" href="/assets/site.css">
 </head>
 <body class="min-h-screen">
 <div class="flag-stripe"></div>
@@ -51,7 +53,7 @@
 <!-- HEADER -->
 <header class="sticky top-0 z-40 bg-[var(--paper)]/95 backdrop-blur border-b border-black/5">
   <div class="max-w-6xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between gap-2 sm:gap-4">
-    <a href="#home" class="flex items-center gap-2 min-w-0" onclick="go('home')">
+    <a href="/" class="flex items-center gap-2 min-w-0">
       <div class="shrink-0 w-9 h-9 rounded-xl bg-[var(--teal)] flex items-center justify-center text-white font-display font-800 text-sm">DC</div>
       <div class="leading-tight min-w-0">
         <div class="font-display font-700 text-[var(--ink)] text-base truncate">Diankana Cloud</div>
@@ -60,11 +62,11 @@
     </a>
 
     <nav class="hidden md:flex items-center gap-6 text-sm font-medium text-[var(--ink)]/80">
-      <a href="#home" onclick="go('home')" class="nav-link hover:text-[var(--teal-dark)] i18n" data-fr="Accueil" data-en="Home">Accueil</a>
-      <a href="#topics" onclick="go('topics')" class="nav-link hover:text-[var(--teal-dark)] i18n" data-fr="Sujets" data-en="Topics">Sujets</a>
-      <a href="#ask" onclick="go('ask')" class="nav-link hover:text-[var(--teal-dark)] i18n" data-fr="Demander à l'IA" data-en="Ask the AI">Demander à l'IA</a>
-      <a href="#about" onclick="go('about')" class="nav-link hover:text-[var(--teal-dark)] i18n" data-fr="À propos" data-en="About">À propos</a>
-      <a href="#contact" onclick="go('contact')" class="nav-link hover:text-[var(--teal-dark)] i18n" data-fr="Contact" data-en="Contact">Contact</a>
+      <a href="/" class="nav-link hover:text-[var(--teal-dark)] i18n" data-fr="Accueil" data-en="Home">Accueil</a>
+      <a href="/topics/" class="nav-link hover:text-[var(--teal-dark)] i18n" data-fr="Sujets" data-en="Topics">Sujets</a>
+      <a href="/ask/" class="nav-link hover:text-[var(--teal-dark)] i18n" data-fr="Demander à l'IA" data-en="Ask the AI">Demander à l'IA</a>
+      <a href="/about/" class="nav-link hover:text-[var(--teal-dark)] i18n" data-fr="À propos" data-en="About">À propos</a>
+      <a href="/contact/" class="nav-link hover:text-[var(--teal-dark)] i18n" data-fr="Contact" data-en="Contact">Contact</a>
     </nav>
 
     <div class="flex items-center gap-2 shrink-0">
@@ -76,11 +78,11 @@
     </div>
   </div>
   <div id="mobilenav" class="hidden md:hidden border-t border-black/5 bg-white px-4 py-3 flex flex-col gap-3 text-sm font-medium">
-    <a href="#home" onclick="go('home')" class="i18n" data-fr="Accueil" data-en="Home">Accueil</a>
-    <a href="#topics" onclick="go('topics')" class="i18n" data-fr="Sujets" data-en="Topics">Sujets</a>
-    <a href="#ask" onclick="go('ask')" class="i18n" data-fr="Demander à l'IA" data-en="Ask the AI">Demander à l'IA</a>
-    <a href="#about" onclick="go('about')" class="i18n" data-fr="À propos" data-en="About">À propos</a>
-    <a href="#contact" onclick="go('contact')" class="i18n" data-fr="Contact" data-en="Contact">Contact</a>
+    <a href="/" class="i18n" data-fr="Accueil" data-en="Home">Accueil</a>
+    <a href="/topics/" class="i18n" data-fr="Sujets" data-en="Topics">Sujets</a>
+    <a href="/ask/" class="i18n" data-fr="Demander à l'IA" data-en="Ask the AI">Demander à l'IA</a>
+    <a href="/about/" class="i18n" data-fr="À propos" data-en="About">À propos</a>
+    <a href="/contact/" class="i18n" data-fr="Contact" data-en="Contact">Contact</a>
   </div>
 </header>
 
@@ -101,8 +103,8 @@
         Diankana Cloud lit des sources publiques sur la tech, les mines et le pétrole, en tire des guides pratiques et des points clés avec l'aide de l'IA — toujours relus et vérifiés à la main avant publication.
       </p>
       <div class="mt-7 flex flex-wrap gap-3">
-        <a href="#topics" onclick="go('topics')" class="px-5 py-3 rounded-xl bg-[var(--teal)] text-white font-semibold text-sm hover:bg-[var(--teal-dark)] i18n" data-fr="Explorer les sujets" data-en="Explore topics">Explorer les sujets</a>
-        <a href="#ask" onclick="go('ask')" class="px-5 py-3 rounded-xl border border-black/10 bg-white font-semibold text-sm hover:bg-black/5 i18n" data-fr="Poser une question" data-en="Ask a question">Poser une question</a>
+        <a href="/topics/" class="px-5 py-3 rounded-xl bg-[var(--teal)] text-white font-semibold text-sm hover:bg-[var(--teal-dark)] i18n" data-fr="Explorer les sujets" data-en="Explore topics">Explorer les sujets</a>
+        <a href="/ask/" class="px-5 py-3 rounded-xl border border-black/10 bg-white font-semibold text-sm hover:bg-black/5 i18n" data-fr="Poser une question" data-en="Ask a question">Poser une question</a>
       </div>
       <p class="mt-4 text-xs text-[var(--ink)]/50 i18n" data-fr="Pas d'offres d'emploi ici — seulement des publicités pour financer le site." data-en="No job postings here — only ads to keep the site running.">Pas d'offres d'emploi ici — seulement des publicités pour financer le site.</p>
     </div>
@@ -126,7 +128,7 @@
   <div class="mt-14">
     <div class="flex items-end justify-between mb-5">
       <h2 class="font-display font-700 text-xl sm:text-2xl i18n" data-fr="Derniers articles" data-en="Latest posts">Derniers articles</h2>
-      <a href="#topics" onclick="go('topics')" class="text-sm font-semibold text-[var(--teal-dark)] i18n" data-fr="Tout voir →" data-en="View all →">Tout voir →</a>
+      <a href="/topics/" class="text-sm font-semibold text-[var(--teal-dark)] i18n" data-fr="Tout voir →" data-en="View all →">Tout voir →</a>
     </div>
     <div id="latest-grid" class="space-y-10"></div>
   </div>
@@ -148,7 +150,7 @@
 
 <!-- ARTICLE VIEW -->
 <section id="view-article" class="view py-8 sm:py-12">
-  <button onclick="go('topics')" class="text-sm font-semibold text-[var(--teal-dark)] mb-5 i18n" data-fr="← Retour aux sujets" data-en="← Back to topics">← Retour aux sujets</button>
+  <a href="/topics/" class="inline-block text-sm font-semibold text-[var(--teal-dark)] mb-5 i18n" data-fr="← Retour aux sujets" data-en="← Back to topics">← Retour aux sujets</a>
   <div class="grid md:grid-cols-4 gap-8">
     <div class="md:col-span-3">
       <article id="article-body"></article>
@@ -183,7 +185,7 @@
 <section id="view-about" class="view py-10 sm:py-14">
   <div class="grid md:grid-cols-3 gap-10 items-start">
     <div class="md:col-span-1">
-      <img src="img/mohamed-kaba.jpg" alt="Mohamed Kaba" width="160" height="160" class="w-40 h-40 rounded-2xl object-cover shadow-sm">
+      <img src="/img/mohamed-kaba.jpg" alt="Mohamed Kaba" width="160" height="160" class="w-40 h-40 rounded-2xl object-cover shadow-sm">
       <h2 class="font-display font-700 text-2xl mt-4">Mohamed Kaba</h2>
       <p class="text-sm text-[var(--teal-dark)] font-semibold i18n" data-fr="Fondateur, Diankana Cloud" data-en="Founder, Diankana Cloud">Fondateur, Diankana Cloud</p>
     </div>
@@ -229,7 +231,7 @@
     <button id="contact-submit" class="px-5 py-2.5 rounded-lg bg-[var(--teal)] text-white text-sm font-semibold disabled:opacity-60 i18n" data-fr="Envoyer" data-en="Send">Envoyer</button>
     <p id="contact-note" class="text-sm hidden" role="status"></p>
     <p class="text-xs text-[var(--ink)]/50 i18n-html" data-fr="Ce site est protégé par reCAPTCHA ; les <a class=&quot;underline&quot; href=&quot;https://policies.google.com/privacy&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;>règles de confidentialité</a> et les <a class=&quot;underline&quot; href=&quot;https://policies.google.com/terms&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;>conditions d'utilisation</a> de Google s'appliquent." data-en="This site is protected by reCAPTCHA and the Google <a class=&quot;underline&quot; href=&quot;https://policies.google.com/privacy&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;>Privacy Policy</a> and <a class=&quot;underline&quot; href=&quot;https://policies.google.com/terms&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;>Terms of Service</a> apply.">Ce site est protégé par reCAPTCHA ; les <a class="underline" href="https://policies.google.com/privacy" target="_blank" rel="noopener">règles de confidentialité</a> et les <a class="underline" href="https://policies.google.com/terms" target="_blank" rel="noopener">conditions d'utilisation</a> de Google s'appliquent.</p>
-    <p class="text-xs text-[var(--ink)]/50"><span class="i18n" data-fr="Vos données servent uniquement à vous répondre. Voir la" data-en="Your data is only used to reply to you. See the">Vos données servent uniquement à vous répondre. Voir la</span> <a href="#privacy" onclick="go('privacy')" class="underline i18n" data-fr="politique de confidentialité" data-en="privacy policy">politique de confidentialité</a>.</p>
+    <p class="text-xs text-[var(--ink)]/50"><span class="i18n" data-fr="Vos données servent uniquement à vous répondre. Voir la" data-en="Your data is only used to reply to you. See the">Vos données servent uniquement à vous répondre. Voir la</span> <a href="/privacy/" class="underline i18n" data-fr="politique de confidentialité" data-en="privacy policy">politique de confidentialité</a>.</p>
   </form>
 </section>
 
@@ -273,7 +275,7 @@
         <li class="i18n" data-fr="Aucune offre d'emploi publiée" data-en="No job postings published">Aucune offre d'emploi publiée</li>
         <li class="i18n" data-fr="Contenu généré par IA, vérifié par un humain" data-en="AI-assisted content, human-verified">Contenu généré par IA, vérifié par un humain</li>
         <li class="i18n" data-fr="Sources publiques toujours citées" data-en="Public sources always cited">Sources publiques toujours citées</li>
-        <li><a href="#privacy" onclick="go('privacy')" class="underline hover:text-[var(--teal-dark)] i18n" data-fr="Politique de confidentialité" data-en="Privacy policy">Politique de confidentialité</a></li>
+        <li><a href="/privacy/" class="underline hover:text-[var(--teal-dark)] i18n" data-fr="Politique de confidentialité" data-en="Privacy policy">Politique de confidentialité</a></li>
       </ul>
     </div>
     <div class="ad-slot h-24"><span class="i18n" data-fr="Publicité (pied de page)" data-en="Ad (footer)">Publicité (pied de page)</span></div>
@@ -680,12 +682,13 @@ function setLang(l){
   renderLatest();
   renderTopics();
   renderAskSuggestions();
-  const hash = (location.hash||'#home').slice(1);
-  if(hash.startsWith('article-')){
-    const id = hash.replace('article-','');
+  const route = currentRoute();
+  if(route.startsWith('article-')){
+    const id = route.replace('article-','');
     renderArticle(id);
     if(typeof renderCommentsSection === 'function') renderCommentsSection(id);
   }
+  updateHead(route);
 }
 
 function topicBadge(t){
@@ -702,7 +705,7 @@ function verifiedBadge(a, long){
 
 function articleCard(a){
   const label = a.topicLabel[LANG];
-  return `<div class="bg-[var(--card)] border border-black/10 rounded-2xl p-5 card-hover cursor-pointer" onclick="go('article-${a.id}')">
+  return `<a href="/articles/${a.id}/" class="block bg-[var(--card)] border border-black/10 rounded-2xl p-5 card-hover">
     <div class="flex flex-wrap items-center gap-2 mb-3">
       <span class="badge badge-topic">${label}</span>
       <span class="badge badge-ai">🤖 ${LANG==='fr'?'Résumé IA':'AI summary'}</span>
@@ -712,7 +715,7 @@ function articleCard(a){
     <div class="text-xs text-[var(--ink)]/45 mb-2">${fmtArticleDate(a.date)}</div>
     <p class="text-sm text-[var(--ink)]/65 leading-relaxed">${a.summary[LANG]}</p>
     <div class="text-xs font-semibold text-[var(--teal-dark)] mt-3">${LANG==='fr'?'Lire le guide →':'Read the guide →'}</div>
-  </div>`;
+  </a>`;
 }
 
 /* ---------------- DATE GROUPING ---------------- */
@@ -798,10 +801,6 @@ function renderArticle(id){
 
     <div class="ad-slot h-24 w-full mb-6"><span>${LANG==='fr'?'Publicité':'Advertisement'}</span></div>
 
-    <div class="rounded-xl border border-dashed border-black/15 bg-white p-4 mb-6 flex items-center gap-3 text-sm text-[var(--ink)]/55">
-      <span class="text-xl">🎬</span>
-      <span>${LANG==='fr'?"Vidéo ou audio courts à ajouter ici par l'auteur (pas encore publié).":"Short video or audio to be added here by the author (not yet published)."}</span>
-    </div>
 
     <h2 class="font-display font-700 text-lg mb-3">${LANG==='fr'?'Guide pratique':'How-to guide'}</h2>
     <ol class="space-y-3 mb-8">${steps}</ol>
@@ -881,7 +880,7 @@ function bm25(index, q, opts){
 
 async function loadWiki(lang){
   if(WIKI[lang]) return WIKI[lang];
-  const r = await fetch(`data/wikipedia-guinea.${lang}.json`);
+  const r = await fetch(`/data/wikipedia-guinea.${lang}.json`);
   if(!r.ok) throw new Error('wiki ' + r.status);
   const meta = await r.json();
   const docs = meta.paragraphs.map(p => ({kind:'wiki', section:p.s, text:p.t, toks: tokens(p.s + ' ' + p.s + ' ' + p.t)}));
@@ -1053,6 +1052,9 @@ const FB_VERSION = '11.0.2';
 const RECAPTCHA_SITE_KEY = '6LcL2C8uAAAAAPI0lbwjK43-CMvwUF86uFfCl9gl';
 let fb = null;               // {auth, db, fns}
 let currentUser = null;
+// Firebase Auth UID of the site administrator (Firebase console > Authentication > Users).
+// Must match the UID in firestore.rules. While null, only authors can delete their comments.
+const ADMIN_UID = null;
 let commentsUnsub = null;
 let currentArticleId = null;
 let replyTo = null;
@@ -1207,7 +1209,7 @@ function renderAuthArea(){
   const hint = el('p','text-xs text-[var(--ink)]/50 mt-3');
   hint.append(T('Votre nom Google et votre commentaire seront publics. ','Your Google name and comment will be public. '));
   const pl = el('a','underline', T('Confidentialité','Privacy'));
-  pl.href = '#privacy';
+  pl.href = '/privacy/';
   hint.appendChild(pl);
   box.append(g, msg, hint);
 }
@@ -1267,7 +1269,7 @@ function renderCommentList(docs){
       r.onclick = () => { replyTo = replyTo===c.id ? null : c.id; renderCommentList(lastDocs); };
       actions.appendChild(r);
     }
-    if(currentUser && c.uid === currentUser.uid){
+    if(currentUser && (c.uid === currentUser.uid || (ADMIN_UID && currentUser.uid === ADMIN_UID))){
       const d = el('button','text-[var(--ink)]/50', T('Supprimer','Delete'));
       d.onclick = async () => { if(confirm(T('Supprimer ce commentaire ?','Delete this comment?'))){ try{ await fb.f.deleteDoc(fb.f.doc(fb.db,'comments',c.id)); }catch(e){} } };
       actions.appendChild(d);
@@ -1290,9 +1292,43 @@ function renderCommentList(docs){
   }
 }
 
-/* ---------------- ROUTER ---------------- */
-function go(target){
-  location.hash = '#' + target;
+/* ---------------- ROUTER (real URLs: /, /topics/, /articles/<id>/ ...) ---------------- */
+const PAGES = ['home','topics','ask','about','contact','privacy'];
+function pathFor(route){
+  if(route === 'home') return '/';
+  if(route.startsWith('article-')) return '/articles/' + route.slice(8) + '/';
+  return '/' + route + '/';
+}
+function routeFromPath(pathname){
+  let m = pathname.match(/^\/articles\/([a-z0-9-]+)\/?$/);
+  if(m && ARTICLES.some(a => a.id === m[1])) return 'article-' + m[1];
+  m = pathname.match(/^\/([a-z]+)\/?$/);
+  if(m && PAGES.includes(m[1])) return m[1];
+  return 'home';
+}
+function currentRoute(){ return routeFromPath(location.pathname); }
+
+function go(route){
+  const path = pathFor(route);
+  if(location.pathname !== path) history.pushState({}, '', path);
+  render();
+}
+
+const PAGE_TITLES = {
+  home:   ['Diankana Cloud — Tech · Mines · Pétrole', 'Diankana Cloud — Tech · Mining · Oil'],
+  topics: ['Sujets — Diankana Cloud', 'Topics — Diankana Cloud'],
+  ask:    ["Demander à l'IA — Diankana Cloud", 'Ask the AI — Diankana Cloud'],
+  about:  ['À propos — Diankana Cloud', 'About — Diankana Cloud'],
+  contact:['Contact — Diankana Cloud', 'Contact — Diankana Cloud'],
+  privacy:['Politique de confidentialité — Diankana Cloud', 'Privacy policy — Diankana Cloud']
+};
+function updateHead(route){
+  if(route.startsWith('article-')){
+    const a = ARTICLES.find(x => x.id === route.slice(8));
+    if(a){ document.title = a.title[LANG] + ' — Diankana Cloud'; return; }
+  }
+  const t = PAGE_TITLES[route] || PAGE_TITLES.home;
+  document.title = LANG === 'fr' ? t[0] : t[1];
 }
 
 function toggleMobileNav(force){
@@ -1304,8 +1340,9 @@ function toggleMobileNav(force){
 
 function render(){
   toggleMobileNav(false);
-  const hash = (location.hash || '#home').slice(1);
+  const hash = currentRoute();
   document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  updateHead(hash);
   if(hash.startsWith('article-')){
     document.getElementById('view-article').classList.add('active');
     const id = hash.replace('article-','');
@@ -1323,7 +1360,24 @@ function render(){
   window.scrollTo({top:0, behavior:'instant'});
 }
 
-window.addEventListener('hashchange', render);
+window.addEventListener('popstate', render);
+
+// Old links used #about, #article-simandou ... : move them to the real address.
+(function redirectOldHashLinks(){
+  const h = location.hash.slice(1);
+  if(PAGES.includes(h) || /^article-[a-z0-9-]+$/.test(h)) history.replaceState({}, '', pathFor(h));
+})();
+
+// Internal links switch page without a full reload (Ctrl/Cmd-click still opens a new tab).
+document.addEventListener('click', e => {
+  if(e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+  const link = e.target.closest && e.target.closest('a[href]');
+  if(!link || link.target || link.host !== location.host) return;
+  const route = routeFromPath(link.pathname);
+  if(link.pathname !== pathFor(route)) return;   // not one of our pages
+  e.preventDefault();
+  go(route);
+});
 
 document.addEventListener('click', e => {
   const link = e.target.closest && e.target.closest('a[href]');

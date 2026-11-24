@@ -1,11 +1,13 @@
 {
   "name": "diankanacloud",
   "private": true,
-  "description": "Static site for diankanacloud.com. Run `npm run build:css` after changing classes in index.html.",
+  "description": "Static site for diankanacloud.com. Edit index.html, then `npm run build` creates dist/ (GitHub Actions does this on every push).",
   "scripts": {
-    "build:css": "tailwindcss -c tailwind.config.js -i styles/tailwind.input.css -o assets/site.css --minify && node scripts/stamp-css.js"
+    "build": "node scripts/build.mjs",
+    "build:css": "tailwindcss -c tailwind.config.js -i styles/tailwind.input.css -o dist/assets/site.css --minify"
   },
   "devDependencies": {
+    "jsdom": "^25.0.1",
     "tailwindcss": "3.4.17"
   }
 }
