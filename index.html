@@ -214,11 +214,11 @@
   <h2 class="font-display font-700 text-2xl sm:text-3xl i18n" data-fr="Contact" data-en="Contact">Contact</h2>
   <p class="text-[var(--ink)]/70 mt-2 i18n" data-fr="Une idée de sujet, une source à proposer, une correction à signaler ? Écrivez." data-en="A topic idea, a source to suggest, a correction to flag? Write in.">Une idée de sujet, une source à proposer, une correction à signaler ? Écrivez.</p>
   <form id="contact-form" class="mt-6 space-y-3 bg-white border border-black/10 rounded-2xl p-5" onsubmit="return submitContact(event)">
-    <input required type="text" placeholder="Nom / Name" class="w-full border border-black/15 rounded-lg px-3 py-2.5 text-sm">
-    <input required type="email" placeholder="Email" class="w-full border border-black/15 rounded-lg px-3 py-2.5 text-sm">
-    <textarea required rows="4" placeholder="Message" class="w-full border border-black/15 rounded-lg px-3 py-2.5 text-sm"></textarea>
+    <input id="contact-name" required type="text" placeholder="Nom / Name" class="w-full border border-black/15 rounded-lg px-3 py-2.5 text-sm">
+    <input id="contact-email" required type="email" placeholder="Email" class="w-full border border-black/15 rounded-lg px-3 py-2.5 text-sm">
+    <textarea id="contact-message" required rows="4" placeholder="Message" class="w-full border border-black/15 rounded-lg px-3 py-2.5 text-sm"></textarea>
     <button class="px-5 py-2.5 rounded-lg bg-[var(--teal)] text-white text-sm font-semibold i18n" data-fr="Envoyer" data-en="Send">Envoyer</button>
-    <p id="contact-note" class="text-xs text-[var(--ink)]/50 hidden i18n" data-fr="Démo seulement — aucun message n'a été envoyé (il n'y a pas de serveur ici)." data-en="Demo only — no message was actually sent (there's no server here).">Démo seulement — aucun message n'a été envoyé (il n'y a pas de serveur ici).</p>
+    <p id="contact-note" class="text-xs text-[var(--ink)]/50 hidden i18n" data-fr="Votre application e-mail s'ouvre avec le message prêt — il ne reste plus qu'à l'envoyer." data-en="Your email app opens with the message ready — just hit send.">Votre application e-mail s'ouvre avec le message prêt — il ne reste plus qu'à l'envoyer.</p>
   </form>
 </section>
 
@@ -505,231 +505,70 @@ function askBot(){
     </div>`;
 }
 
+/* ---------------- CONTACT (opens the visitor's email app, no server needed) ---------------- */
+const CONTACT_EMAIL = 'contact@diankanacloud.com';
+
 function submitContact(e){
   e.preventDefault();
+  const name = document.getElementById('contact-name').value.trim();
+  const email = document.getElementById('contact-email').value.trim();
+  const msg = document.getElementById('contact-message').value.trim();
+  const subject = 'Diankana Cloud — ' + name;
+  const body = msg + '\n\n— ' + name + ' <' + email + '>';
+  location.href = 'mailto:' + CONTACT_EMAIL + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
   document.getElementById('contact-note').classList.remove('hidden');
   return false;
 }
 
-/* ---------------- FORUM (db + user capabilities) ---------------- */
-let dbCap = null, userCap = null, canWrite = null, myId = null, commentsUnsub = null;
-
-async function initForum(){
-  try{ dbCap = (typeof claude !== 'undefined') ? await claude.use('db') : null; }catch(e){ dbCap = null; }
-  try{ userCap = (typeof claude !== 'undefined') ? await claude.use('user') : null; }catch(e){ userCap = null; }
-  if(userCap){
-    try{ canWrite = await userCap.can('data.write'); }catch(e){ canWrite = null; }
-    try{ myId = await userCap.id(); }catch(e){ myId = null; }
-  }
-}
+/* ---------------- COMMENTS (giscus, backed by GitHub Discussions) ---------------- */
+const GISCUS = {
+  repo: 'mkaba214/diankanacloud',
+  repoId: 'R_kgDOV5h5nA',
+  category: 'Announcements',
+  categoryId: 'DIC_kwDOV5h5nM4DL116'
+};
 
 function stopComments(){
-  if(commentsUnsub){ try{ commentsUnsub(); }catch(e){} commentsUnsub = null; }
+  const wrap = document.getElementById('comments-wrap');
+  if(wrap) wrap.innerHTML = '';
 }
 
 function renderCommentsSection(articleId){
-  stopComments();
   const wrap = document.getElementById('comments-wrap');
   if(!wrap) return;
   wrap.innerHTML = '';
-
-  const h = document.createElement('h2');
-  h.className = 'font-display font-700 text-lg mb-1';
-  h.textContent = LANG==='fr' ? 'Discussion' : 'Discussion';
+  const h = document.createElement('h3');
+  h.className = 'font-display font-700 text-xl mb-2';
+  h.textContent = 'Discussion';
+  const p = document.createElement('p');
+  p.className = 'text-xs text-[var(--ink)]/50 mb-5';
+  p.textContent = LANG==='fr'
+    ? "Connectez-vous avec GitHub pour commenter ou répondre."
+    : "Sign in with GitHub to comment or reply.";
   wrap.appendChild(h);
+  wrap.appendChild(p);
 
-  const status = document.createElement('p');
-  status.className = 'text-xs text-[var(--ink)]/50 mb-4';
-  status.id = 'comments-status';
-  if(!dbCap){
-    status.textContent = LANG==='fr'
-      ? "Démo : la discussion fonctionne pour vous et les personnes que vous invitez comme contributeurs sur cet artefact."
-      : "Demo: discussion works for you and people you invite as contributors on this artifact.";
-  } else if(canWrite === false){
-    status.textContent = LANG==='fr'
-      ? "Vous pouvez lire la discussion. Pour écrire, il faut être invité comme contributeur."
-      : "You can read the discussion. Posting requires a contributor invite.";
-  } else {
-    status.textContent = LANG==='fr' ? "Vous pouvez commenter et répondre ci-dessous." : "You can comment and reply below.";
-  }
-  wrap.appendChild(status);
-
-  const formSlot = document.createElement('div');
-  formSlot.id = 'comment-form-slot';
-  formSlot.className = 'mb-6';
-  wrap.appendChild(formSlot);
-  renderCommentForm(articleId, null, formSlot);
-
-  const list = document.createElement('div');
-  list.id = 'comments-list';
-  list.className = 'space-y-5';
-  wrap.appendChild(list);
-
-  if(!dbCap){
-    const p = document.createElement('p');
-    p.className = 'text-sm text-[var(--ink)]/50';
-    p.textContent = LANG==='fr'
-      ? "La discussion n'est pas disponible dans cet aperçu (connectez-vous sur claude.ai pour la voir)."
-      : "Discussion isn't available in this preview (sign in on claude.ai to see it).";
-    list.appendChild(p);
-    return;
-  }
-
-  list.innerHTML = '';
-  const loading = document.createElement('p');
-  loading.className = 'text-sm text-[var(--ink)]/40';
-  loading.textContent = LANG==='fr' ? 'Chargement…' : 'Loading…';
-  list.appendChild(loading);
-
-  let delivered = false;
-  const timer = setTimeout(()=>{
-    if(!delivered && document.getElementById('comments-list')){
-      document.getElementById('comments-list').innerHTML = '';
-      const p = document.createElement('p');
-      p.className = 'text-sm text-[var(--ink)]/50';
-      p.textContent = LANG==='fr' ? 'Les commentaires mettent du temps à charger…' : 'Comments are taking a while to load…';
-      document.getElementById('comments-list').appendChild(p);
-    }
-  }, 10000);
-
-  const q = dbCap.collection('comments').where('articleId','==',articleId).orderBy('createdAt','asc');
-  commentsUnsub = q.onSnapshot((snap)=>{
-    delivered = true; clearTimeout(timer);
-    const docs = snap.docs.map(d=>({id:d.id, ...(d.data()||{})}));
-    renderCommentTree(docs);
-  }, (err)=>{
-    delivered = true; clearTimeout(timer);
-    const el = document.getElementById('comments-list');
-    if(el){
-      el.innerHTML = '';
-      const p = document.createElement('p');
-      p.className = 'text-sm text-[var(--ink)]/50';
-      p.textContent = LANG==='fr' ? "Impossible de charger la discussion pour le moment." : "Could not load the discussion right now.";
-      el.appendChild(p);
-    }
-  });
-}
-
-function renderCommentForm(articleId, parentId, slot){
-  slot.innerHTML = '';
-  const disabled = !dbCap || canWrite === false;
-
-  const ta = document.createElement('textarea');
-  ta.rows = parentId ? 2 : 3;
-  ta.placeholder = parentId
-    ? (LANG==='fr' ? 'Votre réponse…' : 'Your reply…')
-    : (LANG==='fr' ? 'Votre commentaire…' : 'Your comment…');
-  ta.className = 'w-full border border-black/15 rounded-lg px-3 py-2 text-sm disabled:bg-black/5 disabled:text-black/30';
-  ta.disabled = disabled;
-  slot.appendChild(ta);
-
-  const row = document.createElement('div');
-  row.className = 'flex justify-end mt-2 gap-2';
-
-  if(parentId){
-    const cancel = document.createElement('button');
-    cancel.type = 'button';
-    cancel.className = 'text-xs px-3 py-1.5 text-[var(--ink)]/50';
-    cancel.textContent = LANG==='fr' ? 'Annuler' : 'Cancel';
-    cancel.onclick = () => { slot.innerHTML = ''; };
-    row.appendChild(cancel);
-  }
-
-  const submit = document.createElement('button');
-  submit.type = 'button';
-  submit.disabled = disabled;
-  submit.className = 'text-xs font-semibold px-4 py-1.5 rounded-lg bg-[var(--teal)] text-white disabled:bg-black/10 disabled:text-black/30';
-  submit.textContent = parentId ? (LANG==='fr'?'Répondre':'Reply') : (LANG==='fr'?'Publier':'Post');
-  submit.onclick = () => submitComment(articleId, parentId, ta, slot);
-  row.appendChild(submit);
-
-  slot.appendChild(row);
-}
-
-async function submitComment(articleId, parentId, ta, slot){
-  const text = ta.value.trim();
-  if(!text || !dbCap) return;
-  try{
-    await dbCap.collection('comments').add({
-      articleId: articleId,
-      parentId: parentId || null,
-      authorId: myId || null,
-      text: text,
-      createdAt: new Date().toISOString()
-    });
-    ta.value = '';
-    if(parentId) slot.innerHTML = '';
-  }catch(e){
-    alert(LANG==='fr' ? "Impossible d'envoyer ce message pour le moment." : "Couldn't send this right now.");
-  }
-}
-
-async function renderCommentTree(docs){
-  const list = document.getElementById('comments-list');
-  if(!list) return;
-
-  const top = docs.filter(d=>!d.parentId).sort((a,b)=>String(a.createdAt||'').localeCompare(String(b.createdAt||'')));
-  const byParent = {};
-  docs.filter(d=>d.parentId).forEach(d=>{ (byParent[d.parentId] = byParent[d.parentId]||[]).push(d); });
-
-  list.innerHTML = '';
-
-  if(top.length===0){
-    const p = document.createElement('p');
-    p.className = 'text-sm text-[var(--ink)]/40';
-    p.textContent = LANG==='fr' ? 'Aucun commentaire pour le moment. Soyez le premier.' : 'No comments yet. Be the first.';
-    list.appendChild(p);
-    return;
-  }
-
-  const ids = [...new Set(docs.map(d=>d.authorId).filter(Boolean))];
-  let profiles = {};
-  if(userCap && ids.length){ try{ profiles = await userCap.profiles(ids); }catch(e){} }
-  const someone = LANG==='fr' ? 'Quelqu’un' : 'Someone';
-  const nameFor = (id) => (id && profiles[id] && profiles[id].name) || someone;
-
-  function buildNode(c, isReply){
-    const row = document.createElement('div');
-    row.className = isReply ? 'ml-8 mt-3 flex items-start gap-2' : 'flex items-start gap-2';
-
-    const avatar = document.createElement('div');
-    avatar.className = 'w-7 h-7 rounded-full bg-[var(--teal)]/15 text-[var(--teal-dark)] text-xs font-bold flex items-center justify-center shrink-0';
-    avatar.textContent = nameFor(c.authorId).charAt(0).toUpperCase();
-    row.appendChild(avatar);
-
-    const body = document.createElement('div');
-    body.className = 'flex-1 min-w-0';
-
-    const nameEl = document.createElement('div');
-    nameEl.className = 'text-sm font-semibold';
-    nameEl.textContent = nameFor(c.authorId);
-    body.appendChild(nameEl);
-
-    const textEl = document.createElement('div');
-    textEl.className = 'text-sm text-[var(--ink)]/80 whitespace-pre-wrap break-words';
-    textEl.textContent = c.text || '';
-    body.appendChild(textEl);
-
-    if(!isReply){
-      const replyBtn = document.createElement('button');
-      replyBtn.className = 'text-xs font-semibold text-[var(--teal-dark)] mt-1';
-      replyBtn.textContent = LANG==='fr' ? 'Répondre' : 'Reply';
-      const replySlot = document.createElement('div');
-      replySlot.className = 'mt-2';
-      replyBtn.onclick = () => renderCommentForm(c.articleId, c.id, replySlot);
-      body.appendChild(replyBtn);
-      body.appendChild(replySlot);
-    }
-
-    (byParent[c.id] || [])
-      .sort((a,b)=>String(a.createdAt||'').localeCompare(String(b.createdAt||'')))
-      .forEach(r => body.appendChild(buildNode(r, true)));
-
-    row.appendChild(body);
-    return row;
-  }
-
-  top.forEach(c => list.appendChild(buildNode(c, false)));
+  const s = document.createElement('script');
+  s.src = 'https://giscus.app/client.js';
+  s.async = true;
+  s.crossOrigin = 'anonymous';
+  const attrs = {
+    'data-repo': GISCUS.repo,
+    'data-repo-id': GISCUS.repoId,
+    'data-category': GISCUS.category,
+    'data-category-id': GISCUS.categoryId,
+    'data-mapping': 'specific',
+    'data-term': 'article-' + articleId,
+    'data-strict': '1',
+    'data-reactions-enabled': '1',
+    'data-emit-metadata': '0',
+    'data-input-position': 'top',
+    'data-theme': 'light',
+    'data-lang': LANG==='fr' ? 'fr' : 'en',
+    'data-loading': 'lazy'
+  };
+  Object.entries(attrs).forEach(([k,v])=>s.setAttribute(k,v));
+  wrap.appendChild(s);
 }
 
 /* ---------------- ROUTER ---------------- */
@@ -763,10 +602,7 @@ renderLatest();
 renderTopics();
 renderAskSuggestions();
 setLang(LANG);
-(async function init(){
-  await initForum();
-  render();
-})();
+render();
 </script>
 </body>
 </html>
