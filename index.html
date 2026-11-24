@@ -40,6 +40,7 @@
   .scroller::-webkit-scrollbar-thumb{background:#cbd2da;border-radius:99px;}
   .lang-pill{transition:all .15s ease;}
   .grecaptcha-badge{visibility:hidden;}
+  @media (max-width: 767px), (pointer: coarse){ input, textarea, select{ font-size:16px !important; } }
 </style>
 <link rel="stylesheet" href="assets/site.css">
 </head>
@@ -48,12 +49,12 @@
 
 <!-- HEADER -->
 <header class="sticky top-0 z-40 bg-[var(--paper)]/95 backdrop-blur border-b border-black/5">
-  <div class="max-w-6xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between gap-4">
-    <a href="#home" class="flex items-center gap-2 shrink-0" onclick="go('home')">
-      <div class="w-9 h-9 rounded-xl bg-[var(--teal)] flex items-center justify-center text-white font-display font-800 text-sm">DC</div>
-      <div class="leading-tight">
-        <div class="font-display font-700 text-[var(--ink)] text-base">Diankana Cloud</div>
-        <div class="text-[10px] uppercase tracking-wider text-[var(--teal-dark)] font-semibold i18n" data-fr="Tech · Mines · Pétrole" data-en="Tech · Mining · Oil">Tech · Mines · Pétrole</div>
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between gap-2 sm:gap-4">
+    <a href="#home" class="flex items-center gap-2 min-w-0" onclick="go('home')">
+      <div class="shrink-0 w-9 h-9 rounded-xl bg-[var(--teal)] flex items-center justify-center text-white font-display font-800 text-sm">DC</div>
+      <div class="leading-tight min-w-0">
+        <div class="font-display font-700 text-[var(--ink)] text-base truncate">Diankana Cloud</div>
+        <div class="truncate text-[10px] uppercase tracking-wider text-[var(--teal-dark)] font-semibold i18n" data-fr="Tech · Mines · Pétrole" data-en="Tech · Mining · Oil">Tech · Mines · Pétrole</div>
       </div>
     </a>
 
@@ -65,12 +66,12 @@
       <a href="#contact" onclick="go('contact')" class="nav-link hover:text-[var(--teal-dark)] i18n" data-fr="Contact" data-en="Contact">Contact</a>
     </nav>
 
-    <div class="flex items-center gap-2">
+    <div class="flex items-center gap-2 shrink-0">
       <div class="flex bg-white border border-black/10 rounded-full p-0.5 text-xs font-semibold">
         <button id="btn-fr" onclick="setLang('fr')" class="lang-pill px-2.5 py-1 rounded-full">FR</button>
         <button id="btn-en" onclick="setLang('en')" class="lang-pill px-2.5 py-1 rounded-full">EN</button>
       </div>
-      <button class="md:hidden w-9 h-9 flex items-center justify-center rounded-lg border border-black/10" onclick="document.getElementById('mobilenav').classList.toggle('hidden')">☰</button>
+      <button id="menu-btn" class="md:hidden w-10 h-10 flex items-center justify-center rounded-lg border border-black/10" aria-label="Menu" aria-controls="mobilenav" aria-expanded="false" onclick="toggleMobileNav()">☰</button>
     </div>
   </div>
   <div id="mobilenav" class="hidden md:hidden border-t border-black/5 bg-white px-4 py-3 flex flex-col gap-3 text-sm font-medium">
@@ -167,7 +168,7 @@
 
     <div class="mt-6 bg-white border border-black/10 rounded-2xl p-4 sm:p-5">
       <div class="flex gap-2">
-        <input id="ask-input" type="text" class="flex-1 border border-black/15 rounded-lg px-3 py-2.5 text-sm outline-none focus:border-[var(--teal)]" placeholder="Ex: comment préparer l'examen ACE ?">
+        <input id="ask-input" type="text" class="flex-1 min-w-0 border border-black/15 rounded-lg px-3 py-2.5 text-sm outline-none focus:border-[var(--teal)]" placeholder="Ex: comment préparer l'examen ACE ?">
         <button onclick="askBot()" class="px-4 py-2.5 rounded-lg bg-[var(--teal)] text-white text-sm font-semibold hover:bg-[var(--teal-dark)] i18n" data-fr="Demander" data-en="Ask">Demander</button>
       </div>
       <div class="flex flex-wrap gap-2 mt-3" id="ask-suggestions"></div>
@@ -1143,7 +1144,15 @@ function go(target){
   location.hash = '#' + target;
 }
 
+function toggleMobileNav(force){
+  const nav = document.getElementById('mobilenav');
+  const open = typeof force === 'boolean' ? force : nav.classList.contains('hidden');
+  nav.classList.toggle('hidden', !open);
+  document.getElementById('menu-btn').setAttribute('aria-expanded', String(open));
+}
+
 function render(){
+  toggleMobileNav(false);
   const hash = (location.hash || '#home').slice(1);
   document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
   if(hash.startsWith('article-')){
