@@ -25,10 +25,11 @@
   .flag-stripe{height:5px;background:linear-gradient(90deg,#CE1126 0 33.33%, #FCD116 33.33% 66.66%, #009460 66.66% 100%);}
   .view{display:none;}
   .view.active{display:block;}
-  .badge{display:inline-flex;align-items:center;gap:.35rem;font-size:.7rem;font-weight:600;padding:.25rem .6rem;border-radius:999px;}
+  .badge{display:inline-flex;align-items:center;gap:.35rem;font-size:.7rem;font-weight:600;padding:.25rem .6rem;border-radius:999px;white-space:nowrap;}
   .badge-ai{background:#e8f3ff;color:#1457a8;}
   .badge-verified{background:#e7f7ef;color:#0a6b3f;}
   .badge-topic{background:#fff3da;color:#8a5a00;}
+  .badge-pending{background:#f1f3f5;color:#5b6672;}
   .ad-slot{border:2px dashed #cbd2da;background:repeating-linear-gradient(45deg,#f1f3f5,#f1f3f5 10px,#e9edf1 10px,#e9edf1 20px);color:#6b7682;display:flex;align-items:center;justify-content:center;text-align:center;border-radius:.75rem;font-size:.75rem;font-weight:600;letter-spacing:.03em;}
   .card-hover{transition:transform .15s ease, box-shadow .15s ease;}
   .card-hover:hover{transform:translateY(-3px);box-shadow:0 12px 24px -10px rgba(10,30,40,.25);}
@@ -248,6 +249,7 @@
 const ARTICLES = [
   {
     id: "ace-cert",
+    verified: true,
     topic: "tech",
     topicLabel: {fr:"Technologie", en:"Technology"},
     title: {fr:"Comment décrocher la certification Google Cloud Associate Cloud Engineer (ACE)",
@@ -286,6 +288,7 @@ const ARTICLES = [
   },
   {
     id: "bauxite-2026",
+    verified: true,
     topic: "mines",
     topicLabel: {fr:"Mines", en:"Mining"},
     title: {fr:"La bauxite guinéenne en 2026 : où en est le secteur ?",
@@ -326,6 +329,7 @@ const ARTICLES = [
   },
   {
     id: "fuel-distribution",
+    verified: true,
     topic: "petrole",
     topicLabel: {fr:"Pétrole", en:"Oil"},
     title: {fr:"Comment le carburant arrive-t-il en Guinée ? Les bases de la distribution pétrolière",
@@ -361,6 +365,242 @@ const ARTICLES = [
       ]
     },
     source: {name:"trade.gov Guinea Country Commercial Guide — Oil & Gas; Logistics Cluster (dlca)", url:"https://trade.gov/country-commercial-guides/guinea-oil-and-gas"}
+  }
+  ,
+  {
+    id: "aws-ccp",
+    verified: false,
+    topic: "tech",
+    topicLabel: {fr:"Technologie", en:"Technology"},
+    title: {fr:"Réussir la certification AWS Certified Cloud Practitioner (CLF-C02)",
+            en:"Passing the AWS Certified Cloud Practitioner (CLF-C02) certification"},
+    summary: {fr:"La porte d'entrée des certifications Amazon Web Services : format de l'examen, coût et méthode de préparation, d'après la page officielle d'AWS.",
+              en:"The entry point to Amazon Web Services certifications: exam format, cost and how to prepare, based on AWS's official page."},
+    howto: {
+      fr:[
+        "Commencez par le guide d'examen officiel CLF-C02 : il couvre quatre domaines — concepts du cloud, sécurité et conformité, technologies et services cloud, facturation et tarification.",
+        "Suivez les formations gratuites d'AWS Skill Builder (dont « Cloud Practitioner Essentials ») avant de payer quoi que ce soit.",
+        "Créez un compte AWS avec l'offre gratuite et manipulez les services de base : EC2, S3, IAM, VPC, et la console de facturation — activez une alerte de budget dès le premier jour.",
+        "Entraînez-vous avec l'examen d'entraînement officiel pour vous habituer au style des questions.",
+        "Réservez l'examen : 90 minutes, 65 questions à choix unique ou multiple, en ligne avec surveillance à distance ou dans un centre Pearson VUE."
+      ],
+      en:[
+        "Start with the official CLF-C02 exam guide: it covers four domains — cloud concepts, security and compliance, cloud technology and services, and billing and pricing.",
+        "Take AWS Skill Builder's free courses (including \"Cloud Practitioner Essentials\") before paying for anything.",
+        "Open an AWS Free Tier account and try the core services: EC2, S3, IAM, VPC and the billing console — set a budget alert on day one.",
+        "Practice with the official practice exam to get used to the question style.",
+        "Book the exam: 90 minutes, 65 multiple-choice or multiple-response questions, online-proctored or at a Pearson VUE test center."
+      ]
+    },
+    takeaways: {
+      fr:[
+        "L'examen coûte 100 USD (hors taxes locales) ; le score minimal est de 700 sur 1000.",
+        "Aucune expérience technique n'est exigée : c'est une certification de base, utile aussi pour les profils non techniques (vente, gestion de projet).",
+        "La certification est valable 3 ans."
+      ],
+      en:[
+        "The exam costs USD 100 (plus local taxes); the passing score is 700 out of 1000.",
+        "No technical experience is required: it's a foundational certification, also useful for non-technical roles (sales, project management).",
+        "The certification is valid for 3 years."
+      ]
+    },
+    source: {name:"AWS — AWS Certified Cloud Practitioner (page officielle)", url:"https://aws.amazon.com/certification/certified-cloud-practitioner/"}
+  },
+  {
+    id: "az-900",
+    verified: false,
+    topic: "tech",
+    topicLabel: {fr:"Technologie", en:"Technology"},
+    title: {fr:"Microsoft Azure Fundamentals (AZ-900) : par où commencer ?",
+            en:"Microsoft Azure Fundamentals (AZ-900): where to start"},
+    summary: {fr:"La certification d'initiation au cloud Azure de Microsoft : contenu, ressources gratuites et déroulement de l'examen.",
+              en:"Microsoft's introductory Azure cloud certification: what it covers, free resources and how the exam works."},
+    howto: {
+      fr:[
+        "Lisez le guide d'étude officiel AZ-900 sur Microsoft Learn : il couvre les concepts du cloud, l'architecture et les services Azure, ainsi que la gestion et la gouvernance.",
+        "Suivez les parcours d'apprentissage gratuits de Microsoft Learn, prévus exactement pour cet examen.",
+        "Testez-vous avec l'évaluation d'entraînement gratuite proposée sur la page de l'examen.",
+        "Créez un compte gratuit Azure pour pratiquer : machines virtuelles, stockage, réseaux virtuels, Entra ID (anciennement Azure Active Directory).",
+        "Inscrivez-vous : l'examen comprend en général 40 à 60 questions, avec environ 45 minutes de temps de réponse, en ligne ou en centre d'examen."
+      ],
+      en:[
+        "Read the official AZ-900 study guide on Microsoft Learn: it covers cloud concepts, Azure architecture and services, and management and governance.",
+        "Take Microsoft Learn's free learning paths, built specifically for this exam.",
+        "Test yourself with the free practice assessment on the exam page.",
+        "Open a free Azure account to practice: virtual machines, storage, virtual networks, Entra ID (formerly Azure Active Directory).",
+        "Register: the exam usually has 40 to 60 questions and about 45 minutes of answering time, online or at a test center."
+      ]
+    },
+    takeaways: {
+      fr:[
+        "Le score minimal est de 700 sur 1000.",
+        "Le prix dépend du pays où l'examen est passé (environ 99 USD aux États-Unis) — vérifiez le tarif affiché pour votre pays au moment de l'inscription.",
+        "Les certifications « Fundamentals » de Microsoft n'expirent pas : pas de renouvellement à prévoir."
+      ],
+      en:[
+        "The passing score is 700 out of 1000.",
+        "The price depends on the country where you take the exam (about USD 99 in the US) — check the price shown for your country when you register.",
+        "Microsoft \"Fundamentals\" certifications don't expire: no renewal needed."
+      ]
+    },
+    source: {name:"Microsoft Learn — Exam AZ-900: Microsoft Azure Fundamentals", url:"https://learn.microsoft.com/credentials/certifications/azure-fundamentals/"}
+  },
+  {
+    id: "simandou",
+    verified: false,
+    topic: "mines",
+    topicLabel: {fr:"Mines", en:"Mining"},
+    title: {fr:"Simandou : le fer guinéen commence enfin à partir",
+            en:"Simandou: Guinea's iron ore finally starts shipping"},
+    summary: {fr:"Après des décennies de retards, le gisement de fer de Simandou est entré en production fin 2025. Ce qu'il faut savoir, d'après des sources de presse spécialisées.",
+              en:"After decades of delays, the Simandou iron ore deposit entered production in late 2025. What to know, based on specialist press sources."},
+    howto: {
+      fr:[
+        "Situez le projet : Simandou est une chaîne de montagnes du sud-est de la Guinée qui abrite l'un des plus grands gisements de minerai de fer à haute teneur non exploités au monde.",
+        "Repérez les acteurs : le consortium Winning Consortium Simandou (blocs 1 et 2) et Simfer, porté par Rio Tinto et Chinalco (blocs 3 et 4), avec l'État guinéen comme partenaire.",
+        "Comprenez la logistique : le minerai est transporté par un nouveau chemin de fer transguinéen de plus de 600 km jusqu'au port de Morebaya, sur la côte, puis exporté par bateau.",
+        "Suivez la montée en puissance : la capacité prévue à pleine charge est de 120 millions de tonnes par an, mais les volumes de 2026 restent bien inférieurs.",
+        "Côté IT : un projet de cette taille a besoin de signalisation et de télécoms ferroviaires, de suivi de flotte, de systèmes portuaires et de cybersécurité industrielle — des métiers à surveiller."
+      ],
+      en:[
+        "Locate the project: Simandou is a mountain range in south-eastern Guinea that holds one of the world's largest undeveloped high-grade iron ore deposits.",
+        "Identify the players: Winning Consortium Simandou (blocks 1 and 2) and Simfer, led by Rio Tinto and Chinalco (blocks 3 and 4), with the Guinean state as a partner.",
+        "Understand the logistics: ore travels on a new trans-Guinean railway of more than 600 km to the coastal port of Morebaya, then ships out by sea.",
+        "Follow the ramp-up: planned full capacity is 120 million tonnes a year, but 2026 volumes are far lower.",
+        "IT angle: a project this size needs rail signalling and telecoms, fleet tracking, port systems and industrial cybersecurity — roles worth watching."
+      ]
+    },
+    takeaways: {
+      fr:[
+        "Les opérations minières ont été officiellement lancées le 11 novembre 2025.",
+        "Le premier navire (près de 200 000 tonnes) a quitté Morebaya début décembre 2025 et est arrivé en Chine en janvier 2026.",
+        "Des analystes estimaient les exportations de 2026 à environ 15 millions de tonnes, loin de la capacité cible de 120 millions."
+      ],
+      en:[
+        "Mining operations were officially launched on 11 November 2025.",
+        "The first vessel (nearly 200,000 tonnes) left Morebaya in early December 2025 and reached China in January 2026.",
+        "Analysts estimated 2026 exports at around 15 million tonnes, far below the 120 million target capacity."
+      ]
+    },
+    source: {name:"Agence Ecofin; S&P Global Commodity Insights; MINING.COM (Reuters)", url:"https://www.ecofinagency.com/news/1901-52046-guinea-ships-first-simandou-iron-ore-ending-decades-of-delays"}
+  },
+  {
+    id: "gold-guinea",
+    verified: false,
+    topic: "mines",
+    topicLabel: {fr:"Mines", en:"Mining"},
+    title: {fr:"L'or en Guinée : grandes mines et orpaillage artisanal",
+            en:"Gold in Guinea: large mines and artisanal mining"},
+    summary: {fr:"Deux mondes cohabitent dans l'or guinéen : les mines industrielles comme Siguiri, et des centaines de milliers d'orpailleurs. Un point de repère à partir de sources publiques.",
+              en:"Two worlds coexist in Guinean gold: industrial mines such as Siguiri, and hundreds of thousands of artisanal miners. A benchmark from public sources."},
+    howto: {
+      fr:[
+        "Commencez par la géographie : l'essentiel de l'or guinéen se trouve en Haute-Guinée, autour de Siguiri, Mandiana et Kouroussa.",
+        "Identifiez les mines industrielles : Siguiri (AngloGold Ashanti) est la plus grande ; Lefa (Nordgold) est un autre site industriel important.",
+        "Comprenez l'orpaillage : une grande partie de l'or est extraite à la main par des mineurs artisanaux, souvent avec du mercure, dangereux pour la santé et l'environnement.",
+        "Pour des données fiables, consultez les rapports trimestriels des sociétés cotées (ex. AngloGold Ashanti) et les publications du programme planetGOLD.",
+        "Côté IT : traçabilité de l'or (« due diligence »), cartographie SIG des permis, paiement mobile pour les orpailleurs et suivi environnemental sont des besoins réels du secteur."
+      ],
+      en:[
+        "Start with geography: most of Guinea's gold is in Upper Guinea, around Siguiri, Mandiana and Kouroussa.",
+        "Identify the industrial mines: Siguiri (AngloGold Ashanti) is the largest; Lefa (Nordgold) is another major industrial site.",
+        "Understand artisanal mining: much of the gold is dug by hand by artisanal miners, often using mercury, which is dangerous to health and the environment.",
+        "For reliable data, read listed companies' quarterly reports (e.g. AngloGold Ashanti) and planetGOLD programme publications.",
+        "IT angle: gold traceability (due diligence), GIS mapping of permits, mobile payments for artisanal miners and environmental monitoring are real needs in the sector."
+      ]
+    },
+    takeaways: {
+      fr:[
+        "Siguiri est détenue à 85 % par AngloGold Ashanti et à 15 % par l'État guinéen ; elle a produit environ 289 000 onces d'or en 2025.",
+        "Selon planetGOLD, l'orpaillage guinéen représente environ 300 millions USD par an et fait vivre directement plus de 245 000 mineurs.",
+        "La production de Siguiri a baissé d'environ 7 % au premier semestre 2026, à cause de limites de stockage des résidus et d'un arrêt planifié de l'usine."
+      ],
+      en:[
+        "Siguiri is 85% owned by AngloGold Ashanti and 15% by the Guinean state; it produced about 289,000 ounces of gold in 2025.",
+        "According to planetGOLD, Guinea's artisanal gold mining is worth about USD 300 million a year and directly supports more than 245,000 miners.",
+        "Siguiri's output fell about 7% in the first half of 2026 because of tailings-storage limits and a planned plant shutdown."
+      ]
+    },
+    source: {name:"planetGOLD — Guinea; AngloGold Ashanti, résultats S1 2026 / H1 2026 results; Agence Ecofin", url:"https://www.planetgold.org/guinea"}
+  }
+  ,
+  {
+    id: "offshore-exploration",
+    verified: false,
+    topic: "petrole",
+    topicLabel: {fr:"Pétrole", en:"Oil"},
+    title: {fr:"Y a-t-il du pétrole au large de la Guinée ? Histoire de l'exploration offshore",
+            en:"Is there oil off Guinea's coast? A history of offshore exploration"},
+    summary: {fr:"Des puits secs, une longue pause, puis un retour en 2026 avec Eni : ce que l'on sait vraiment du potentiel pétrolier offshore guinéen.",
+              en:"Dry wells, a long pause, then a return in 2026 with Eni: what is actually known about Guinea's offshore oil potential."},
+    howto: {
+      fr:[
+        "Partez d'un fait simple : à ce jour, aucun gisement de pétrole commercial n'a été découvert au large de la Guinée.",
+        "Retenez l'épisode Hyperdynamics : cette société américaine a longtemps détenu les seuls blocs offshore attribués ; son puits Fatala-1, foré en 2017 par 2 897 m de fond, n'a trouvé aucun hydrocarbure.",
+        "Comprenez pourquoi l'intérêt persiste : les bassins voisins de la marge ouest-africaine ont livré des découvertes (par exemple au Sénégal), ce qui pousse les compagnies à retenter leur chance.",
+        "Suivez l'actualité 2026 : Eni a signé un accord d'exploration couvrant 15 blocs offshore guinéens.",
+        "Côté IT : l'exploration repose sur le traitement de données sismiques, le calcul haute performance et le stockage massif — des compétences très demandées."
+      ],
+      en:[
+        "Start from a simple fact: so far, no commercial oil field has been discovered off Guinea.",
+        "Remember the Hyperdynamics episode: this US company long held the only awarded offshore blocks; its Fatala-1 well, drilled in 2017 in 2,897 m of water, found no hydrocarbons.",
+        "Understand why interest persists: neighbouring basins on the West African margin have produced discoveries (for example off Senegal), which keeps companies trying.",
+        "Follow the 2026 news: Eni signed an exploration agreement covering 15 Guinean offshore blocks.",
+        "IT angle: exploration relies on seismic data processing, high-performance computing and massive storage — skills in high demand."
+      ]
+    },
+    takeaways: {
+      fr:[
+        "Seuls trois puits ont été forés au large de la Guinée, et tous se sont révélés secs.",
+        "Les permis signés avec Eni sont valables un an, avec une prolongation possible d'un an.",
+        "Exploration ne veut pas dire production : même en cas de découverte, il faut en général des années avant le premier baril."
+      ],
+      en:[
+        "Only three wells have been drilled off Guinea, and all were dry.",
+        "The permits signed with Eni are valid for one year, with an optional one-year extension.",
+        "Exploration is not production: even after a discovery, it usually takes years before the first barrel."
+      ]
+    },
+    source: {name:"GeoExpro — Exploration Update: Guinea; Edison Group; communiqué Hyperdynamics (SEC, 2017)", url:"https://geoexpro.com/exploration-update-guinea/"}
+  },
+  {
+    id: "fuel-price",
+    verified: false,
+    topic: "petrole",
+    topicLabel: {fr:"Pétrole", en:"Oil"},
+    title: {fr:"Pourquoi le litre d'essence reste à 12 000 GNF en Guinée",
+            en:"Why a litre of fuel stays at 12,000 GNF in Guinea"},
+    summary: {fr:"Le prix à la pompe est fixé par l'État et n'a pas bougé depuis juin 2022. Comment ce prix est maintenu, et ce que cela coûte au budget.",
+              en:"The pump price is set by the state and hasn't moved since June 2022. How it's held there, and what it costs the budget."},
+    howto: {
+      fr:[
+        "Comprenez le principe : en Guinée, le prix à la pompe n'est pas libre, il est fixé par l'État.",
+        "Retenez le chiffre : depuis le 1er juin 2022, le litre d'essence est officiellement à 12 000 GNF.",
+        "Comprenez le mécanisme : quand le prix mondial du pétrole ou le coût d'importation dépasse ce que couvre le prix de vente, l'État paie la différence — c'est la subvention.",
+        "Lisez la loi de finances : le montant consacré au soutien des prix du carburant y figure chaque année, ce qui permet de suivre son poids dans le budget.",
+        "Méfiez-vous des rumeurs : des annonces de hausse circulent régulièrement sur les réseaux sociaux ; seule une communication officielle du gouvernement fait foi."
+      ],
+      en:[
+        "Understand the principle: in Guinea, the pump price isn't set by the market; it's fixed by the state.",
+        "Remember the figure: since 1 June 2022, a litre of petrol has officially cost 12,000 GNF.",
+        "Understand the mechanism: when world oil prices or import costs exceed what the selling price covers, the state pays the difference — that's the subsidy.",
+        "Read the finance law: the amount set aside to support fuel prices appears there every year, so you can track its weight in the budget.",
+        "Beware of rumours: claims of price increases circulate regularly on social media; only an official government announcement counts."
+      ]
+    },
+    takeaways: {
+      fr:[
+        "La loi de finances rectificative 2026 prévoit environ 5 499 milliards GNF pour maintenir le litre à 12 000 GNF.",
+        "Selon la presse, cela représente environ 10 % des recettes fiscales prévues.",
+        "Ce choix protège le pouvoir d'achat, mais réduit les fonds disponibles pour l'investissement public."
+      ],
+      en:[
+        "The 2026 revised finance law sets aside about 5,499 billion GNF to keep a litre at 12,000 GNF.",
+        "According to press reports, that's about 10% of planned tax revenue.",
+        "The choice protects purchasing power, but reduces the money available for public investment."
+      ]
+    },
+    source: {name:"Agence Ecofin; Guinee360; Africaguinee", url:"https://www.agenceecofin.com/actualites/2610-142749-guinee-621-millions-prevus-pour-maintenir-les-prix-du-carburant-en-2026"}
   }
 ];
 
@@ -401,13 +641,20 @@ function topicBadge(t){
   return '';
 }
 
+function verifiedBadge(a, long){
+  if(a.verified){
+    return `<span class="badge badge-verified">✓ ${long ? (LANG==='fr'?'Vérifié par l’administrateur':'Verified by the Administrator') : (LANG==='fr'?'Vérifié':'Verified')}</span>`;
+  }
+  return `<span class="badge badge-pending">⏳ ${long ? (LANG==='fr'?'En attente de vérification':'Pending review') : (LANG==='fr'?'À vérifier':'Pending')}</span>`;
+}
+
 function articleCard(a){
   const label = a.topicLabel[LANG];
   return `<div class="bg-[var(--card)] border border-black/10 rounded-2xl p-5 card-hover cursor-pointer" onclick="go('article-${a.id}')">
-    <div class="flex items-center gap-2 mb-3">
+    <div class="flex flex-wrap items-center gap-2 mb-3">
       <span class="badge badge-topic">${label}</span>
       <span class="badge badge-ai">🤖 ${LANG==='fr'?'Résumé IA':'AI summary'}</span>
-      <span class="badge badge-verified">✓ ${LANG==='fr'?'Vérifié':'Verified'}</span>
+      ${verifiedBadge(a, false)}
     </div>
     <h3 class="font-display font-700 text-base leading-snug mb-2">${a.title[LANG]}</h3>
     <p class="text-sm text-[var(--ink)]/65 leading-relaxed">${a.summary[LANG]}</p>
@@ -447,7 +694,7 @@ function renderArticle(id){
     <div class="flex flex-wrap items-center gap-2 mb-4">
       <span class="badge badge-topic">${a.topicLabel[LANG]}</span>
       <span class="badge badge-ai">🤖 ${LANG==='fr'?'Rédigé avec assistance IA':'Drafted with AI assistance'}</span>
-      <span class="badge badge-verified">✓ ${LANG==='fr'?'Vérifié par l’administrateur':'Verified by the Administrator'}</span>
+      ${verifiedBadge(a, true)}
     </div>
     <h1 class="font-display font-800 text-2xl sm:text-3xl leading-tight mb-3">${a.title[LANG]}</h1>
     <p class="text-[var(--ink)]/70 mb-6">${a.summary[LANG]}</p>
@@ -520,55 +767,284 @@ function submitContact(e){
   return false;
 }
 
-/* ---------------- COMMENTS (giscus, backed by GitHub Discussions) ---------------- */
-const GISCUS = {
-  repo: 'mkaba214/diankanacloud',
-  repoId: 'R_kgDOV5h5nA',
-  category: 'Announcements',
-  categoryId: 'DIC_kwDOV5h5nM4DL116'
-};
+/* ---------------- COMMENTS (Firebase Auth + Firestore) ----------------
+   Sign-in is required to comment: email/password, Google, Facebook or GitHub.
+   Paste the web app config of the dedicated "diankanacloud" Firebase project below.
+   While it is null, the discussion area shows a "coming soon" message. */
+const FIREBASE_CONFIG = null;
+
+const FB_VERSION = '11.0.2';
+let fb = null;               // {auth, db, fns}
+let currentUser = null;
+let commentsUnsub = null;
+let currentArticleId = null;
+let authMode = 'signin';     // 'signin' | 'signup'
+let replyTo = null;
+
+const T = (fr, en) => LANG==='fr' ? fr : en;
+
+async function initFirebase(){
+  if(!FIREBASE_CONFIG) return null;
+  if(fb) return fb;
+  const base = `https://www.gstatic.com/firebasejs/${FB_VERSION}/`;
+  const [appM, authM, fsM] = await Promise.all([
+    import(base+'firebase-app.js'), import(base+'firebase-auth.js'), import(base+'firebase-firestore.js')
+  ]);
+  const app = appM.initializeApp(FIREBASE_CONFIG);
+  const auth = authM.getAuth(app);
+  const db = fsM.getFirestore(app);
+  fb = {auth, db, a:authM, f:fsM};
+  authM.onAuthStateChanged(auth, u => {
+    currentUser = u;
+    if(currentArticleId) renderAuthArea();
+    if(currentArticleId) renderCommentList(lastDocs);
+  });
+  return fb;
+}
 
 function stopComments(){
+  if(commentsUnsub){ try{ commentsUnsub(); }catch(e){} commentsUnsub = null; }
+  currentArticleId = null;
   const wrap = document.getElementById('comments-wrap');
   if(wrap) wrap.innerHTML = '';
 }
 
-function renderCommentsSection(articleId){
+function el(tag, cls, text){
+  const e = document.createElement(tag);
+  if(cls) e.className = cls;
+  if(text !== undefined) e.textContent = text;
+  return e;
+}
+
+async function renderCommentsSection(articleId){
+  if(commentsUnsub){ try{ commentsUnsub(); }catch(e){} commentsUnsub = null; }
+  currentArticleId = articleId;
+  replyTo = null;
+  lastDocs = [];
   const wrap = document.getElementById('comments-wrap');
   if(!wrap) return;
   wrap.innerHTML = '';
-  const h = document.createElement('h3');
-  h.className = 'font-display font-700 text-xl mb-2';
-  h.textContent = 'Discussion';
-  const p = document.createElement('p');
-  p.className = 'text-xs text-[var(--ink)]/50 mb-5';
-  p.textContent = LANG==='fr'
-    ? "Connectez-vous avec GitHub pour commenter ou répondre."
-    : "Sign in with GitHub to comment or reply.";
-  wrap.appendChild(h);
-  wrap.appendChild(p);
+  wrap.appendChild(el('h3','font-display font-700 text-xl mb-4','Discussion'));
 
-  const s = document.createElement('script');
-  s.src = 'https://giscus.app/client.js';
-  s.async = true;
-  s.crossOrigin = 'anonymous';
-  const attrs = {
-    'data-repo': GISCUS.repo,
-    'data-repo-id': GISCUS.repoId,
-    'data-category': GISCUS.category,
-    'data-category-id': GISCUS.categoryId,
-    'data-mapping': 'specific',
-    'data-term': 'article-' + articleId,
-    'data-strict': '1',
-    'data-reactions-enabled': '1',
-    'data-emit-metadata': '0',
-    'data-input-position': 'top',
-    'data-theme': 'light',
-    'data-lang': LANG==='fr' ? 'fr' : 'en',
-    'data-loading': 'lazy'
+  if(!FIREBASE_CONFIG){
+    wrap.appendChild(el('p','text-sm text-[var(--ink)]/55',
+      T("La discussion ouvrira bientôt.","Discussion is opening soon.")));
+    return;
+  }
+  wrap.appendChild(el('div','mb-6','')).id = 'auth-area';
+  wrap.appendChild(el('div','space-y-4','')).id = 'comments-list';
+
+  try{ await initFirebase(); }
+  catch(e){
+    document.getElementById('comments-list').textContent = T("Impossible de charger la discussion pour le moment.","Could not load the discussion right now.");
+    return;
+  }
+  if(currentArticleId !== articleId) return;
+  renderAuthArea();
+
+  const {f, db} = fb;
+  const q = f.query(f.collection(db,'comments'), f.where('articleId','==',articleId));
+  commentsUnsub = f.onSnapshot(q, snap => {
+    lastDocs = snap.docs.map(d => ({id:d.id, ...d.data()}));
+    renderCommentList(lastDocs);
+  }, () => {
+    const l = document.getElementById('comments-list');
+    if(l) l.textContent = T("Impossible de charger la discussion pour le moment.","Could not load the discussion right now.");
+  });
+}
+let lastDocs = [];
+
+function displayName(u){
+  return (u.displayName || (u.email ? u.email.split('@')[0] : '') || T('Lecteur','Reader')).slice(0,60);
+}
+
+function needsVerification(u){
+  return u && !u.emailVerified && u.providerData.some(p => p.providerId === 'password') &&
+         !u.providerData.some(p => p.providerId !== 'password');
+}
+
+function authError(e){
+  const c = (e && e.code) || '';
+  const m = {
+    'auth/invalid-credential': T("E-mail ou mot de passe incorrect.","Wrong email or password."),
+    'auth/invalid-email': T("Adresse e-mail invalide.","Invalid email address."),
+    'auth/email-already-in-use': T("Un compte existe déjà avec cet e-mail. Connectez-vous.","An account already exists with this email. Sign in instead."),
+    'auth/weak-password': T("Mot de passe trop court (6 caractères minimum).","Password too short (at least 6 characters)."),
+    'auth/popup-closed-by-user': T("Connexion annulée.","Sign-in cancelled."),
+    'auth/account-exists-with-different-credential': T("Cet e-mail est déjà lié à une autre méthode de connexion. Utilisez celle-ci.","This email is already linked to another sign-in method. Use that one instead."),
+    'auth/too-many-requests': T("Trop de tentatives. Réessayez plus tard.","Too many attempts. Try again later.")
   };
-  Object.entries(attrs).forEach(([k,v])=>s.setAttribute(k,v));
-  wrap.appendChild(s);
+  return m[c] || T("Une erreur est survenue. Réessayez.","Something went wrong. Please try again.");
+}
+
+function renderAuthArea(){
+  const area = document.getElementById('auth-area');
+  if(!area || !fb) return;
+  area.innerHTML = '';
+  const {a, auth} = fb;
+  const box = el('div','bg-white border border-black/10 rounded-2xl p-4 sm:p-5');
+  area.appendChild(box);
+  const msg = el('p','text-xs mt-3 hidden');
+
+  if(currentUser && needsVerification(currentUser)){
+    box.appendChild(el('p','text-sm', T(
+      `Vérifiez votre adresse (${currentUser.email}) : cliquez sur le lien reçu par e-mail, puis rechargez la page.`,
+      `Verify your address (${currentUser.email}): click the link we emailed you, then reload the page.`)));
+    const row = el('div','flex gap-3 mt-3 text-xs font-semibold');
+    const resend = el('button','text-[var(--teal-dark)]', T("Renvoyer l'e-mail","Resend email"));
+    resend.onclick = async () => { try{ await a.sendEmailVerification(currentUser); msg.textContent = T("E-mail envoyé.","Email sent."); }catch(e){ msg.textContent = authError(e); } msg.classList.remove('hidden'); };
+    const out = el('button','text-[var(--ink)]/60', T('Se déconnecter','Sign out'));
+    out.onclick = () => a.signOut(auth);
+    row.append(resend, out); box.append(row, msg);
+    return;
+  }
+
+  if(currentUser){
+    const top = el('div','flex items-center justify-between gap-3 mb-3 text-xs text-[var(--ink)]/60');
+    top.appendChild(el('span','', T('Connecté en tant que ','Signed in as ') + displayName(currentUser)));
+    const out = el('button','font-semibold text-[var(--teal-dark)]', T('Se déconnecter','Sign out'));
+    out.onclick = () => a.signOut(auth);
+    top.appendChild(out);
+    box.appendChild(top);
+    renderCommentForm(box, null);
+    return;
+  }
+
+  box.appendChild(el('p','text-sm font-semibold mb-3', T('Connectez-vous pour commenter','Sign in to comment')));
+  const providers = el('div','grid sm:grid-cols-3 gap-2 mb-4');
+  [['google','Google', () => new a.GoogleAuthProvider()],
+   ['facebook','Facebook', () => new a.FacebookAuthProvider()],
+   ['github','GitHub', () => new a.GithubAuthProvider()]].forEach(([k,label,mk])=>{
+    const b = el('button','border border-black/15 rounded-lg px-3 py-2 text-sm font-semibold hover:bg-black/5', T('Continuer avec ','Continue with ')+label);
+    b.onclick = async () => { msg.classList.add('hidden'); try{ await a.signInWithPopup(auth, mk()); }catch(e){ msg.textContent = authError(e); msg.classList.remove('hidden'); } };
+    providers.appendChild(b);
+  });
+  box.appendChild(providers);
+  box.appendChild(el('div','text-xs text-[var(--ink)]/45 mb-3', T('ou avec votre e-mail','or with your email')));
+
+  const form = el('form','space-y-2');
+  const name = el('input','w-full border border-black/15 rounded-lg px-3 py-2 text-sm');
+  name.placeholder = T('Nom affiché','Display name'); name.maxLength = 60;
+  const email = el('input','w-full border border-black/15 rounded-lg px-3 py-2 text-sm');
+  email.type = 'email'; email.required = true; email.placeholder = 'Email'; email.autocomplete = 'email';
+  const pw = el('input','w-full border border-black/15 rounded-lg px-3 py-2 text-sm');
+  pw.type = 'password'; pw.required = true; pw.minLength = 6; pw.placeholder = T('Mot de passe','Password');
+  pw.autocomplete = authMode==='signup' ? 'new-password' : 'current-password';
+  if(authMode==='signup'){ name.required = true; form.appendChild(name); }
+  form.append(email, pw);
+  const submit = el('button','px-4 py-2 rounded-lg bg-[var(--teal)] text-white text-sm font-semibold',
+    authMode==='signup' ? T('Créer un compte','Create account') : T('Se connecter','Sign in'));
+  form.appendChild(submit);
+  form.onsubmit = async (ev) => {
+    ev.preventDefault(); msg.classList.add('hidden');
+    try{
+      if(authMode==='signup'){
+        const cred = await a.createUserWithEmailAndPassword(auth, email.value.trim(), pw.value);
+        await a.updateProfile(cred.user, {displayName: name.value.trim().slice(0,60)});
+        await a.sendEmailVerification(cred.user);
+        renderAuthArea();
+      } else {
+        await a.signInWithEmailAndPassword(auth, email.value.trim(), pw.value);
+      }
+    }catch(e){ msg.textContent = authError(e); msg.classList.remove('hidden'); }
+  };
+  box.appendChild(form);
+
+  const links = el('div','flex flex-wrap gap-4 mt-3 text-xs font-semibold');
+  const toggle = el('button','text-[var(--teal-dark)]', authMode==='signup'
+    ? T('Déjà un compte ? Se connecter','Have an account? Sign in')
+    : T('Pas de compte ? En créer un','No account? Create one'));
+  toggle.onclick = () => { authMode = authMode==='signup' ? 'signin' : 'signup'; renderAuthArea(); };
+  links.appendChild(toggle);
+  if(authMode==='signin'){
+    const reset = el('button','text-[var(--ink)]/60', T('Mot de passe oublié ?','Forgot password?'));
+    reset.onclick = async () => {
+      if(!email.value.trim()){ msg.textContent = T("Saisissez d'abord votre e-mail.","Enter your email first."); msg.classList.remove('hidden'); return; }
+      try{ await a.sendPasswordResetEmail(auth, email.value.trim()); msg.textContent = T("E-mail de réinitialisation envoyé.","Reset email sent."); }
+      catch(e){ msg.textContent = authError(e); }
+      msg.classList.remove('hidden');
+    };
+    links.appendChild(reset);
+  }
+  box.append(links, msg);
+}
+
+function renderCommentForm(container, parentId){
+  const ta = el('textarea','w-full border border-black/15 rounded-lg px-3 py-2 text-sm');
+  ta.rows = parentId ? 2 : 3; ta.maxLength = 2000;
+  ta.placeholder = parentId ? T('Votre réponse…','Your reply…') : T('Votre commentaire…','Your comment…');
+  const row = el('div','flex items-center gap-3 mt-2');
+  const btn = el('button','px-4 py-2 rounded-lg bg-[var(--teal)] text-white text-sm font-semibold', parentId ? T('Répondre','Reply') : T('Publier','Post'));
+  const err = el('span','text-xs text-red-700');
+  btn.onclick = async () => {
+    const text = ta.value.trim();
+    if(!text) return;
+    btn.disabled = true; err.textContent = '';
+    try{
+      const {f, db} = fb;
+      await f.addDoc(f.collection(db,'comments'), {
+        articleId: currentArticleId, parentId: parentId || null, text,
+        uid: currentUser.uid, name: displayName(currentUser), createdAt: f.serverTimestamp()
+      });
+      ta.value = '';
+      if(parentId){ replyTo = null; renderCommentList(lastDocs); }
+    }catch(e){ err.textContent = T("Échec de l'envoi. Réessayez.","Couldn't post. Please try again."); }
+    btn.disabled = false;
+  };
+  row.append(btn, err);
+  container.append(ta, row);
+}
+
+function fmtDate(ts){
+  if(!ts || !ts.toDate) return '';
+  return ts.toDate().toLocaleDateString(LANG==='fr'?'fr-FR':'en-US', {day:'numeric', month:'short', year:'numeric'});
+}
+
+function renderCommentList(docs){
+  const list = document.getElementById('comments-list');
+  if(!list || !fb) return;
+  list.innerHTML = '';
+  const byTime = (x,y) => ((x.createdAt&&x.createdAt.toMillis?x.createdAt.toMillis():Infinity) - (y.createdAt&&y.createdAt.toMillis?y.createdAt.toMillis():Infinity));
+  const roots = docs.filter(d=>!d.parentId).sort(byTime);
+  if(!roots.length){
+    list.appendChild(el('p','text-sm text-[var(--ink)]/50', T('Aucun commentaire pour le moment. Soyez le premier.','No comments yet. Be the first.')));
+    return;
+  }
+  const canPost = currentUser && !needsVerification(currentUser);
+  const item = (c, isReply) => {
+    const box = el('div', isReply ? 'ml-6 pl-4 border-l-2 border-black/10' : 'bg-white border border-black/10 rounded-xl p-4');
+    const head = el('div','flex items-center gap-2 text-xs text-[var(--ink)]/55 mb-1');
+    head.appendChild(el('span','font-semibold text-[var(--ink)]', c.name || T('Lecteur','Reader')));
+    head.appendChild(el('span','', fmtDate(c.createdAt)));
+    box.appendChild(head);
+    box.appendChild(el('p','text-sm whitespace-pre-wrap break-words', c.text));
+    const actions = el('div','flex gap-3 mt-1 text-xs font-semibold');
+    if(canPost && !isReply){
+      const r = el('button','text-[var(--teal-dark)]', T('Répondre','Reply'));
+      r.onclick = () => { replyTo = replyTo===c.id ? null : c.id; renderCommentList(lastDocs); };
+      actions.appendChild(r);
+    }
+    if(currentUser && c.uid === currentUser.uid){
+      const d = el('button','text-[var(--ink)]/50', T('Supprimer','Delete'));
+      d.onclick = async () => { if(confirm(T('Supprimer ce commentaire ?','Delete this comment?'))){ try{ await fb.f.deleteDoc(fb.f.doc(fb.db,'comments',c.id)); }catch(e){} } };
+      actions.appendChild(d);
+    }
+    if(actions.childNodes.length) box.appendChild(actions);
+    return box;
+  };
+  roots.forEach(c=>{
+    const box = item(c,false);
+    docs.filter(d=>d.parentId===c.id).sort(byTime).forEach(r=>{
+      const rb = item(r,true); rb.classList.add('mt-3'); box.appendChild(rb);
+    });
+    if(replyTo===c.id && canPost){
+      const slot = el('div','mt-3 ml-6'); renderCommentForm(slot, c.id); box.appendChild(slot);
+    }
+    list.appendChild(box);
+  });
+  if(!currentUser){
+    list.appendChild(el('p','text-xs text-[var(--ink)]/45', T('Connectez-vous ci-dessus pour participer.','Sign in above to join in.')));
+  }
 }
 
 /* ---------------- ROUTER ---------------- */
