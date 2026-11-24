@@ -40,9 +40,10 @@
   .scroller::-webkit-scrollbar-thumb{background:#cbd2da;border-radius:99px;}
   .lang-pill{transition:all .15s ease;}
   .grecaptcha-badge{visibility:hidden;}
+  mark.hl{background:#fbe9a8;color:inherit;border-radius:3px;padding:0 2px;}
   @media (max-width: 767px), (pointer: coarse){ input, textarea, select{ font-size:16px !important; } }
 </style>
-<link rel="stylesheet" href="assets/site.css?v=f5f12af001">
+<link rel="stylesheet" href="assets/site.css?v=805f0261c3">
 </head>
 <body class="min-h-screen">
 <div class="flag-stripe"></div>
@@ -914,8 +915,7 @@ function highlighted(text, q){
   const frag = document.createDocumentFragment();
   const qs = new Set(q);
   text.split(/(\s+)/).forEach(part => {
-    const w = stem(fold(part).replace(/[^a-z0-9]/g,''));
-    if(w && qs.has(w)){ const m = document.createElement('mark'); m.className = 'bg-[var(--sun)]/30 rounded px-0.5'; m.textContent = part; frag.appendChild(m); }
+    if(/\S/.test(part) && tokens(part).some(w => qs.has(w))){ const m = document.createElement('mark'); m.className = 'hl'; m.textContent = part; frag.appendChild(m); }
     else frag.appendChild(document.createTextNode(part));
   });
   return frag;
