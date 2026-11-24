@@ -28,9 +28,9 @@ service cloud.firestore {
 
       allow update: if false;
       // Authors can delete their own comments; the administrator can delete any comment.
-      // Replace ADMIN_UID below with the administrator's UID (Firebase console > Authentication > Users).
+      // Administrator UID (Firebase console > Authentication > Users); same value as ADMIN_UID in index.html.
       allow delete: if request.auth != null
-        && (resource.data.uid == request.auth.uid || request.auth.uid == 'ADMIN_UID');
+        && (resource.data.uid == request.auth.uid || request.auth.uid == 'niSYLj4lQsSVBptMikHyjs4fhfv2');
     }
     match /messages/{messageId} {
       allow create: if request.resource.data.keys().hasOnly(['name','email','message','lang','createdAt'])
