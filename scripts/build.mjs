@@ -97,7 +97,7 @@ let articles = [];
 
 for (const [urlPath, [title, description]] of Object.entries(PAGES)) {
   const dom = await render(urlPath);
-  if (urlPath === '/') articles = dom.window.eval('ARTICLES.map(a => ({id: a.id, date: a.date, title: a.title.fr, summary: a.summary.fr}))');
+  if (urlPath === '/') articles = dom.window.eval('PUBLISHED.map(a => ({id: a.id, date: a.date, title: a.title.fr, summary: a.summary.fr}))');
   write(urlPath, finish(dom, { title, description, canonical: SITE + urlPath }));
   urls.push({ loc: SITE + urlPath, lastmod: today });
 }

@@ -146,7 +146,7 @@
 <!-- TOPICS VIEW -->
 <section id="view-topics" class="view py-10 sm:py-14">
   <h2 class="font-display font-700 text-2xl sm:text-3xl i18n" data-fr="Sujets" data-en="Topics">Sujets</h2>
-  <p class="text-[var(--ink)]/70 mt-2 max-w-2xl i18n" data-fr="Technologie, mines, pétrole et finance. D'autres viendront." data-en="Technology, mining, oil and finance. More will follow.">Technologie, mines, pétrole et finance. D'autres viendront.</p>
+  <p class="text-[var(--ink)]/70 mt-2 max-w-2xl i18n" data-fr="Technologie, mines et pétrole. D'autres viendront." data-en="Technology, mining and oil. More will follow.">Technologie, mines et pétrole. D'autres viendront.</p>
 
   <div class="flex flex-wrap gap-2 mt-6" id="topic-filters"></div>
 
@@ -305,6 +305,7 @@
 const ARTICLES = [
   {
     id: "ace-cert",
+    added: "2026-11-23T22:49:02-05:00",
     date: "2026-11-23",
     verified: true,
     topic: "tech",
@@ -345,6 +346,7 @@ const ARTICLES = [
   },
   {
     id: "bauxite-2026",
+    added: "2026-11-23T22:49:01-05:00",
     date: "2026-11-23",
     verified: true,
     topic: "mines",
@@ -387,6 +389,7 @@ const ARTICLES = [
   },
   {
     id: "fuel-distribution",
+    added: "2026-11-23T22:49:00-05:00",
     date: "2026-11-23",
     verified: true,
     topic: "petrole",
@@ -428,6 +431,7 @@ const ARTICLES = [
   ,
   {
     id: "aws-ccp",
+    added: "2026-11-24T01:09:04-05:00",
     date: "2026-11-24",
     verified: true,
     topic: "tech",
@@ -468,6 +472,7 @@ const ARTICLES = [
   },
   {
     id: "az-900",
+    added: "2026-11-24T01:09:02-05:00",
     date: "2026-11-24",
     verified: true,
     topic: "tech",
@@ -508,6 +513,7 @@ const ARTICLES = [
   },
   {
     id: "simandou",
+    added: "2026-11-24T01:09:05-05:00",
     date: "2026-11-24",
     verified: true,
     topic: "mines",
@@ -548,6 +554,7 @@ const ARTICLES = [
   },
   {
     id: "simandou-2040",
+    added: "2026-11-24T06:47:03-05:00",
     hub: true,          // main article of the topic: answers general questions about it
     date: "2026-11-24",
     verified: false,
@@ -607,6 +614,7 @@ const ARTICLES = [
   },
   {
     id: "simandou-2040-projects",
+    added: "2026-11-24T06:47:02-05:00",
     date: "2026-11-24",
     verified: false,
     topic: "mines",
@@ -655,6 +663,7 @@ const ARTICLES = [
   },
   {
     id: "simandou-2040-youth",
+    added: "2026-11-24T06:47:01-05:00",
     date: "2026-11-24",
     verified: false,
     topic: "mines",
@@ -701,6 +710,7 @@ const ARTICLES = [
   },
   {
     id: "simandou-2040-targets",
+    added: "2026-11-24T06:47:00-05:00",
     date: "2026-11-24",
     verified: false,
     topic: "mines",
@@ -749,6 +759,7 @@ const ARTICLES = [
   },
   {
     id: "guinea-fintech-week",
+    added: "2026-11-24T07:10:02-05:00",
     hub: true,
     date: "2026-11-24",
     verified: false,
@@ -796,6 +807,8 @@ const ARTICLES = [
   },
   {
     id: "bcrg",
+    added: "2026-11-24T07:10:01-05:00",
+    hidden: true,       // not published on the site: kept only as data for the Ask search
     hub: true,
     date: "2026-11-24",
     verified: false,
@@ -845,6 +858,8 @@ const ARTICLES = [
   },
   {
     id: "bcrg-2026",
+    added: "2026-11-24T07:10:00-05:00",
+    hidden: true,       // not published on the site: kept only as data for the Ask search
     date: "2026-11-24",
     verified: false,
     topic: "finance",
@@ -895,6 +910,7 @@ const ARTICLES = [
   },
   {
     id: "nvidia-huang-2026",
+    added: "2026-11-24T07:10:03-05:00",
     date: "2026-11-24",
     verified: false,
     topic: "monde",
@@ -937,6 +953,7 @@ const ARTICLES = [
   },
   {
     id: "ai-news-november-2026",
+    added: "2026-11-24T07:10:04-05:00",
     date: "2026-11-24",
     verified: false,
     topic: "monde",
@@ -979,6 +996,7 @@ const ARTICLES = [
   },
   {
     id: "gold-guinea",
+    added: "2026-11-24T01:09:03-05:00",
     date: "2026-11-24",
     verified: true,
     topic: "mines",
@@ -1020,6 +1038,7 @@ const ARTICLES = [
   ,
   {
     id: "offshore-exploration",
+    added: "2026-11-24T01:09:01-05:00",
     date: "2026-11-24",
     verified: true,
     topic: "petrole",
@@ -1060,6 +1079,7 @@ const ARTICLES = [
   },
   {
     id: "fuel-price",
+    added: "2026-11-24T01:09:00-05:00",
     date: "2026-11-24",
     verified: true,
     topic: "petrole",
@@ -1107,6 +1127,11 @@ const TOPICS = [
   {key:"finance", fr:"Finance", en:"Finance", emoji:"🏦"},
   {key:"monde", fr:"Le monde", en:"World", emoji:"🌍"}
 ];
+
+// Articles shown on the site (hidden ones stay in ARTICLES as data for the Ask search only).
+const PUBLISHED = ARTICLES.filter(a => !a.hidden);
+// "added" = when the article went online; lists always show the most recent upload first.
+const newestFirst = (x, y) => (y.added || y.date || '').localeCompare(x.added || x.date || '');
 
 /* ---------------- STATE ---------------- */
 let LANG = localStorage.getItem('dc_lang') || 'fr';
@@ -1197,7 +1222,7 @@ function dateBucket(s, now){
 }
 
 function renderGrouped(list, containerId, emptyMsg){
-  const sorted = list.slice().sort((x,y) => (y.date||'').localeCompare(x.date||''));
+  const sorted = list.slice().sort(newestFirst);
   const groups = [];
   sorted.forEach(a=>{
     const b = dateBucket(a.date);
@@ -1213,17 +1238,17 @@ function renderGrouped(list, containerId, emptyMsg){
 }
 
 function renderWorld(){
-  renderGrouped(ARTICLES.filter(a => a.topic === 'monde'), 'world-grid', T("Rien ici pour l'instant.","Nothing here yet."));
+  renderGrouped(PUBLISHED.filter(a => a.topic === 'monde'), 'world-grid', T("Rien ici pour l'instant.","Nothing here yet."));
 }
 
 function renderLatest(){
-  const latest = ARTICLES.slice().sort((x,y) => (y.date||'').localeCompare(x.date||'')).slice(0,6);
+  const latest = PUBLISHED.slice().sort(newestFirst).slice(0,6);
   renderGrouped(latest, 'latest-grid', T("Rien ici pour l'instant.","Nothing here yet."));
 }
 
 function renderTopicFilters(){
   const all = `<button onclick="filterTopic('all')" class="px-3 py-1.5 rounded-full text-xs font-semibold border ${activeTopicFilter==='all'?'bg-[var(--teal)] text-white border-[var(--teal)]':'bg-white border-black/15'}">${LANG==='fr'?'Tout':'All'}</button>`;
-  const rest = TOPICS.map(t=>`<button onclick="filterTopic('${t.key}')" class="px-3 py-1.5 rounded-full text-xs font-semibold border ${activeTopicFilter===t.key?'bg-[var(--teal)] text-white border-[var(--teal)]':'bg-white border-black/15'}">${t.emoji} ${t[LANG]}</button>`).join('');
+  const rest = TOPICS.filter(t => PUBLISHED.some(a => a.topic === t.key)).map(t=>`<button onclick="filterTopic('${t.key}')" class="px-3 py-1.5 rounded-full text-xs font-semibold border ${activeTopicFilter===t.key?'bg-[var(--teal)] text-white border-[var(--teal)]':'bg-white border-black/15'}">${t.emoji} ${t[LANG]}</button>`).join('');
   document.getElementById('topic-filters').innerHTML = all + rest;
 }
 
@@ -1235,7 +1260,7 @@ function filterTopic(key){
 
 function renderTopics(){
   renderTopicFilters();
-  const list = activeTopicFilter==='all' ? ARTICLES : ARTICLES.filter(a=>a.topic===activeTopicFilter);
+  const list = activeTopicFilter==='all' ? PUBLISHED : PUBLISHED.filter(a=>a.topic===activeTopicFilter);
   renderGrouped(list, 'topics-grid', T("Rien ici pour l'instant.","Nothing here yet."));
 }
 
@@ -1489,6 +1514,7 @@ async function askBot(){
     const c = el('div', main ? 'border border-black/10 rounded-xl p-4' : 'border-t border-black/5 pt-3');
     const from = r.d.kind === 'wiki'
       ? T('Wikipédia — Guinée › ','Wikipedia — Guinea › ') + r.d.section
+      : r.d.a.hidden ? T('Notes Diankana Cloud — ','Diankana Cloud notes — ') + r.d.section
       : T('Article Diankana Cloud — ','Diankana Cloud article — ') + r.d.section;
     const covered = coverage(qi, r.d, index.idf);
     const label = !main ? '' : covered >= 0.5 ? T('Réponse trouvée dans : ','Answer found in: ') : T('Passage le plus proche : ','Closest passage: ');
@@ -1496,7 +1522,7 @@ async function askBot(){
     const p = el('p', main ? 'mb-2' : 'text-[var(--ink)]/75');
     p.appendChild(highlighted(bestSentences(r.d.text, q, index.idf, qi, r.d.lead), q));
     c.appendChild(p);
-    if(r.d.kind === 'article'){
+    if(r.d.kind === 'article' && !r.d.a.hidden){
       const go2 = el('button','text-xs font-semibold text-[var(--teal-dark)]', T('Lire le guide complet →','Read the full guide →'));
       go2.onclick = () => go('article-' + r.d.a.id); c.appendChild(go2);
     } else if(main){
@@ -1833,7 +1859,7 @@ function pathFor(route){
 }
 function routeFromPath(pathname){
   let m = pathname.match(/^\/articles\/([a-z0-9-]+)\/?$/);
-  if(m && ARTICLES.some(a => a.id === m[1])) return 'article-' + m[1];
+  if(m && PUBLISHED.some(a => a.id === m[1])) return 'article-' + m[1];
   m = pathname.match(/^\/([a-z]+)\/?$/);
   if(m && PAGES.includes(m[1])) return m[1];
   return 'home';
