@@ -940,6 +940,30 @@ function renderAskSuggestions(){
     b.onclick = () => { document.getElementById('ask-input').value = q; askBot(); }; box.appendChild(b); });
 }
 
+// Shown when the site doesn't have the answer: say so plainly and invite the reader to tell us.
+let contactPrefill = '';
+function unknownNotice(question, nothing){
+  const c = el('div','mb-4 rounded-xl border border-amber-300 bg-amber-50 p-4');
+  c.appendChild(el('p','font-semibold mb-1', nothing
+    ? T("Je ne sais pas encore répondre à cette question.","I don't know the answer to this question yet.")
+    : T("Je n'ai pas assez d'informations pour répondre avec certitude.","I don't have enough information to answer this with confidence.")));
+  c.appendChild(el('p','mb-2', nothing
+    ? T("Ni nos articles ni la page Wikipédia sur la Guinée ne traitent ce sujet. Je préfère vous le dire plutôt que d'inventer une réponse.",
+        "Neither our articles nor the Wikipedia page on Guinea cover this. I'd rather tell you than make up an answer.")
+    : T("Le passage ci-dessous est le plus proche que j'ai trouvé, mais il ne répond peut-être pas exactement à votre question.",
+        "The passage below is the closest I found, but it may not answer your question exactly.")));
+  const p = el('p','');
+  p.append(T("Aidez-nous à compléter le site : ","Help us fill the gap: "));
+  const a = el('a','font-semibold underline text-[var(--teal-dark)]', T('envoyez votre question via le formulaire de contact →','send your question through the contact form →'));
+  a.href = '/contact/';
+  a.addEventListener('click', () => {
+    contactPrefill = T('Question posée à l’IA sans réponse suffisante : ','Question the AI could not fully answer: ') + question;
+  });
+  p.appendChild(a);
+  c.appendChild(p);
+  return c;
+}
+
 let askSeq = 0;
 async function askBot(){
   const raw = document.getElementById('ask-input').value.trim();
@@ -957,11 +981,7 @@ async function askBot(){
   const docs = siteDocs().concat(wiki ? wiki.docs : []);
   const index = buildIndex(docs);
   const results = q.length ? bm25(index, q, qi) : [];
-  if(!results.length){
-    box.appendChild(el('p','', T("Je n'ai rien trouvé d'assez proche dans les articles ni dans la page Wikipédia sur la Guinée. Essayez d'autres mots.",
-                                  "I couldn't find a close enough match in the articles or the Wikipedia page on Guinea. Try other words.")));
-    return;
-  }
+  if(!results.length){ box.appendChild(unknownNotice(raw, true)); return; }
   const card = (r, main) => {
     const c = el('div', main ? 'border border-black/10 rounded-xl p-4' : 'border-t border-black/5 pt-3');
     const from = r.d.kind === 'wiki'
@@ -984,6 +1004,8 @@ async function askBot(){
     }
     return c;
   };
+  const topCovered = qi.base.filter(w => results[0].d.tf.has(w)).length / Math.max(1, qi.base.length);
+  if(topCovered < 0.5) box.appendChild(unknownNotice(raw, false));
   box.appendChild(card(results[0], true));
   const more = results.slice(1, 3).filter(r => r.s > results[0].s * 0.45);
   if(more.length){
@@ -1357,7 +1379,12 @@ function render(){
     renderCommentsSection(id);
   } else {
     stopComments();
-    if(hash === 'contact') initFirebase().catch(()=>{});
+    if(hash === 'contact'){
+      initFirebase().catch(()=>{});
+      const ta = document.getElementById('contact-message');
+      if(contactPrefill && ta && !ta.value.trim()) ta.value = contactPrefill;
+      contactPrefill = '';
+    }
     if(['home','topics','ask','about','contact','privacy'].includes(hash)){
       document.getElementById('view-'+hash).classList.add('active');
     } else {
