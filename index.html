@@ -897,8 +897,9 @@ const FIREBASE_CONFIG = {
 };
 
 const FB_VERSION = '11.0.2';
-// reCAPTCHA v3 *site* key (public) for Firebase App Check. While null, App Check is off.
-const RECAPTCHA_SITE_KEY = '6LcL2C8uAAAAAPI0lbwjK43-CMvwUF86uFfCl9gl';
+// Score-based reCAPTCHA key from Google Cloud Fraud Defense (formerly reCAPTCHA Enterprise),
+// created in the diankanacloud-a3ef1 Cloud project. Public value. While null, App Check is off.
+const RECAPTCHA_SITE_KEY = null;
 let fb = null;               // {auth, db, fns}
 let currentUser = null;
 let commentsUnsub = null;
@@ -924,7 +925,7 @@ async function loadFirebase(){
   // App Check must start before Firestore/Auth are used, so every request carries a token.
   if(acM){
     acM.initializeAppCheck(app, {
-      provider: new acM.ReCaptchaV3Provider(RECAPTCHA_SITE_KEY),
+      provider: new acM.ReCaptchaEnterpriseProvider(RECAPTCHA_SITE_KEY),
       isTokenAutoRefreshEnabled: true
     });
   }
