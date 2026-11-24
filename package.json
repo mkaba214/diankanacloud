@@ -1,0 +1,11 @@
+{
+  "name": "diankanacloud",
+  "private": true,
+  "description": "Static site for diankanacloud.com. Run `npm run build:css` after changing classes in index.html.",
+  "scripts": {
+    "build:css": "tailwindcss -c tailwind.config.js -i styles/tailwind.input.css -o assets/site.css --minify"
+  },
+  "devDependencies": {
+    "tailwindcss": "3.4.17"
+  }
+}

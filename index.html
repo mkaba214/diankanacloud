@@ -7,7 +7,6 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<script src="https://cdn.tailwindcss.com"></script>
 <style>
   :root{
     --ink:#0b1b2b;
@@ -41,6 +40,7 @@
   .scroller::-webkit-scrollbar-thumb{background:#cbd2da;border-radius:99px;}
   .lang-pill{transition:all .15s ease;}
 </style>
+<link rel="stylesheet" href="assets/site.css">
 </head>
 <body class="min-h-screen">
 <div class="flag-stripe"></div>
@@ -224,7 +224,33 @@
     <input id="contact-website" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
     <button id="contact-submit" class="px-5 py-2.5 rounded-lg bg-[var(--teal)] text-white text-sm font-semibold disabled:opacity-60 i18n" data-fr="Envoyer" data-en="Send">Envoyer</button>
     <p id="contact-note" class="text-sm hidden" role="status"></p>
+    <p class="text-xs text-[var(--ink)]/50"><span class="i18n" data-fr="Vos données servent uniquement à vous répondre. Voir la" data-en="Your data is only used to reply to you. See the">Vos données servent uniquement à vous répondre. Voir la</span> <a href="#privacy" onclick="go('privacy')" class="underline i18n" data-fr="politique de confidentialité" data-en="privacy policy">politique de confidentialité</a>.</p>
   </form>
+</section>
+
+<!-- PRIVACY VIEW -->
+<section id="view-privacy" class="view py-10 sm:py-14 max-w-3xl">
+  <h2 class="font-display font-700 text-2xl sm:text-3xl i18n" data-fr="Politique de confidentialité" data-en="Privacy policy">Politique de confidentialité</h2>
+  <p class="text-xs text-[var(--ink)]/50 mt-2 i18n" data-fr="Dernière mise à jour : 24 novembre 2026" data-en="Last updated: 24 November 2026">Dernière mise à jour : 24 novembre 2026</p>
+  <div class="text-[var(--ink)]/80 leading-relaxed text-sm sm:text-base">
+      <h3 class="font-display font-700 text-lg mt-8 mb-2 i18n" data-fr="Qui gère ce site" data-en="Who runs this site">Qui gère ce site</h3>
+      <p class="mb-3 i18n-html" data-fr="Diankana Cloud est un projet personnel géré par Mohamed Kaba (« l'administrateur »). Pour toute question sur vos données : contact@diankanacloud.com." data-en="Diankana Cloud is a personal project run by Mohamed Kaba (&quot;the Administrator&quot;). For any question about your data: contact@diankanacloud.com.">Diankana Cloud est un projet personnel géré par Mohamed Kaba (« l'administrateur »). Pour toute question sur vos données : contact@diankanacloud.com.</p>
+      <h3 class="font-display font-700 text-lg mt-8 mb-2 i18n" data-fr="Ce que nous collectons" data-en="What we collect">Ce que nous collectons</h3>
+      <p class="mb-3 i18n-html" data-fr="<strong>Formulaire de contact :</strong> votre nom, votre adresse e-mail, votre message, la langue du site et la date d'envoi. Ces informations servent uniquement à vous répondre." data-en="<strong>Contact form:</strong> your name, email address, message, the site language and the date sent. This is used only to reply to you."><strong>Formulaire de contact :</strong> votre nom, votre adresse e-mail, votre message, la langue du site et la date d'envoi. Ces informations servent uniquement à vous répondre.</p>
+      <p class="mb-3 i18n-html" data-fr="<strong>Commentaires :</strong> pour commenter, vous vous connectez avec Google. Nous enregistrons votre nom Google, un identifiant technique de compte, le texte de votre commentaire et sa date. Votre nom et votre commentaire sont visibles publiquement. Votre adresse e-mail n'est jamais affichée." data-en="<strong>Comments:</strong> to comment, you sign in with Google. We store your Google name, a technical account ID, your comment text and its date. Your name and comment are public. Your email address is never shown."><strong>Commentaires :</strong> pour commenter, vous vous connectez avec Google. Nous enregistrons votre nom Google, un identifiant technique de compte, le texte de votre commentaire et sa date. Votre nom et votre commentaire sont visibles publiquement. Votre adresse e-mail n'est jamais affichée.</p>
+      <p class="mb-3 i18n-html" data-fr="<strong>Préférence de langue :</strong> le choix FR/EN est enregistré dans votre navigateur (stockage local), pas sur nos serveurs." data-en="<strong>Language preference:</strong> your FR/EN choice is saved in your browser (local storage), not on our servers."><strong>Préférence de langue :</strong> le choix FR/EN est enregistré dans votre navigateur (stockage local), pas sur nos serveurs.</p>
+      <p class="mb-3 i18n-html" data-fr="<strong>Pas de publicité ciblée ni de mesure d'audience</strong> pour l'instant. Si cela change, cette page sera mise à jour et votre accord sera demandé lorsque la loi l'exige." data-en="<strong>No targeted ads or analytics</strong> for now. If that changes, this page will be updated and your consent will be asked where the law requires it."><strong>Pas de publicité ciblée ni de mesure d'audience</strong> pour l'instant. Si cela change, cette page sera mise à jour et votre accord sera demandé lorsque la loi l'exige.</p>
+      <h3 class="font-display font-700 text-lg mt-8 mb-2 i18n" data-fr="Où sont stockées les données" data-en="Where data is stored">Où sont stockées les données</h3>
+      <p class="mb-3 i18n-html" data-fr="Les messages et commentaires sont stockés dans Google Firebase (Firestore et Firebase Authentication). Les messages de contact ne sont lisibles que par l'administrateur." data-en="Messages and comments are stored in Google Firebase (Firestore and Firebase Authentication). Contact messages can only be read by the Administrator.">Les messages et commentaires sont stockés dans Google Firebase (Firestore et Firebase Authentication). Les messages de contact ne sont lisibles que par l'administrateur.</p>
+      <p class="mb-3 i18n-html" data-fr="Le site est hébergé par GitHub Pages, le nom de domaine et la messagerie passent par Cloudflare, et les polices viennent de Google Fonts. Comme pour tout site web, ces services reçoivent techniquement votre adresse IP quand vous visitez le site." data-en="The site is hosted on GitHub Pages, the domain and email go through Cloudflare, and fonts come from Google Fonts. As with any website, these services technically receive your IP address when you visit.">Le site est hébergé par GitHub Pages, le nom de domaine et la messagerie passent par Cloudflare, et les polices viennent de Google Fonts. Comme pour tout site web, ces services reçoivent techniquement votre adresse IP quand vous visitez le site.</p>
+      <h3 class="font-display font-700 text-lg mt-8 mb-2 i18n" data-fr="Durée de conservation" data-en="How long we keep it">Durée de conservation</h3>
+      <p class="mb-3 i18n-html" data-fr="Les messages de contact sont conservés le temps nécessaire pour vous répondre, puis supprimés. Les commentaires restent en ligne jusqu'à ce que vous les supprimiez ou que l'administrateur les retire." data-en="Contact messages are kept as long as needed to reply to you, then deleted. Comments stay online until you delete them or the Administrator removes them.">Les messages de contact sont conservés le temps nécessaire pour vous répondre, puis supprimés. Les commentaires restent en ligne jusqu'à ce que vous les supprimiez ou que l'administrateur les retire.</p>
+      <h3 class="font-display font-700 text-lg mt-8 mb-2 i18n" data-fr="Vos droits" data-en="Your rights">Vos droits</h3>
+      <p class="mb-3 i18n-html" data-fr="Vous pouvez supprimer vous-même vos commentaires à tout moment. Pour consulter, corriger ou supprimer d'autres données vous concernant, écrivez à contact@diankanacloud.com." data-en="You can delete your own comments at any time. To see, correct or delete any other data about you, email contact@diankanacloud.com.">Vous pouvez supprimer vous-même vos commentaires à tout moment. Pour consulter, corriger ou supprimer d'autres données vous concernant, écrivez à contact@diankanacloud.com.</p>
+      <p class="mb-3 i18n-html" data-fr="Nous ne vendons ni ne partageons vos données avec des tiers à des fins commerciales." data-en="We don't sell your data or share it with third parties for marketing.">Nous ne vendons ni ne partageons vos données avec des tiers à des fins commerciales.</p>
+      <h3 class="font-display font-700 text-lg mt-8 mb-2 i18n" data-fr="Mineurs" data-en="Children">Mineurs</h3>
+      <p class="mb-3 i18n-html" data-fr="Le site est ouvert à tous en lecture. Pour commenter, il faut un compte Google, qui impose un âge minimum. Les moins de 13 ans ne doivent pas nous envoyer de données personnelles." data-en="Anyone can read the site. Commenting requires a Google account, which has a minimum age. Children under 13 should not send us personal data.">Le site est ouvert à tous en lecture. Pour commenter, il faut un compte Google, qui impose un âge minimum. Les moins de 13 ans ne doivent pas nous envoyer de données personnelles.</p>
+  </div>
 </section>
 
 </main>
@@ -241,6 +267,7 @@
         <li class="i18n" data-fr="Aucune offre d'emploi publiée" data-en="No job postings published">Aucune offre d'emploi publiée</li>
         <li class="i18n" data-fr="Contenu généré par IA, vérifié par un humain" data-en="AI-assisted content, human-verified">Contenu généré par IA, vérifié par un humain</li>
         <li class="i18n" data-fr="Sources publiques toujours citées" data-en="Public sources always cited">Sources publiques toujours citées</li>
+        <li><a href="#privacy" onclick="go('privacy')" class="underline hover:text-[var(--teal-dark)] i18n" data-fr="Politique de confidentialité" data-en="Privacy policy">Politique de confidentialité</a></li>
       </ul>
     </div>
     <div class="ad-slot h-24"><span class="i18n" data-fr="Publicité (pied de page)" data-en="Ad (footer)">Publicité (pied de page)</span></div>
@@ -634,6 +661,11 @@ function setLang(l){
     const txt = el.getAttribute('data-'+l);
     if(txt !== null) el.textContent = txt;
   });
+  // static, author-written strings that contain simple markup
+  document.querySelectorAll('.i18n-html').forEach(el=>{
+    const txt = el.getAttribute('data-'+l);
+    if(txt !== null) el.innerHTML = txt;
+  });
   document.getElementById('btn-fr').style.background = l==='fr' ? 'var(--teal)' : 'transparent';
   document.getElementById('btn-fr').style.color = l==='fr' ? '#fff' : 'inherit';
   document.getElementById('btn-en').style.background = l==='en' ? 'var(--teal)' : 'transparent';
@@ -943,6 +975,8 @@ let lastDocs = [];
 function displayName(u){
   return (u.displayName || (u.email ? u.email.split('@')[0] : '') || T('Lecteur','Reader')).slice(0,60);
 }
+// Name stored on a comment: must equal the Google account name (enforced by firestore.rules).
+function googleName(u){ return u.displayName || ''; }
 
 function needsVerification(u){
   return u && !u.emailVerified && u.providerData.some(p => p.providerId === 'password') &&
@@ -999,7 +1033,12 @@ function renderAuthArea(){
   box.appendChild(el('p','text-sm font-semibold mb-3', T('Connectez-vous pour commenter','Sign in to comment')));
   const g = el('button','w-full border border-black/15 rounded-lg px-3 py-2.5 text-sm font-semibold hover:bg-black/5', T('Continuer avec Google','Continue with Google'));
   g.onclick = async () => { msg.classList.add('hidden'); try{ await a.signInWithPopup(auth, new a.GoogleAuthProvider()); }catch(e){ msg.textContent = authError(e); msg.classList.remove('hidden'); } };
-  box.append(g, msg);
+  const hint = el('p','text-xs text-[var(--ink)]/50 mt-3');
+  hint.append(T('Votre nom Google et votre commentaire seront publics. ','Your Google name and comment will be public. '));
+  const pl = el('a','underline', T('Confidentialité','Privacy'));
+  pl.href = '#privacy';
+  hint.appendChild(pl);
+  box.append(g, msg, hint);
 }
 
 function renderCommentForm(container, parentId){
@@ -1017,7 +1056,7 @@ function renderCommentForm(container, parentId){
       const {f, db} = fb;
       await f.addDoc(f.collection(db,'comments'), {
         articleId: currentArticleId, parentId: parentId || null, text,
-        uid: currentUser.uid, name: displayName(currentUser), createdAt: f.serverTimestamp()
+        uid: currentUser.uid, name: googleName(currentUser), createdAt: f.serverTimestamp()
       });
       ta.value = '';
       if(parentId){ replyTo = null; renderCommentList(lastDocs); }
@@ -1095,7 +1134,7 @@ function render(){
     renderCommentsSection(id);
   } else {
     stopComments();
-    if(['home','topics','ask','about','contact'].includes(hash)){
+    if(['home','topics','ask','about','contact','privacy'].includes(hash)){
       document.getElementById('view-'+hash).classList.add('active');
     } else {
       document.getElementById('view-home').classList.add('active');

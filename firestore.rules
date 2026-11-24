@@ -1,6 +1,7 @@
 rules_version = '2';
 // Firestore security rules for the diankanacloud Firebase project.
-// Anyone can read comments; only users signed in with Google can post;
+// Anyone can read comments; only users signed in with Google can post,
+// and the name on a comment must be their Google account name;
 // authors can delete their own comments; nobody can edit.
 // Contact messages: anyone can send one; nobody can read, edit or delete
 // them from the website (read them in the Firebase console).
@@ -21,7 +22,8 @@ service cloud.firestore {
         && request.resource.data.text.size() > 0
         && request.resource.data.text.size() <= 2000
         && request.resource.data.name is string
-        && request.resource.data.name.size() <= 60
+        && request.resource.data.name.size() <= 200
+        && request.resource.data.name == request.auth.token.get('name', '')
         && request.resource.data.createdAt == request.time;
 
       allow update: if false;
