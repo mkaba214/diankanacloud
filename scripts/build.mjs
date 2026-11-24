@@ -64,7 +64,10 @@ function finish(dom, { title, description, canonical, noindex = false }) {
   meta('property', 'og:description', description);
   meta('property', 'og:type', canonical && canonical.includes('/articles/') ? 'article' : 'website');
   meta('property', 'og:locale', 'fr_FR');
-  meta('name', 'twitter:card', 'summary');
+  meta('property', 'og:image', SITE + '/img/og-image.png');
+  meta('property', 'og:image:width', '1200');
+  meta('property', 'og:image:height', '630');
+  meta('name', 'twitter:card', 'summary_large_image');
   const html = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
   dom.window.close();
   return html;
