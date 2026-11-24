@@ -39,6 +39,7 @@
   .scroller::-webkit-scrollbar{height:6px;}
   .scroller::-webkit-scrollbar-thumb{background:#cbd2da;border-radius:99px;}
   .lang-pill{transition:all .15s ease;}
+  .grecaptcha-badge{visibility:hidden;}
 </style>
 <link rel="stylesheet" href="assets/site.css">
 </head>
@@ -224,6 +225,7 @@
     <input id="contact-website" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
     <button id="contact-submit" class="px-5 py-2.5 rounded-lg bg-[var(--teal)] text-white text-sm font-semibold disabled:opacity-60 i18n" data-fr="Envoyer" data-en="Send">Envoyer</button>
     <p id="contact-note" class="text-sm hidden" role="status"></p>
+    <p class="text-xs text-[var(--ink)]/50 i18n-html" data-fr="Ce site est protégé par reCAPTCHA ; les <a class=&quot;underline&quot; href=&quot;https://policies.google.com/privacy&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;>règles de confidentialité</a> et les <a class=&quot;underline&quot; href=&quot;https://policies.google.com/terms&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;>conditions d'utilisation</a> de Google s'appliquent." data-en="This site is protected by reCAPTCHA and the Google <a class=&quot;underline&quot; href=&quot;https://policies.google.com/privacy&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;>Privacy Policy</a> and <a class=&quot;underline&quot; href=&quot;https://policies.google.com/terms&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;>Terms of Service</a> apply.">Ce site est protégé par reCAPTCHA ; les <a class="underline" href="https://policies.google.com/privacy" target="_blank" rel="noopener">règles de confidentialité</a> et les <a class="underline" href="https://policies.google.com/terms" target="_blank" rel="noopener">conditions d'utilisation</a> de Google s'appliquent.</p>
     <p class="text-xs text-[var(--ink)]/50"><span class="i18n" data-fr="Vos données servent uniquement à vous répondre. Voir la" data-en="Your data is only used to reply to you. See the">Vos données servent uniquement à vous répondre. Voir la</span> <a href="#privacy" onclick="go('privacy')" class="underline i18n" data-fr="politique de confidentialité" data-en="privacy policy">politique de confidentialité</a>.</p>
   </form>
 </section>
@@ -231,7 +233,7 @@
 <!-- PRIVACY VIEW -->
 <section id="view-privacy" class="view py-10 sm:py-14 max-w-3xl">
   <h2 class="font-display font-700 text-2xl sm:text-3xl i18n" data-fr="Politique de confidentialité" data-en="Privacy policy">Politique de confidentialité</h2>
-  <p class="text-xs text-[var(--ink)]/50 mt-2 i18n" data-fr="Dernière mise à jour : 24 novembre 2026" data-en="Last updated: 24 November 2026">Dernière mise à jour : 24 novembre 2026</p>
+  <p class="text-xs text-[var(--ink)]/50 mt-2 i18n" data-fr="Dernière mise à jour : 24 novembre 2026 (reCAPTCHA ajouté)" data-en="Last updated: 24 November 2026 (reCAPTCHA added)">Dernière mise à jour : 24 novembre 2026 (reCAPTCHA ajouté)</p>
   <div class="text-[var(--ink)]/80 leading-relaxed text-sm sm:text-base">
       <h3 class="font-display font-700 text-lg mt-8 mb-2 i18n" data-fr="Qui gère ce site" data-en="Who runs this site">Qui gère ce site</h3>
       <p class="mb-3 i18n-html" data-fr="Diankana Cloud est un projet personnel géré par Mohamed Kaba (« l'administrateur »). Pour toute question sur vos données : contact@diankanacloud.com." data-en="Diankana Cloud is a personal project run by Mohamed Kaba (&quot;the Administrator&quot;). For any question about your data: contact@diankanacloud.com.">Diankana Cloud est un projet personnel géré par Mohamed Kaba (« l'administrateur »). Pour toute question sur vos données : contact@diankanacloud.com.</p>
@@ -243,6 +245,7 @@
       <h3 class="font-display font-700 text-lg mt-8 mb-2 i18n" data-fr="Où sont stockées les données" data-en="Where data is stored">Où sont stockées les données</h3>
       <p class="mb-3 i18n-html" data-fr="Les messages et commentaires sont stockés dans Google Firebase (Firestore et Firebase Authentication). Les messages de contact ne sont lisibles que par l'administrateur." data-en="Messages and comments are stored in Google Firebase (Firestore and Firebase Authentication). Contact messages can only be read by the Administrator.">Les messages et commentaires sont stockés dans Google Firebase (Firestore et Firebase Authentication). Les messages de contact ne sont lisibles que par l'administrateur.</p>
       <p class="mb-3 i18n-html" data-fr="Le site est hébergé par GitHub Pages, le nom de domaine et la messagerie passent par Cloudflare, et les polices viennent de Google Fonts. Comme pour tout site web, ces services reçoivent techniquement votre adresse IP quand vous visitez le site." data-en="The site is hosted on GitHub Pages, the domain and email go through Cloudflare, and fonts come from Google Fonts. As with any website, these services technically receive your IP address when you visit.">Le site est hébergé par GitHub Pages, le nom de domaine et la messagerie passent par Cloudflare, et les polices viennent de Google Fonts. Comme pour tout site web, ces services reçoivent techniquement votre adresse IP quand vous visitez le site.</p>
+      <p class="mb-3 i18n-html" data-fr="<strong>Protection anti-spam :</strong> le formulaire de contact et les commentaires sont protégés par Google reCAPTCHA (via Firebase App Check). reCAPTCHA analyse des informations techniques sur votre appareil et votre navigateur, et les envoie à Google pour distinguer les personnes des robots. Les règles de confidentialité et les conditions d'utilisation de Google s'appliquent." data-en="<strong>Spam protection:</strong> the contact form and comments are protected by Google reCAPTCHA (through Firebase App Check). reCAPTCHA looks at technical information about your device and browser and sends it to Google to tell people apart from bots. Google's Privacy Policy and Terms of Service apply."><strong>Protection anti-spam :</strong> le formulaire de contact et les commentaires sont protégés par Google reCAPTCHA (via Firebase App Check). reCAPTCHA analyse des informations techniques sur votre appareil et votre navigateur, et les envoie à Google pour distinguer les personnes des robots. Les règles de confidentialité et les conditions d'utilisation de Google s'appliquent.</p>
       <h3 class="font-display font-700 text-lg mt-8 mb-2 i18n" data-fr="Durée de conservation" data-en="How long we keep it">Durée de conservation</h3>
       <p class="mb-3 i18n-html" data-fr="Les messages de contact sont conservés le temps nécessaire pour vous répondre, puis supprimés. Les commentaires restent en ligne jusqu'à ce que vous les supprimiez ou que l'administrateur les retire." data-en="Contact messages are kept as long as needed to reply to you, then deleted. Comments stay online until you delete them or the Administrator removes them.">Les messages de contact sont conservés le temps nécessaire pour vous répondre, puis supprimés. Les commentaires restent en ligne jusqu'à ce que vous les supprimiez ou que l'administrateur les retire.</p>
       <h3 class="font-display font-700 text-lg mt-8 mb-2 i18n" data-fr="Vos droits" data-en="Your rights">Vos droits</h3>
@@ -272,6 +275,7 @@
     </div>
     <div class="ad-slot h-24"><span class="i18n" data-fr="Publicité (pied de page)" data-en="Ad (footer)">Publicité (pied de page)</span></div>
   </div>
+  <p class="text-center text-[11px] text-[var(--ink)]/40 px-4 pb-2 i18n-html" data-fr="Ce site est protégé par reCAPTCHA ; les <a class=&quot;underline&quot; href=&quot;https://policies.google.com/privacy&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;>règles de confidentialité</a> et les <a class=&quot;underline&quot; href=&quot;https://policies.google.com/terms&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;>conditions d'utilisation</a> de Google s'appliquent." data-en="This site is protected by reCAPTCHA and the Google <a class=&quot;underline&quot; href=&quot;https://policies.google.com/privacy&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;>Privacy Policy</a> and <a class=&quot;underline&quot; href=&quot;https://policies.google.com/terms&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;>Terms of Service</a> apply.">Ce site est protégé par reCAPTCHA ; les <a class="underline" href="https://policies.google.com/privacy" target="_blank" rel="noopener">règles de confidentialité</a> et les <a class="underline" href="https://policies.google.com/terms" target="_blank" rel="noopener">conditions d'utilisation</a> de Google s'appliquent.</p>
   <div class="text-center text-xs text-[var(--ink)]/40 pb-6 i18n" data-fr="© 2026 Diankana Cloud — projet personnel, Conakry ↔ New York." data-en="© 2026 Diankana Cloud — personal project, Conakry ↔ New York.">© 2026 Diankana Cloud — projet personnel, Conakry ↔ New York.</div>
 </footer>
 
@@ -893,6 +897,8 @@ const FIREBASE_CONFIG = {
 };
 
 const FB_VERSION = '11.0.2';
+// reCAPTCHA v3 *site* key (public) for Firebase App Check. While null, App Check is off.
+const RECAPTCHA_SITE_KEY = '6LcL2C8uAAAAAPI0lbwjK43-CMvwUF86uFfCl9gl';
 let fb = null;               // {auth, db, fns}
 let currentUser = null;
 let commentsUnsub = null;
@@ -901,14 +907,27 @@ let replyTo = null;
 
 const T = (fr, en) => LANG==='fr' ? fr : en;
 
-async function initFirebase(){
-  if(!FIREBASE_CONFIG) return null;
-  if(fb) return fb;
+let fbPromise = null;
+function initFirebase(){
+  if(!FIREBASE_CONFIG) return Promise.resolve(null);
+  if(!fbPromise) fbPromise = loadFirebase().catch(e => { fbPromise = null; throw e; });
+  return fbPromise;
+}
+
+async function loadFirebase(){
   const base = `https://www.gstatic.com/firebasejs/${FB_VERSION}/`;
-  const [appM, authM, fsM] = await Promise.all([
-    import(base+'firebase-app.js'), import(base+'firebase-auth.js'), import(base+'firebase-firestore.js')
+  const [appM, authM, fsM, acM] = await Promise.all([
+    import(base+'firebase-app.js'), import(base+'firebase-auth.js'), import(base+'firebase-firestore.js'),
+    RECAPTCHA_SITE_KEY ? import(base+'firebase-app-check.js') : Promise.resolve(null)
   ]);
   const app = appM.initializeApp(FIREBASE_CONFIG);
+  // App Check must start before Firestore/Auth are used, so every request carries a token.
+  if(acM){
+    acM.initializeAppCheck(app, {
+      provider: new acM.ReCaptchaV3Provider(RECAPTCHA_SITE_KEY),
+      isTokenAutoRefreshEnabled: true
+    });
+  }
   const auth = authM.getAuth(app);
   const db = fsM.getFirestore(app);
   fb = {auth, db, a:authM, f:fsM};
@@ -1134,6 +1153,7 @@ function render(){
     renderCommentsSection(id);
   } else {
     stopComments();
+    if(hash === 'contact') initFirebase().catch(()=>{});
     if(['home','topics','ask','about','contact','privacy'].includes(hash)){
       document.getElementById('view-'+hash).classList.add('active');
     } else {
