@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Diankana Cloud</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  :root{
+    --ink:#0b1b2b;
+    --teal:#0f7a6f;
+    --teal-dark:#0a5d54;
+    --sun:#f2b705;
+    --sun-dark:#c98f00;
+    --redacc:#d7263d;
+    --paper:#f7f5ef;
+    --card:#ffffff;
+  }
+  html{scroll-behavior:smooth;}
+  body{font-family:'Inter',system-ui,sans-serif;background:var(--paper);color:var(--ink);}
+  h1,h2,h3,.font-display{font-family:'Poppins',sans-serif;}
+  .flag-stripe{height:5px;background:linear-gradient(90deg,#CE1126 0 33.33%, #FCD116 33.33% 66.66%, #009460 66.66% 100%);}
+  .view{display:none;}
+  .view.active{display:block;}
+  .badge{display:inline-flex;align-items:center;gap:.35rem;font-size:.7rem;font-weight:600;padding:.25rem .6rem;border-radius:999px;}
+  .badge-ai{background:#e8f3ff;color:#1457a8;}
+  .badge-verified{background:#e7f7ef;color:#0a6b3f;}
+  .badge-topic{background:#fff3da;color:#8a5a00;}
+  .ad-slot{border:2px dashed #cbd2da;background:repeating-linear-gradient(45deg,#f1f3f5,#f1f3f5 10px,#e9edf1 10px,#e9edf1 20px);color:#6b7682;display:flex;align-items:center;justify-content:center;text-align:center;border-radius:.75rem;font-size:.75rem;font-weight:600;letter-spacing:.03em;}
+  .card-hover{transition:transform .15s ease, box-shadow .15s ease;}
+  .card-hover:hover{transform:translateY(-3px);box-shadow:0 12px 24px -10px rgba(10,30,40,.25);}
+  .nav-link{position:relative;}
+  .nav-link.active-nav{color:var(--teal-dark);font-weight:700;}
+  .scroller{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:1rem;-webkit-overflow-scrolling:touch;}
+  .scroller>*{scroll-snap-align:start;flex:0 0 auto;}
+  .scroller::-webkit-scrollbar{height:6px;}
+  .scroller::-webkit-scrollbar-thumb{background:#cbd2da;border-radius:99px;}
+  .lang-pill{transition:all .15s ease;}
+</style>
+</head>
+<body class="min-h-screen">
+<div class="flag-stripe"></div>
+
+<!-- HEADER -->
+<header class="sticky top-0 z-40 bg-[var(--paper)]/95 backdrop-blur border-b border-black/5">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between gap-4">
+    <a href="#home" class="flex items-center gap-2 shrink-0" onclick="go('home')">
+      <div class="w-9 h-9 rounded-xl bg-[var(--teal)] flex items-center justify-center text-white font-display font-800 text-sm">DC</div>
+      <div class="leading-tight">
+        <div class="font-display font-700 text-[var(--ink)] text-base">Diankana Cloud</div>
+        <div class="text-[10px] uppercase tracking-wider text-[var(--teal-dark)] font-semibold i18n" data-fr="Tech · Mines · Pétrole" data-en="Tech · Mining · Oil">Tech · Mines · Pétrole</div>
+      </div>
+    </a>
+
+    <nav class="hidden md:flex items-center gap-6 text-sm font-medium text-[var(--ink)]/80">
+      <a href="#home" onclick="go('home')" class="nav-link hover:text-[var(--teal-dark)] i18n" data-fr="Accueil" data-en="Home">Accueil</a>
+      <a href="#topics" onclick="go('topics')" class="nav-link hover:text-[var(--teal-dark)] i18n" data-fr="Sujets" data-en="Topics">Sujets</a>
+      <a href="#ask" onclick="go('ask')" class="nav-link hover:text-[var(--teal-dark)] i18n" data-fr="Demander à l'IA" data-en="Ask the AI">Demander à l'IA</a>
+      <a href="#about" onclick="go('about')" class="nav-link hover:text-[var(--teal-dark)] i18n" data-fr="À propos" data-en="About">À propos</a>
+      <a href="#contact" onclick="go('contact')" class="nav-link hover:text-[var(--teal-dark)] i18n" data-fr="Contact" data-en="Contact">Contact</a>
+    </nav>
+
+    <div class="flex items-center gap-2">
+      <div class="flex bg-white border border-black/10 rounded-full p-0.5 text-xs font-semibold">
+        <button id="btn-fr" onclick="setLang('fr')" class="lang-pill px-2.5 py-1 rounded-full">FR</button>
+        <button id="btn-en" onclick="setLang('en')" class="lang-pill px-2.5 py-1 rounded-full">EN</button>
+      </div>
+      <button class="md:hidden w-9 h-9 flex items-center justify-center rounded-lg border border-black/10" onclick="document.getElementById('mobilenav').classList.toggle('hidden')">☰</button>
+    </div>
+  </div>
+  <div id="mobilenav" class="hidden md:hidden border-t border-black/5 bg-white px-4 py-3 flex flex-col gap-3 text-sm font-medium">
+    <a href="#home" onclick="go('home')" class="i18n" data-fr="Accueil" data-en="Home">Accueil</a>
+    <a href="#topics" onclick="go('topics')" class="i18n" data-fr="Sujets" data-en="Topics">Sujets</a>
+    <a href="#ask" onclick="go('ask')" class="i18n" data-fr="Demander à l'IA" data-en="Ask the AI">Demander à l'IA</a>
+    <a href="#about" onclick="go('about')" class="i18n" data-fr="À propos" data-en="About">À propos</a>
+    <a href="#contact" onclick="go('contact')" class="i18n" data-fr="Contact" data-en="Contact">Contact</a>
+  </div>
+</header>
+
+<!-- HOME VIEW -->
+<main class="max-w-6xl mx-auto px-4 sm:px-6">
+
+<section id="view-home" class="view py-10 sm:py-14">
+  <div class="grid md:grid-cols-5 gap-8 items-center">
+    <div class="md:col-span-3">
+      <span class="badge badge-topic mb-4 i18n" data-fr="Guinée · Conakry → le monde" data-en="Guinea · Conakry → the world">Guinée · Conakry → le monde</span>
+      <h1 class="font-display font-800 text-3xl sm:text-4xl md:text-5xl leading-tight text-[var(--ink)] mt-3 i18n"
+        data-fr="Des idées simples, un pro de l'IT guinéen, pour la jeunesse qui construit demain."
+        data-en="Simple ideas from one Guinean IT pro, for the young people building tomorrow.">
+        Des idées simples, un pro de l'IT guinéen, pour la jeunesse qui construit demain.
+      </h1>
+      <p class="mt-5 text-base sm:text-lg text-[var(--ink)]/70 max-w-xl i18n"
+        data-fr="Diankana Cloud lit des sources publiques sur la tech, les mines et le pétrole, en tire des guides pratiques et des points clés avec l'aide de l'IA — toujours relus et vérifiés à la main avant publication."
+        data-en="Diankana Cloud reads public sources on tech, mining and oil, turns them into practical how-tos and key takeaways with AI help — always reviewed and verified by hand before publishing.">
+        Diankana Cloud lit des sources publiques sur la tech, les mines et le pétrole, en tire des guides pratiques et des points clés avec l'aide de l'IA — toujours relus et vérifiés à la main avant publication.
+      </p>
+      <div class="mt-7 flex flex-wrap gap-3">
+        <a href="#topics" onclick="go('topics')" class="px-5 py-3 rounded-xl bg-[var(--teal)] text-white font-semibold text-sm hover:bg-[var(--teal-dark)] i18n" data-fr="Explorer les sujets" data-en="Explore topics">Explorer les sujets</a>
+        <a href="#ask" onclick="go('ask')" class="px-5 py-3 rounded-xl border border-black/10 bg-white font-semibold text-sm hover:bg-black/5 i18n" data-fr="Poser une question" data-en="Ask a question">Poser une question</a>
+      </div>
+      <p class="mt-4 text-xs text-[var(--ink)]/50 i18n" data-fr="Pas d'offres d'emploi ici — seulement des publicités pour financer le site." data-en="No job postings here — only ads to keep the site running.">Pas d'offres d'emploi ici — seulement des publicités pour financer le site.</p>
+    </div>
+    <div class="md:col-span-2">
+      <div class="ad-slot h-40 sm:h-48 w-full mb-3">
+        <span class="i18n" data-fr="Emplacement publicitaire (bannière)" data-en="Ad placeholder (banner)">Emplacement publicitaire (bannière)</span>
+      </div>
+      <div class="bg-white rounded-2xl border border-black/10 p-4">
+        <div class="text-xs font-semibold text-[var(--teal-dark)] uppercase tracking-wide mb-2 i18n" data-fr="Comment ça marche" data-en="How it works">Comment ça marche</div>
+        <ol class="text-sm space-y-2 text-[var(--ink)]/80 list-decimal list-inside">
+          <li class="i18n" data-fr="Une source publique (site officiel, rapport, étude) est lue." data-en="A public source (official site, report, study) is read.">Une source publique (site officiel, rapport, étude) est lue.</li>
+          <li class="i18n" data-fr="L'IA rédige un résumé, un guide pratique et des points clés." data-en="AI drafts a summary, a how-to guide, and key takeaways.">L'IA rédige un résumé, un guide pratique et des points clés.</li>
+          <li class="i18n" data-fr="Je relis et vérifie tout avant publication." data-en="I review and verify everything before it's published.">Je relis et vérifie tout avant publication.</li>
+          <li class="i18n" data-fr="Une courte vidéo ou un audio peut être ajouté par mes soins." data-en="A short video or audio may be added by me.">Une courte vidéo ou un audio peut être ajouté par mes soins.</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <!-- latest posts -->
+  <div class="mt-14">
+    <div class="flex items-end justify-between mb-5">
+      <h2 class="font-display font-700 text-xl sm:text-2xl i18n" data-fr="Derniers articles" data-en="Latest posts">Derniers articles</h2>
+      <a href="#topics" onclick="go('topics')" class="text-sm font-semibold text-[var(--teal-dark)] i18n" data-fr="Tout voir →" data-en="View all →">Tout voir →</a>
+    </div>
+    <div id="latest-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5"></div>
+  </div>
+</section>
+
+<!-- TOPICS VIEW -->
+<section id="view-topics" class="view py-10 sm:py-14">
+  <h2 class="font-display font-700 text-2xl sm:text-3xl i18n" data-fr="Sujets" data-en="Topics">Sujets</h2>
+  <p class="text-[var(--ink)]/70 mt-2 max-w-2xl i18n" data-fr="Trois axes pour commencer : technologie, mines, pétrole. D'autres viendront." data-en="Three starting lanes: technology, mining, oil. More will follow.">Trois axes pour commencer : technologie, mines, pétrole. D'autres viendront.</p>
+
+  <div class="flex flex-wrap gap-2 mt-6" id="topic-filters"></div>
+
+  <div id="topics-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 mt-6"></div>
+
+  <div class="ad-slot h-28 w-full mt-10">
+    <span class="i18n" data-fr="Emplacement publicitaire (pleine largeur)" data-en="Ad placeholder (full width)">Emplacement publicitaire (pleine largeur)</span>
+  </div>
+</section>
+
+<!-- ARTICLE VIEW -->
+<section id="view-article" class="view py-8 sm:py-12">
+  <button onclick="go('topics')" class="text-sm font-semibold text-[var(--teal-dark)] mb-5 i18n" data-fr="← Retour aux sujets" data-en="← Back to topics">← Retour aux sujets</button>
+  <div class="grid md:grid-cols-4 gap-8">
+    <div class="md:col-span-3">
+      <article id="article-body"></article>
+      <div id="comments-wrap" class="mt-12 border-t border-black/10 pt-8"></div>
+    </div>
+    <aside class="md:col-span-1 space-y-4">
+      <div class="ad-slot h-56 w-full"><span class="i18n" data-fr="Publicité (barre latérale)" data-en="Ad (sidebar)">Publicité (barre latérale)</span></div>
+      <div class="bg-white border border-black/10 rounded-xl p-4 text-xs text-[var(--ink)]/60 i18n" data-fr="Diankana Cloud ne publie pas d'offres d'emploi. Ce site vit uniquement de la publicité." data-en="Diankana Cloud does not publish job listings. This site runs on ad revenue only.">Diankana Cloud ne publie pas d'offres d'emploi. Ce site vit uniquement de la publicité.</div>
+    </aside>
+  </div>
+</section>
+
+<!-- ASK VIEW -->
+<section id="view-ask" class="view py-10 sm:py-14">
+  <div class="max-w-2xl">
+    <h2 class="font-display font-700 text-2xl sm:text-3xl i18n" data-fr="Demander à l'IA de Diankana Cloud" data-en="Ask the Diankana Cloud AI">Demander à l'IA de Diankana Cloud</h2>
+    <p class="text-[var(--ink)]/70 mt-2 i18n" data-fr="Posez une question simple. L'assistant cherche uniquement dans les articles publiés ici — pas sur tout Internet — et vous renvoie les passages les plus proches." data-en="Ask a simple question. The assistant only searches the articles published here — not the whole internet — and returns the closest matches.">Posez une question simple. L'assistant cherche uniquement dans les articles publiés ici — pas sur tout Internet — et vous renvoie les passages les plus proches.</p>
+
+    <div class="mt-6 bg-white border border-black/10 rounded-2xl p-4 sm:p-5">
+      <div class="flex gap-2">
+        <input id="ask-input" type="text" class="flex-1 border border-black/15 rounded-lg px-3 py-2.5 text-sm outline-none focus:border-[var(--teal)]" placeholder="Ex: comment préparer l'examen ACE ?">
+        <button onclick="askBot()" class="px-4 py-2.5 rounded-lg bg-[var(--teal)] text-white text-sm font-semibold hover:bg-[var(--teal-dark)] i18n" data-fr="Demander" data-en="Ask">Demander</button>
+      </div>
+      <div class="flex flex-wrap gap-2 mt-3" id="ask-suggestions"></div>
+      <div id="ask-answer" class="mt-5 text-sm leading-relaxed text-[var(--ink)]/85"></div>
+    </div>
+    <p class="text-xs text-[var(--ink)]/45 mt-3 i18n" data-fr="Démo : recherche par mots-clés locale, sans appel à un service externe. Une vraie IA pourra être branchée plus tard." data-en="Demo: local keyword search, no external service is called. A real AI can be wired in later.">Démo : recherche par mots-clés locale, sans appel à un service externe. Une vraie IA pourra être branchée plus tard.</p>
+  </div>
+</section>
+
+<!-- ABOUT VIEW -->
+<section id="view-about" class="view py-10 sm:py-14">
+  <div class="grid md:grid-cols-3 gap-10 items-start">
+    <div class="md:col-span-1">
+      <div class="w-28 h-28 rounded-2xl bg-[var(--teal)] text-white flex items-center justify-center font-display font-800 text-3xl">M</div>
+      <h2 class="font-display font-700 text-2xl mt-4">Mo</h2>
+      <p class="text-sm text-[var(--teal-dark)] font-semibold i18n" data-fr="Fondateur, Diankana Cloud" data-en="Founder, Diankana Cloud">Fondateur, Diankana Cloud</p>
+    </div>
+    <div class="md:col-span-2 space-y-4 text-[var(--ink)]/80 leading-relaxed">
+      <p class="i18n"
+        data-fr="Je m'appelle Mo. Je suis consultant IT basé à New York, avec plus de 14 ans d'expérience en administration réseau, management IT et opérations cloud — un parcours qui m'a mené d'administrateur réseau, à manager IT, à consultant IT aujourd'hui chez Miles IT."
+        data-en="I'm Mo, an IT consultant based in New York with 14+ years of experience spanning network administration, IT management, and cloud operations — a path that took me from network administrator, to IT manager, to IT consultant today at Miles IT.">
+        Je m'appelle Mo. Je suis consultant IT basé à New York, avec plus de 14 ans d'expérience en administration réseau, management IT et opérations cloud — un parcours qui m'a mené d'administrateur réseau, à manager IT, à consultant IT aujourd'hui chez Miles IT.
+      </p>
+      <p class="i18n"
+        data-fr="Je dirige aussi un groupe d'étude (Scholars Group Lead) dans le programme Google Cloud Career Launchpad animé par Mentor Me Collective, où j'accompagne d'autres apprenants vers la certification cloud."
+        data-en="I also lead a scholars study group in the Google Cloud Career Launchpad program run by Mentor Me Collective, helping other learners work toward cloud certification.">
+        Je dirige aussi un groupe d'étude (Scholars Group Lead) dans le programme Google Cloud Career Launchpad animé par Mentor Me Collective, où j'accompagne d'autres apprenants vers la certification cloud.
+      </p>
+      <p class="i18n"
+        data-fr="Diankana Cloud est un projet personnel, pas un média d'information formel : c'est simplement un pro de l'IT qui partage, en français et en anglais, des sujets utiles pour la jeunesse guinéenne — technologie, mines, pétrole — sous forme de guides courts, vérifiés avant publication."
+        data-en="Diankana Cloud is a personal project, not a formal news outlet: it's simply an IT pro sharing useful topics for Guinean youth — technology, mining, oil — as short guides, reviewed before publishing, in both French and English.">
+        Diankana Cloud est un projet personnel, pas un média d'information formel : c'est simplement un pro de l'IT qui partage, en français et en anglais, des sujets utiles pour la jeunesse guinéenne — technologie, mines, pétrole — sous forme de guides courts, vérifiés avant publication.
+      </p>
+      <ul class="text-sm space-y-1.5 pt-2">
+        <li>📍 <span class="i18n" data-fr="New York, États-Unis" data-en="New York, USA">New York, États-Unis</span></li>
+        <li>💼 <span class="i18n" data-fr="Consultant IT sur site — Miles IT" data-en="Onsite IT Consultant — Miles IT">Consultant IT sur site — Miles IT</span></li>
+        <li>🎓 <span class="i18n" data-fr="Scholars Group Lead — Google Cloud Career Launchpad (Mentor Me Collective)" data-en="Scholars Group Lead — Google Cloud Career Launchpad (Mentor Me Collective)">Scholars Group Lead — Google Cloud Career Launchpad (Mentor Me Collective)</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT VIEW -->
+<section id="view-contact" class="view py-10 sm:py-14 max-w-xl">
+  <h2 class="font-display font-700 text-2xl sm:text-3xl i18n" data-fr="Contact" data-en="Contact">Contact</h2>
+  <p class="text-[var(--ink)]/70 mt-2 i18n" data-fr="Une idée de sujet, une source à proposer, une correction à signaler ? Écrivez." data-en="A topic idea, a source to suggest, a correction to flag? Write in.">Une idée de sujet, une source à proposer, une correction à signaler ? Écrivez.</p>
+  <form id="contact-form" class="mt-6 space-y-3 bg-white border border-black/10 rounded-2xl p-5" onsubmit="return submitContact(event)">
+    <input required type="text" placeholder="Nom / Name" class="w-full border border-black/15 rounded-lg px-3 py-2.5 text-sm">
+    <input required type="email" placeholder="Email" class="w-full border border-black/15 rounded-lg px-3 py-2.5 text-sm">
+    <textarea required rows="4" placeholder="Message" class="w-full border border-black/15 rounded-lg px-3 py-2.5 text-sm"></textarea>
+    <button class="px-5 py-2.5 rounded-lg bg-[var(--teal)] text-white text-sm font-semibold i18n" data-fr="Envoyer" data-en="Send">Envoyer</button>
+    <p id="contact-note" class="text-xs text-[var(--ink)]/50 hidden i18n" data-fr="Démo seulement — aucun message n'a été envoyé (il n'y a pas de serveur ici)." data-en="Demo only — no message was actually sent (there's no server here).">Démo seulement — aucun message n'a été envoyé (il n'y a pas de serveur ici).</p>
+  </form>
+</section>
+
+</main>
+
+<footer class="border-t border-black/5 mt-10">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 py-10 grid sm:grid-cols-3 gap-8 text-sm text-[var(--ink)]/70">
+    <div>
+      <div class="font-display font-700 text-[var(--ink)]">Diankana Cloud</div>
+      <p class="mt-2 i18n" data-fr="Idées et projets pour la jeunesse et les pros de l'IT en Guinée." data-en="Ideas and projects for Guinea's youth and IT pros.">Idées et projets pour la jeunesse et les pros de l'IT en Guinée.</p>
+    </div>
+    <div>
+      <div class="font-semibold text-[var(--ink)] i18n" data-fr="Politique du site" data-en="Site policy">Politique du site</div>
+      <ul class="mt-2 space-y-1">
+        <li class="i18n" data-fr="Aucune offre d'emploi publiée" data-en="No job postings published">Aucune offre d'emploi publiée</li>
+        <li class="i18n" data-fr="Contenu généré par IA, vérifié par un humain" data-en="AI-assisted content, human-verified">Contenu généré par IA, vérifié par un humain</li>
+        <li class="i18n" data-fr="Sources publiques toujours citées" data-en="Public sources always cited">Sources publiques toujours citées</li>
+      </ul>
+    </div>
+    <div class="ad-slot h-24"><span class="i18n" data-fr="Publicité (pied de page)" data-en="Ad (footer)">Publicité (pied de page)</span></div>
+  </div>
+  <div class="text-center text-xs text-[var(--ink)]/40 pb-6 i18n" data-fr="© 2026 Diankana Cloud — projet personnel, Conakry ↔ New York." data-en="© 2026 Diankana Cloud — personal project, Conakry ↔ New York.">© 2026 Diankana Cloud — projet personnel, Conakry ↔ New York.</div>
+</footer>
+
+<script>
+/* ---------------- DATA ---------------- */
+const ARTICLES = [
+  {
+    id: "ace-cert",
+    topic: "tech",
+    topicLabel: {fr:"Technologie", en:"Technology"},
+    title: {fr:"Comment décrocher la certification Google Cloud Associate Cloud Engineer (ACE)",
+            en:"How to earn the Google Cloud Associate Cloud Engineer (ACE) certification"},
+    summary: {fr:"Un guide pratique pour se préparer à l'examen ACE de Google Cloud, à partir du guide officiel de l'examen.",
+              en:"A practical guide to preparing for Google Cloud's ACE exam, based on the official exam guide."},
+    howto: {
+      fr:[
+        "Lisez le guide d'examen officiel : il couvre la mise en place d'un environnement cloud, la planification et la mise en œuvre d'une solution, le bon fonctionnement de la solution, et la configuration des accès et de la sécurité.",
+        "Comptez environ 6 mois ou plus de pratique concrète sur Google Cloud avant de vous présenter — ce n'est pas obligatoire, mais c'est ce que Google recommande.",
+        "Pratiquez dans un vrai projet (même un projet gratuit) : création de VM, réseaux, IAM, stockage, surveillance — plutôt que la seule théorie.",
+        "Faites un examen blanc pour repérer vos points faibles avant de réserver une date.",
+        "Inscrivez-vous : l'examen dure 2 heures, 50 à 60 questions à choix multiple, et peut se passer en ligne (surveillé à distance) ou dans un centre d'examen."
+      ],
+      en:[
+        "Read the official exam guide: it covers setting up a cloud environment, planning and implementing a solution, ensuring successful operation, and configuring access and security.",
+        "Aim for roughly 6+ months of hands-on Google Cloud practice before sitting the exam — not mandatory, but it's Google's own recommendation.",
+        "Practice in a real project (even a free-tier one): VMs, networking, IAM, storage, monitoring — not just theory.",
+        "Take a practice exam to find your weak spots before booking a date.",
+        "Register: the exam runs 2 hours, 50-60 multiple choice/select questions, and can be taken online-proctored or at a test center."
+      ]
+    },
+    takeaways: {
+      fr:[
+        "Aucun prérequis formel, mais une expérience pratique est fortement recommandée.",
+        "La certification est valable 3 ans ; un examen de renouvellement plus court existe ensuite.",
+        "L'examen existe en plusieurs langues (anglais, japonais, espagnol, portugais)."
+      ],
+      en:[
+        "No formal prerequisites, but hands-on experience is strongly recommended.",
+        "The certification is valid for 3 years; a shorter renewal exam exists afterward.",
+        "The exam is offered in several languages (English, Japanese, Spanish, Portuguese)."
+      ]
+    },
+    source: {name:"Google Cloud — Certification: Cloud Engineer (page officielle)", url:"https://cloud.google.com/certification/cloud-engineer"}
+  },
+  {
+    id: "bauxite-2026",
+    topic: "mines",
+    topicLabel: {fr:"Mines", en:"Mining"},
+    title: {fr:"La bauxite guinéenne en 2026 : où en est le secteur ?",
+            en:"Guinea's bauxite industry in 2026: where things stand"},
+    summary: {fr:"Un point de repère sur l'industrie de la bauxite en Guinée, premier producteur mondial, à partir de sources publiques (USGS, Policy Center, trade.gov).",
+              en:"A quick benchmark on Guinea's bauxite industry, the world's top producer, drawn from public sources (USGS, Policy Center, trade.gov)."},
+    howto: {
+      fr:[
+        "Repérez les acteurs principaux cités publiquement : SMB (Société Minière de Boké), CBG (Compagnie des Bauxites de Guinée), et des groupes chinois comme Chalco.",
+        "Consultez le cadastre minier du Ministère des Mines et le Code minier de 2013 pour comprendre le cadre légal avant toute analyse.",
+        "Suivez les projets de transformation locale (ex. le projet de raffinerie Alteo Refinery Guinea) : le gouvernement guinéen pousse à transformer une partie de la bauxite sur place plutôt que de tout exporter brut.",
+        "Si vous travaillez dans l'IT, regardez les besoins concrets du secteur : logiciels de suivi logistique et export, SIG (cartographie), systèmes de surveillance environnementale, ERP pour la gestion de concessions.",
+        "Pour aller plus loin sans contact direct : Natural Resources Governance Institute (Guinée) et l'Initiative pour la Transparence des Industries Extractives publient des données ouvertes sur le secteur."
+      ],
+      en:[
+        "Identify the main publicly reported players: SMB (Société Minière de Boké), CBG (Compagnie des Bauxites de Guinée), and Chinese groups such as Chalco.",
+        "Check the Ministry of Mines' mining cadastre and the 2013 Mining Code to understand the legal framework before any analysis.",
+        "Track local-processing projects (e.g. the Alteo Refinery Guinea project): Guinea's government is pushing to process more bauxite locally instead of exporting it all raw.",
+        "If you work in IT, look at the sector's real needs: export/logistics tracking software, GIS mapping, environmental-monitoring systems, ERP for concession management.",
+        "To go further without direct contacts: the Natural Resources Governance Institute (Guinea) and the Extractive Industries Transparency Initiative publish open data on the sector."
+      ]
+    },
+    takeaways: {
+      fr:[
+        "La Guinée est devenue le premier producteur mondial de bauxite en 2023, devant l'Australie, et détiendrait plus d'un tiers des réserves mondiales.",
+        "Environ 70 % des exportations de bauxite et d'alumine partent vers la Chine, le reste vers l'Europe, l'Inde et d'autres marchés.",
+        "L'État guinéen a créé une entreprise publique, la Nimba Mining Company, après avoir repris des droits miniers en 2025.",
+        "Le gouvernement met la pression pour davantage de transformation locale (alumine, aluminium) plutôt que l'export de minerai brut."
+      ],
+      en:[
+        "Guinea became the world's top bauxite producer in 2023, overtaking Australia, and reportedly holds over a third of global reserves.",
+        "About 70% of bauxite and alumina exports go to China, with the rest to Europe, India and other markets.",
+        "The state created a public company, Nimba Mining Company, after reclaiming mining rights in 2025.",
+        "The government is pushing for more local processing (alumina, aluminum) instead of exporting raw ore."
+      ]
+    },
+    source: {name:"USGS National Minerals Information Center — Guinea; Policy Center for the New South; trade.gov Country Commercial Guide", url:"https://www.usgs.gov/centers/national-minerals-information-center/guinea"}
+  },
+  {
+    id: "fuel-distribution",
+    topic: "petrole",
+    topicLabel: {fr:"Pétrole", en:"Oil"},
+    title: {fr:"Comment le carburant arrive-t-il en Guinée ? Les bases de la distribution pétrolière",
+            en:"How does fuel get to Guinea? The basics of its petroleum distribution"},
+    summary: {fr:"Un aperçu simple de la chaîne d'importation et de distribution de carburant en Guinée, pays sans raffinerie en activité, à partir de sources publiques.",
+              en:"A simple overview of Guinea's fuel import and distribution chain — a country with no operating refinery — based on public sources."},
+    howto: {
+      fr:[
+        "Comprenez d'abord un fait de base : la Guinée importe la quasi-totalité du carburant qu'elle consomme, faute de raffinerie en activité sur son sol.",
+        "Repérez l'acteur central : la Société Nationale des Pétroles (SONAP), créée par décret en décembre 2021, gère l'import, le stockage, le transport, la distribution et la vente de carburant — avant elle, c'était la Société Guinéenne de Pétrole (SGP).",
+        "Un comité national d'importation organise des appels d'offres internationaux pour acheter le carburant à l'étranger.",
+        "Le carburant entre principalement par le port de Conakry, passe par des dépôts de stockage, puis est distribué vers les stations-service par les compagnies ou leurs sous-traitants.",
+        "Pour un profil IT, les points d'entrée utiles sont : outils de suivi des stocks en temps réel, visibilité de la chaîne d'approvisionnement, et systèmes d'alerte précoce sur les ruptures — un sujet régulièrement d'actualité dans le pays."
+      ],
+      en:[
+        "Start from one basic fact: Guinea imports nearly all the fuel it consumes, since it has no operating refinery of its own.",
+        "Identify the central actor: Société Nationale des Pétroles (SONAP), created by decree in December 2021, manages import, storage, transport, distribution and sale of fuel — before it, Société Guinéenne de Pétrole (SGP) held that role.",
+        "A National Import Committee runs international tenders to buy fuel abroad.",
+        "Fuel mostly enters through the Port of Conakry, moves through storage depots, then gets distributed to retail stations by companies or their subcontractors.",
+        "For an IT-minded reader, the useful angles are real-time inventory tracking tools, supply-chain visibility, and early-warning systems for shortages — a recurring news topic in the country."
+      ]
+    },
+    takeaways: {
+      fr:[
+        "La Guinée ne produit pas de pétrole brut à l'échelle commerciale et dépend presque entièrement des importations.",
+        "SONAP a remplacé la SGP en 2021 et centralise désormais l'essentiel du secteur aval.",
+        "Le pays a connu plusieurs épisodes de pénurie (ex. explosion d'un dépôt à Conakry fin 2023, pénurie à Kankan en 2026), souvent liés à des retards d'importation."
+      ],
+      en:[
+        "Guinea does not produce crude oil at commercial scale and depends almost entirely on imports.",
+        "SONAP replaced SGP in 2021 and now centralizes most of the downstream sector.",
+        "The country has had several shortage episodes (e.g. a Conakry depot explosion in late 2023, a 2026 Kankan shortage), often linked to import delays."
+      ]
+    },
+    source: {name:"trade.gov Guinea Country Commercial Guide — Oil & Gas; Logistics Cluster (dlca)", url:"https://trade.gov/country-commercial-guides/guinea-oil-and-gas"}
+  }
+];
+
+const TOPICS = [
+  {key:"tech", fr:"Technologie", en:"Technology", emoji:"💻"},
+  {key:"mines", fr:"Mines", en:"Mining", emoji:"⛏️"},
+  {key:"petrole", fr:"Pétrole", en:"Oil", emoji:"🛢️"}
+];
+
+/* ---------------- STATE ---------------- */
+let LANG = localStorage.getItem('dc_lang') || 'fr';
+let activeTopicFilter = 'all';
+
+function setLang(l){
+  LANG = l;
+  try{ localStorage.setItem('dc_lang', l); }catch(e){}
+  document.querySelectorAll('.i18n').forEach(el=>{
+    const txt = el.getAttribute('data-'+l);
+    if(txt !== null) el.textContent = txt;
+  });
+  document.getElementById('btn-fr').style.background = l==='fr' ? 'var(--teal)' : 'transparent';
+  document.getElementById('btn-fr').style.color = l==='fr' ? '#fff' : 'inherit';
+  document.getElementById('btn-en').style.background = l==='en' ? 'var(--teal)' : 'transparent';
+  document.getElementById('btn-en').style.color = l==='en' ? '#fff' : 'inherit';
+  renderLatest();
+  renderTopics();
+  renderAskSuggestions();
+  const hash = (location.hash||'#home').slice(1);
+  if(hash.startsWith('article-')){
+    const id = hash.replace('article-','');
+    renderArticle(id);
+    if(typeof renderCommentsSection === 'function') renderCommentsSection(id);
+  }
+}
+
+function topicBadge(t){
+  const label = t.topic==='tech'?t.topicLabel.fr:t.topicLabel.fr; // placeholder, real label built below
+  return '';
+}
+
+function articleCard(a){
+  const label = a.topicLabel[LANG];
+  return `<div class="bg-[var(--card)] border border-black/10 rounded-2xl p-5 card-hover cursor-pointer" onclick="go('article-${a.id}')">
+    <div class="flex items-center gap-2 mb-3">
+      <span class="badge badge-topic">${label}</span>
+      <span class="badge badge-ai">🤖 ${LANG==='fr'?'Résumé IA':'AI summary'}</span>
+      <span class="badge badge-verified">✓ ${LANG==='fr'?'Vérifié':'Verified'}</span>
+    </div>
+    <h3 class="font-display font-700 text-base leading-snug mb-2">${a.title[LANG]}</h3>
+    <p class="text-sm text-[var(--ink)]/65 leading-relaxed">${a.summary[LANG]}</p>
+    <div class="text-xs font-semibold text-[var(--teal-dark)] mt-3">${LANG==='fr'?'Lire le guide →':'Read the guide →'}</div>
+  </div>`;
+}
+
+function renderLatest(){
+  document.getElementById('latest-grid').innerHTML = ARTICLES.map(articleCard).join('');
+}
+
+function renderTopicFilters(){
+  const all = `<button onclick="filterTopic('all')" class="px-3 py-1.5 rounded-full text-xs font-semibold border ${activeTopicFilter==='all'?'bg-[var(--teal)] text-white border-[var(--teal)]':'bg-white border-black/15'}">${LANG==='fr'?'Tout':'All'}</button>`;
+  const rest = TOPICS.map(t=>`<button onclick="filterTopic('${t.key}')" class="px-3 py-1.5 rounded-full text-xs font-semibold border ${activeTopicFilter===t.key?'bg-[var(--teal)] text-white border-[var(--teal)]':'bg-white border-black/15'}">${t.emoji} ${t[LANG]}</button>`).join('');
+  document.getElementById('topic-filters').innerHTML = all + rest;
+}
+
+function filterTopic(key){
+  activeTopicFilter = key;
+  renderTopicFilters();
+  renderTopics();
+}
+
+function renderTopics(){
+  renderTopicFilters();
+  const list = activeTopicFilter==='all' ? ARTICLES : ARTICLES.filter(a=>a.topic===activeTopicFilter);
+  document.getElementById('topics-grid').innerHTML = list.map(articleCard).join('') ||
+    `<p class="text-sm text-[var(--ink)]/50">${LANG==='fr'?"Rien ici pour l'instant.":"Nothing here yet."}</p>`;
+}
+
+function renderArticle(id){
+  const a = ARTICLES.find(x=>x.id===id);
+  if(!a) return;
+  const steps = a.howto[LANG].map((s,i)=>`<li class="flex gap-3"><span class="shrink-0 w-6 h-6 rounded-full bg-[var(--teal)]/10 text-[var(--teal-dark)] text-xs font-bold flex items-center justify-center">${i+1}</span><span class="text-sm leading-relaxed">${s}</span></li>`).join('');
+  const takeaways = a.takeaways[LANG].map(t=>`<li class="flex gap-2 text-sm leading-relaxed"><span class="text-[var(--sun-dark)]">★</span><span>${t}</span></li>`).join('');
+  document.getElementById('article-body').innerHTML = `
+    <div class="flex flex-wrap items-center gap-2 mb-4">
+      <span class="badge badge-topic">${a.topicLabel[LANG]}</span>
+      <span class="badge badge-ai">🤖 ${LANG==='fr'?'Rédigé avec assistance IA':'Drafted with AI assistance'}</span>
+      <span class="badge badge-verified">✓ ${LANG==='fr'?'Vérifié par Mo':'Verified by Mo'}</span>
+    </div>
+    <h1 class="font-display font-800 text-2xl sm:text-3xl leading-tight mb-3">${a.title[LANG]}</h1>
+    <p class="text-[var(--ink)]/70 mb-6">${a.summary[LANG]}</p>
+
+    <div class="ad-slot h-24 w-full mb-6"><span>${LANG==='fr'?'Publicité':'Advertisement'}</span></div>
+
+    <div class="rounded-xl border border-dashed border-black/15 bg-white p-4 mb-6 flex items-center gap-3 text-sm text-[var(--ink)]/55">
+      <span class="text-xl">🎬</span>
+      <span>${LANG==='fr'?"Vidéo ou audio courts à ajouter ici par l'auteur (pas encore publié).":"Short video or audio to be added here by the author (not yet published)."}</span>
+    </div>
+
+    <h2 class="font-display font-700 text-lg mb-3">${LANG==='fr'?'Guide pratique':'How-to guide'}</h2>
+    <ol class="space-y-3 mb-8">${steps}</ol>
+
+    <h2 class="font-display font-700 text-lg mb-3">${LANG==='fr'?'Points clés':'Key takeaways'}</h2>
+    <ul class="space-y-2 mb-8">${takeaways}</ul>
+
+    <div class="bg-[var(--teal)]/5 border border-[var(--teal)]/20 rounded-xl p-4 text-xs text-[var(--ink)]/70">
+      <strong>${LANG==='fr'?'Source publique :':'Public source:'}</strong> ${a.source.name}
+      — <a class="underline text-[var(--teal-dark)]" href="${a.source.url}">${LANG==='fr'?'voir la source':'view source'}</a>
+    </div>
+  `;
+}
+
+/* -------- simple on-site Q&A (keyword match over local article data, no external call) -------- */
+function renderAskSuggestions(){
+  const qs = LANG==='fr'
+    ? ["Comment préparer l'examen ACE ?","Qui produit la bauxite en Guinée ?","Pourquoi y a-t-il des pénuries de carburant ?"]
+    : ["How do I prepare for the ACE exam?","Who produces bauxite in Guinea?","Why do fuel shortages happen?"];
+  document.getElementById('ask-suggestions').innerHTML = qs.map(q=>`<button onclick="document.getElementById('ask-input').value='${q.replace(/'/g,"\\'")}'; askBot();" class="text-xs px-2.5 py-1 rounded-full bg-black/5 hover:bg-black/10">${q}</button>`).join('');
+}
+
+function askBot(){
+  const q = document.getElementById('ask-input').value.trim().toLowerCase();
+  const box = document.getElementById('ask-answer');
+  if(!q){ box.innerHTML = ''; return; }
+  let best = null, bestScore = 0;
+  ARTICLES.forEach(a=>{
+    const haystack = (a.title[LANG]+' '+a.summary[LANG]+' '+a.howto[LANG].join(' ')+' '+a.takeaways[LANG].join(' ')).toLowerCase();
+    const words = q.split(/\s+/).filter(w=>w.length>2);
+    let score = 0;
+    words.forEach(w=>{ if(haystack.includes(w)) score++; });
+    if(score > bestScore){ bestScore = score; best = a; }
+  });
+  if(!best || bestScore===0){
+    box.innerHTML = `<p>${LANG==='fr' ? "Je n'ai rien trouvé d'assez proche dans les articles publiés. Essayez une autre formulation ou consultez les sujets." : "I couldn't find a close enough match in the published articles. Try rephrasing, or browse the topics."}</p>`;
+    return;
+  }
+  const relevantTakeaway = best.takeaways[LANG][0];
+  box.innerHTML = `
+    <div class="border border-black/10 rounded-xl p-4">
+      <div class="text-xs font-semibold text-[var(--teal-dark)] mb-1">${LANG==='fr'?'Réponse trouvée dans':'Answer found in'}: ${best.title[LANG]}</div>
+      <p class="mb-2">${relevantTakeaway}</p>
+      <button onclick="go('article-${best.id}')" class="text-xs font-semibold text-[var(--teal-dark)]">${LANG==='fr'?'Lire le guide complet →':'Read the full guide →'}</button>
+    </div>`;
+}
+
+function submitContact(e){
+  e.preventDefault();
+  document.getElementById('contact-note').classList.remove('hidden');
+  return false;
+}
+
+/* ---------------- FORUM (db + user capabilities) ---------------- */
+let dbCap = null, userCap = null, canWrite = null, myId = null, commentsUnsub = null;
+
+async function initForum(){
+  try{ dbCap = (typeof claude !== 'undefined') ? await claude.use('db') : null; }catch(e){ dbCap = null; }
+  try{ userCap = (typeof claude !== 'undefined') ? await claude.use('user') : null; }catch(e){ userCap = null; }
+  if(userCap){
+    try{ canWrite = await userCap.can('data.write'); }catch(e){ canWrite = null; }
+    try{ myId = await userCap.id(); }catch(e){ myId = null; }
+  }
+}
+
+function stopComments(){
+  if(commentsUnsub){ try{ commentsUnsub(); }catch(e){} commentsUnsub = null; }
+}
+
+function renderCommentsSection(articleId){
+  stopComments();
+  const wrap = document.getElementById('comments-wrap');
+  if(!wrap) return;
+  wrap.innerHTML = '';
+
+  const h = document.createElement('h2');
+  h.className = 'font-display font-700 text-lg mb-1';
+  h.textContent = LANG==='fr' ? 'Discussion' : 'Discussion';
+  wrap.appendChild(h);
+
+  const status = document.createElement('p');
+  status.className = 'text-xs text-[var(--ink)]/50 mb-4';
+  status.id = 'comments-status';
+  if(!dbCap){
+    status.textContent = LANG==='fr'
+      ? "Démo : la discussion fonctionne pour vous et les personnes que vous invitez comme contributeurs sur cet artefact."
+      : "Demo: discussion works for you and people you invite as contributors on this artifact.";
+  } else if(canWrite === false){
+    status.textContent = LANG==='fr'
+      ? "Vous pouvez lire la discussion. Pour écrire, il faut être invité comme contributeur."
+      : "You can read the discussion. Posting requires a contributor invite.";
+  } else {
+    status.textContent = LANG==='fr' ? "Vous pouvez commenter et répondre ci-dessous." : "You can comment and reply below.";
+  }
+  wrap.appendChild(status);
+
+  const formSlot = document.createElement('div');
+  formSlot.id = 'comment-form-slot';
+  formSlot.className = 'mb-6';
+  wrap.appendChild(formSlot);
+  renderCommentForm(articleId, null, formSlot);
+
+  const list = document.createElement('div');
+  list.id = 'comments-list';
+  list.className = 'space-y-5';
+  wrap.appendChild(list);
+
+  if(!dbCap){
+    const p = document.createElement('p');
+    p.className = 'text-sm text-[var(--ink)]/50';
+    p.textContent = LANG==='fr'
+      ? "La discussion n'est pas disponible dans cet aperçu (connectez-vous sur claude.ai pour la voir)."
+      : "Discussion isn't available in this preview (sign in on claude.ai to see it).";
+    list.appendChild(p);
+    return;
+  }
+
+  list.innerHTML = '';
+  const loading = document.createElement('p');
+  loading.className = 'text-sm text-[var(--ink)]/40';
+  loading.textContent = LANG==='fr' ? 'Chargement…' : 'Loading…';
+  list.appendChild(loading);
+
+  let delivered = false;
+  const timer = setTimeout(()=>{
+    if(!delivered && document.getElementById('comments-list')){
+      document.getElementById('comments-list').innerHTML = '';
+      const p = document.createElement('p');
+      p.className = 'text-sm text-[var(--ink)]/50';
+      p.textContent = LANG==='fr' ? 'Les commentaires mettent du temps à charger…' : 'Comments are taking a while to load…';
+      document.getElementById('comments-list').appendChild(p);
+    }
+  }, 10000);
+
+  const q = dbCap.collection('comments').where('articleId','==',articleId).orderBy('createdAt','asc');
+  commentsUnsub = q.onSnapshot((snap)=>{
+    delivered = true; clearTimeout(timer);
+    const docs = snap.docs.map(d=>({id:d.id, ...(d.data()||{})}));
+    renderCommentTree(docs);
+  }, (err)=>{
+    delivered = true; clearTimeout(timer);
+    const el = document.getElementById('comments-list');
+    if(el){
+      el.innerHTML = '';
+      const p = document.createElement('p');
+      p.className = 'text-sm text-[var(--ink)]/50';
+      p.textContent = LANG==='fr' ? "Impossible de charger la discussion pour le moment." : "Could not load the discussion right now.";
+      el.appendChild(p);
+    }
+  });
+}
+
+function renderCommentForm(articleId, parentId, slot){
+  slot.innerHTML = '';
+  const disabled = !dbCap || canWrite === false;
+
+  const ta = document.createElement('textarea');
+  ta.rows = parentId ? 2 : 3;
+  ta.placeholder = parentId
+    ? (LANG==='fr' ? 'Votre réponse…' : 'Your reply…')
+    : (LANG==='fr' ? 'Votre commentaire…' : 'Your comment…');
+  ta.className = 'w-full border border-black/15 rounded-lg px-3 py-2 text-sm disabled:bg-black/5 disabled:text-black/30';
+  ta.disabled = disabled;
+  slot.appendChild(ta);
+
+  const row = document.createElement('div');
+  row.className = 'flex justify-end mt-2 gap-2';
+
+  if(parentId){
+    const cancel = document.createElement('button');
+    cancel.type = 'button';
+    cancel.className = 'text-xs px-3 py-1.5 text-[var(--ink)]/50';
+    cancel.textContent = LANG==='fr' ? 'Annuler' : 'Cancel';
+    cancel.onclick = () => { slot.innerHTML = ''; };
+    row.appendChild(cancel);
+  }
+
+  const submit = document.createElement('button');
+  submit.type = 'button';
+  submit.disabled = disabled;
+  submit.className = 'text-xs font-semibold px-4 py-1.5 rounded-lg bg-[var(--teal)] text-white disabled:bg-black/10 disabled:text-black/30';
+  submit.textContent = parentId ? (LANG==='fr'?'Répondre':'Reply') : (LANG==='fr'?'Publier':'Post');
+  submit.onclick = () => submitComment(articleId, parentId, ta, slot);
+  row.appendChild(submit);
+
+  slot.appendChild(row);
+}
+
+async function submitComment(articleId, parentId, ta, slot){
+  const text = ta.value.trim();
+  if(!text || !dbCap) return;
+  try{
+    await dbCap.collection('comments').add({
+      articleId: articleId,
+      parentId: parentId || null,
+      authorId: myId || null,
+      text: text,
+      createdAt: new Date().toISOString()
+    });
+    ta.value = '';
+    if(parentId) slot.innerHTML = '';
+  }catch(e){
+    alert(LANG==='fr' ? "Impossible d'envoyer ce message pour le moment." : "Couldn't send this right now.");
+  }
+}
+
+async function renderCommentTree(docs){
+  const list = document.getElementById('comments-list');
+  if(!list) return;
+
+  const top = docs.filter(d=>!d.parentId).sort((a,b)=>String(a.createdAt||'').localeCompare(String(b.createdAt||'')));
+  const byParent = {};
+  docs.filter(d=>d.parentId).forEach(d=>{ (byParent[d.parentId] = byParent[d.parentId]||[]).push(d); });
+
+  list.innerHTML = '';
+
+  if(top.length===0){
+    const p = document.createElement('p');
+    p.className = 'text-sm text-[var(--ink)]/40';
+    p.textContent = LANG==='fr' ? 'Aucun commentaire pour le moment. Soyez le premier.' : 'No comments yet. Be the first.';
+    list.appendChild(p);
+    return;
+  }
+
+  const ids = [...new Set(docs.map(d=>d.authorId).filter(Boolean))];
+  let profiles = {};
+  if(userCap && ids.length){ try{ profiles = await userCap.profiles(ids); }catch(e){} }
+  const someone = LANG==='fr' ? 'Quelqu’un' : 'Someone';
+  const nameFor = (id) => (id && profiles[id] && profiles[id].name) || someone;
+
+  function buildNode(c, isReply){
+    const row = document.createElement('div');
+    row.className = isReply ? 'ml-8 mt-3 flex items-start gap-2' : 'flex items-start gap-2';
+
+    const avatar = document.createElement('div');
+    avatar.className = 'w-7 h-7 rounded-full bg-[var(--teal)]/15 text-[var(--teal-dark)] text-xs font-bold flex items-center justify-center shrink-0';
+    avatar.textContent = nameFor(c.authorId).charAt(0).toUpperCase();
+    row.appendChild(avatar);
+
+    const body = document.createElement('div');
+    body.className = 'flex-1 min-w-0';
+
+    const nameEl = document.createElement('div');
+    nameEl.className = 'text-sm font-semibold';
+    nameEl.textContent = nameFor(c.authorId);
+    body.appendChild(nameEl);
+
+    const textEl = document.createElement('div');
+    textEl.className = 'text-sm text-[var(--ink)]/80 whitespace-pre-wrap break-words';
+    textEl.textContent = c.text || '';
+    body.appendChild(textEl);
+
+    if(!isReply){
+      const replyBtn = document.createElement('button');
+      replyBtn.className = 'text-xs font-semibold text-[var(--teal-dark)] mt-1';
+      replyBtn.textContent = LANG==='fr' ? 'Répondre' : 'Reply';
+      const replySlot = document.createElement('div');
+      replySlot.className = 'mt-2';
+      replyBtn.onclick = () => renderCommentForm(c.articleId, c.id, replySlot);
+      body.appendChild(replyBtn);
+      body.appendChild(replySlot);
+    }
+
+    (byParent[c.id] || [])
+      .sort((a,b)=>String(a.createdAt||'').localeCompare(String(b.createdAt||'')))
+      .forEach(r => body.appendChild(buildNode(r, true)));
+
+    row.appendChild(body);
+    return row;
+  }
+
+  top.forEach(c => list.appendChild(buildNode(c, false)));
+}
+
+/* ---------------- ROUTER ---------------- */
+function go(target){
+  location.hash = '#' + target;
+}
+
+function render(){
+  const hash = (location.hash || '#home').slice(1);
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  if(hash.startsWith('article-')){
+    document.getElementById('view-article').classList.add('active');
+    const id = hash.replace('article-','');
+    renderArticle(id);
+    renderCommentsSection(id);
+  } else {
+    stopComments();
+    if(['home','topics','ask','about','contact'].includes(hash)){
+      document.getElementById('view-'+hash).classList.add('active');
+    } else {
+      document.getElementById('view-home').classList.add('active');
+    }
+  }
+  window.scrollTo({top:0, behavior:'instant'});
+}
+
+window.addEventListener('hashchange', render);
+
+/* ---------------- INIT ---------------- */
+renderLatest();
+renderTopics();
+renderAskSuggestions();
+setLang(LANG);
+(async function init(){
+  await initForum();
+  render();
+})();
+</script>
+</body>
+</html>
