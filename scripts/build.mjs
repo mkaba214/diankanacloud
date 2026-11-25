@@ -11,6 +11,7 @@ import { execFileSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import fs from 'node:fs';
 import path from 'node:path';
+import { validateArticles } from './validate-articles.mjs';
 
 const SITE = 'https://diankanacloud.com';
 const ROOT = path.resolve(path.dirname(new URL(import.meta.url).pathname), '..');
@@ -79,12 +80,32 @@ function write(urlPath, html) {
   fs.writeFileSync(file, html);
 }
 
-// 4. Pages
+// 4. Check the articles first: a missing field, a duplicate id or HTML in the text fails the build
+{
+  const dom = await render('/');
+  let articles, topics;
+  try {
+    ({ articles, topics } = JSON.parse(dom.window.eval('JSON.stringify({articles: ARTICLES, topics: TOPICS.map(t => t.key)})')));
+  } catch (e) {
+    console.error('ARTICLES check failed: could not read ARTICLES from index.html. The page script did not run;'
+      + ' look for a syntax error or a "</script>" inside article text.\n  ' + e.message);
+    process.exit(1);
+  }
+  dom.window.close();
+  const problems = validateArticles(articles, topics);
+  if (problems.length) {
+    console.error(`ARTICLES check failed (${problems.length}):\n  ` + problems.join('\n  '));
+    process.exit(1);
+  }
+}
+
+// 5. Pages
 const PAGES = {
   '/':          ['Diankana Cloud — Tech · Mines · Pétrole',
                  "Guides pratiques en français et en anglais sur la tech, les mines et le pétrole en Guinée, rédigés avec l'aide de l'IA et vérifiés avant publication."],
   '/topics/':   ['Sujets — Diankana Cloud', 'Tous les guides Diankana Cloud : technologie et certifications cloud, mines (bauxite, fer, or) et pétrole en Guinée.'],
   '/world/':   ['Ce qui se passe dans le monde — Diankana Cloud', "L'actualité internationale qui compte pour la tech, l'énergie et l'économie, résumée simplement en français et en anglais, avec ses sources."],
+  '/archives/': ['Archives — Diankana Cloud', "Les actualités de plus de 30 jours publiées sur Diankana Cloud, toujours consultables et toujours trouvables par la recherche « Demander à l'IA »."],
   '/ask/':      ["Demander à l'IA — Diankana Cloud", "Posez une question sur la Guinée ou sur nos guides : réponses tirées de nos articles et de l'article Wikipédia sur la Guinée."],
   '/about/':    ['À propos — Diankana Cloud', 'Diankana Cloud est le projet personnel de Mohamed Kaba, consultant IT basé à New York, pour partager des guides utiles à la jeunesse guinéenne.'],
   '/contact/':  ['Contact — Diankana Cloud', 'Une idée de sujet, une source à proposer, une correction à signaler ? Écrivez à Diankana Cloud.'],
@@ -115,7 +136,7 @@ for (const a of articles) {
 write('/404.html', finish(await render('/'), { title: 'Page introuvable — Diankana Cloud',
   description: "Cette page n'existe pas.", canonical: null, noindex: true }));
 
-// 5. sitemap.xml and robots.txt
+// 6. sitemap.xml and robots.txt
 fs.writeFileSync(path.join(DIST, 'sitemap.xml'),
   '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' +
   urls.map(u => `  <url><loc>${u.loc}</loc><lastmod>${u.lastmod}</lastmod></url>`).join('\n') + '\n</urlset>\n');
