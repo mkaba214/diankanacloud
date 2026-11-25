@@ -3,7 +3,7 @@
 
 const test = require('node:test');
 const assert = require('node:assert/strict');
-const { CircuitBreaker, handleAsk, validate, parseDuration, NO_ANSWER } = require('../askai');
+const { CircuitBreaker, RateLimiter, visitorKey, handleAsk, validate, parseDuration, NO_ANSWER } = require('../askai');
 
 const BODY = {
   question: 'What is Simandou 2040?',
@@ -167,4 +167,43 @@ test('never logs the question text', async () => {
   await run(async () => { throw new Error('x'); }, { log });
   assert.equal(lines.length, 2);
   for (const l of lines) assert.ok(!l.includes('Simandou'), l);
+});
+
+test('visitor limit: 5 per minute, then allowed again a minute later', () => {
+  const l = new RateLimiter();
+  for (let i = 0; i < 5; i++) assert.ok(l.allow('a', i * 1000), `request ${i + 1}`);
+  assert.equal(l.allow('a', 5000), false);
+  assert.ok(l.allow('b', 5000), 'another visitor is not affected');
+  assert.ok(l.allow('a', 61 * 1000));
+});
+
+test('visitor limit: 30 per hour and 60 per day', () => {
+  const l = new RateLimiter();
+  const min = 60 * 1000;
+  let t = 0, ok = 0;
+  for (let i = 0; i < 40; i++, t += min / 2) if (l.allow('a', t)) ok++; // one every 30 s for 20 minutes
+  assert.equal(ok, 30, 'hourly cap');
+  const d = new RateLimiter();
+  let n = 0;
+  for (let i = 0; i < 100; i++) if (d.allow('a', i * 13 * min)) n++; // one every 13 minutes for ~21 h
+  assert.equal(n, 60);
+  assert.ok(d.allow('a', 25 * 60 * min + 100 * 13 * min), 'next day');
+});
+
+test('visitor limit: refused requests are not counted, and old visitors are swept', () => {
+  const l = new RateLimiter([{ windowMs: 1000, max: 1 }], 3);
+  assert.ok(l.allow('a', 0));
+  for (let i = 1; i < 50; i++) l.allow('a', i);
+  assert.ok(l.allow('a', 1000));
+  for (const k of ['b', 'c', 'd', 'e']) l.allow(k, 2000);
+  l.allow('f', 10 * 60 * 1000 + 5000);
+  assert.ok(l.hits.size <= 3);
+});
+
+test('visitor key: uses the last X-Forwarded-For entry, never stores the IP', () => {
+  const real = visitorKey({ 'x-forwarded-for': '203.0.113.7' });
+  assert.equal(visitorKey({ 'x-forwarded-for': '1.2.3.4, 203.0.113.7' }), real, 'a spoofed first entry is ignored');
+  assert.notEqual(visitorKey({ 'x-forwarded-for': '198.51.100.9' }), real);
+  assert.equal(visitorKey({}, '203.0.113.7'), real, 'falls back to req.ip');
+  assert.ok(!real.includes('203'));
 });

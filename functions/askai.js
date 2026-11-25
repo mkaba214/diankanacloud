@@ -5,7 +5,9 @@
 //
 // Kept free of firebase-functions so it can be tested with a fake fetch.
 
-const GROQ_URL = 'https://api.groq.com/openai/v1/chat/completions';
+const crypto = require('node:crypto');
+
+const GROQ_URL ='https://api.groq.com/openai/v1/chat/completions';
 // Groq retired llama-3.1-8b-instant on 2026-08-16 and named this as its replacement.
 const MODEL = 'openai/gpt-oss-20b';
 
@@ -99,7 +101,58 @@ function parseDuration(s) {
   return matched === s.trim() ? Math.ceil(total) : null;
 }
 
+// ---------------------------------------------------------------- per-visitor limit
+
+// Abuse protection, separate from the cost breaker above: one visitor (IP address)
+// can't use the endpoint as a free-standing service or drain the shared quota.
+// Refused requests are not counted, so a visitor gets AI answers again once the window passes.
+const VISITOR_LIMITS = [
+  { windowMs: MINUTE, max: 5 },
+  { windowMs: 60 * MINUTE, max: 30 },
+  { windowMs: DAY, max: 60 },
+];
+const MAX_VISITORS = 20000; // beyond this many tracked visitors the table is reset (the breaker still caps cost)
+
+class RateLimiter {
+  constructor(limits = VISITOR_LIMITS, maxKeys = MAX_VISITORS) {
+    this.limits = limits;
+    this.maxKeys = maxKeys;
+    this.longest = Math.max(...limits.map(l => l.windowMs));
+    this.hits = new Map(); // visitor key -> request times
+    this.lastSweep = 0;
+  }
+
+  allow(key, now) {
+    this.sweep(now);
+    const list = (this.hits.get(key) || []).filter(t => now - t < this.longest);
+    const ok = this.limits.every(l => list.filter(t => now - t < l.windowMs).length < l.max);
+    if (ok) list.push(now);
+    if (list.length) this.hits.set(key, list); else this.hits.delete(key);
+    return ok;
+  }
+
+  sweep(now) {
+    if (now - this.lastSweep < 10 * MINUTE && this.hits.size <= this.maxKeys) return;
+    this.lastSweep = now;
+    for (const [k, list] of this.hits) if (!list.length || now - list[list.length - 1] >= this.longest) this.hits.delete(k);
+    if (this.hits.size > this.maxKeys) this.hits.clear();
+  }
+}
+
+// The visitor's IP, salted and hashed so raw addresses are never kept. Google's front end
+// appends the real client address as the last X-Forwarded-For entry; earlier entries can
+// be sent by the client and are ignored.
+const SALT = crypto.randomBytes(16).toString('hex');
+function visitorKey(headers, fallbackIp) {
+  const raw = headers && headers['x-forwarded-for'];
+  const list = String(Array.isArray(raw) ? raw.join(',') : raw || '').split(',').map(s => s.trim()).filter(Boolean);
+  const ip = list.length ? list[list.length - 1] : fallbackIp || 'unknown';
+  return crypto.createHash('sha256').update(SALT + ip).digest('base64').slice(0, 22);
+}
+
 // ---------------------------------------------------------------- request
+
+const MAX_BODY_BYTES = 32 * 1024; // a valid request is under ~10 KB
 
 const MAX_QUESTION_CHARS = 500;
 const MAX_PASSAGES = 5;
@@ -215,6 +268,6 @@ async function handleAsk({ body, apiKey, breaker, fetchImpl = fetch, now = Date.
 }
 
 module.exports = {
-  CircuitBreaker, handleAsk, validate, buildMessages, estimateTokens, parseDuration,
+  CircuitBreaker, RateLimiter, visitorKey, handleAsk, MAX_BODY_BYTES, LOCAL, validate, buildMessages, estimateTokens, parseDuration,
   MODEL, LIMITS, SAFETY, NO_ANSWER,
 };
