@@ -31,8 +31,8 @@ jobs:
           npm audit --audit-level=high
           npm audit --audit-level=high --prefix functions
       - run: npm ci
-      - name: Test the Ask AI function
-        run: node --test functions/test/*.test.js
+      - name: Test the Ask AI function and the content refresh helpers
+        run: node --test functions/test/*.test.js scripts/refresh/*.test.mjs
       - run: npm run build
       - if: github.event_name != 'pull_request'
         uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa # v3.0.1
