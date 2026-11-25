@@ -164,6 +164,13 @@
   <div id="world-grid" class="space-y-10 mt-6"></div>
 </section>
 
+<!-- ARCHIVES VIEW -->
+<section id="view-archives" class="view py-10 sm:py-14">
+  <h2 class="font-display font-700 text-2xl sm:text-3xl i18n" data-fr="Archives" data-en="Archives">Archives</h2>
+  <p class="text-[var(--ink)]/70 mt-2 max-w-2xl i18n" data-fr="Les actualités de plus de 30 jours. Elles restent consultables ici et la recherche « Demander à l'IA » les trouve toujours." data-en="News older than 30 days. They stay readable here, and the Ask search still finds them.">Les actualités de plus de 30 jours. Elles restent consultables ici et la recherche « Demander à l'IA » les trouve toujours.</p>
+  <div id="archives-grid" class="space-y-10 mt-6"></div>
+</section>
+
 <!-- ARTICLE VIEW -->
 <section id="view-article" class="view py-8 sm:py-12">
   <a id="article-back" href="/topics/" class="inline-block text-sm font-semibold text-[var(--teal-dark)] mb-5 i18n" data-fr="← Retour aux sujets" data-en="← Back to topics">← Retour aux sujets</a>
@@ -284,6 +291,7 @@
     <div>
       <div class="font-display font-700 text-[var(--ink)]">Diankana Cloud</div>
       <p class="mt-2 i18n" data-fr="Idées et projets pour la jeunesse et les professionnels de l'IT en Guinée." data-en="Ideas and projects for Guinea's youth and IT professionals.">Idées et projets pour la jeunesse et les professionnels de l'IT en Guinée.</p>
+      <a href="/archives/" class="inline-block mt-3 underline hover:text-[var(--teal-dark)] i18n" data-fr="Archives des actualités" data-en="News archives">Archives des actualités</a>
     </div>
     <div>
       <div class="font-semibold text-[var(--ink)] i18n" data-fr="Politique du site" data-en="Site policy">Politique du site</div>
@@ -1124,6 +1132,19 @@ const TOPICS = [
 
 // Articles shown on the site (hidden ones stay in ARTICLES as data for the Ask search only).
 const PUBLISHED = ARTICLES.filter(a => !a.hidden);
+// Archives: a news/developments entry (archivable: true) moves to /archives/ 30 days after its
+// date. Guides never carry the flag, so they stay current whatever their age. Archived
+// articles keep their page and stay in the Ask search; they just leave the current lists.
+const ARCHIVE_AFTER_DAYS = 30;
+function isArchived(a, now){
+  if(!a.archivable || !a.date) return false;
+  now = now || new Date();
+  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  const [y,m,d] = a.date.split('-').map(Number);
+  return (today - new Date(y, m-1, d)) / 86400000 > ARCHIVE_AFTER_DAYS;
+}
+const CURRENT = PUBLISHED.filter(a => !isArchived(a));
+const ARCHIVED = PUBLISHED.filter(a => isArchived(a));
 // "added" = when the article went online; lists always show the most recent upload first.
 const newestFirst = (x, y) => (y.added || y.date || '').localeCompare(x.added || x.date || '');
 
@@ -1150,6 +1171,7 @@ function setLang(l){
   renderLatest();
   renderTopics();
   renderWorld();
+  renderArchives();
   renderAskSuggestions();
   const route = currentRoute();
   if(route.startsWith('article-')){
@@ -1172,13 +1194,17 @@ function verifiedBadge(a, long){
   return `<span class="badge badge-pending">⏳ ${long ? (LANG==='fr'?'En attente de vérification':'Pending review') : (LANG==='fr'?'À vérifier':'Pending')}</span>`;
 }
 
+function archivedBadge(a){
+  return isArchived(a) ? `<span class="badge badge-pending">🗄 ${T('Archivé','Archived')}</span>` : '';
+}
+
 function articleCard(a){
   const label = a.topicLabel[LANG];
   return `<a href="/articles/${a.id}/" class="block bg-[var(--card)] border border-black/10 rounded-2xl p-5 card-hover">
     <div class="flex flex-wrap items-center gap-2 mb-3">
       <span class="badge badge-topic">${label}</span>
       <span class="badge badge-ai">🤖 ${LANG==='fr'?'Résumé IA':'AI summary'}</span>
-      ${verifiedBadge(a, false)}
+      ${verifiedBadge(a, false)}${archivedBadge(a)}
     </div>
     <h3 class="font-display font-700 text-base leading-snug mb-2">${a.title[LANG]}</h3>
     <div class="text-xs text-[var(--ink)]/45 mb-2">${fmtArticleDate(a.date)}</div>
@@ -1232,17 +1258,21 @@ function renderGrouped(list, containerId, emptyMsg){
 }
 
 function renderWorld(){
-  renderGrouped(PUBLISHED.filter(a => a.topic === 'monde'), 'world-grid', T("Rien ici pour l'instant.","Nothing here yet."));
+  renderGrouped(CURRENT.filter(a => a.topic === 'monde'), 'world-grid', T("Rien ici pour l'instant.","Nothing here yet."));
+}
+
+function renderArchives(){
+  renderGrouped(ARCHIVED, 'archives-grid', T("Aucun article archivé pour l'instant.","No archived articles yet."));
 }
 
 function renderLatest(){
-  const latest = PUBLISHED.slice().sort(newestFirst).slice(0,6);
+  const latest = CURRENT.slice().sort(newestFirst).slice(0,6);
   renderGrouped(latest, 'latest-grid', T("Rien ici pour l'instant.","Nothing here yet."));
 }
 
 function renderTopicFilters(){
   const all = `<button onclick="filterTopic('all')" class="px-3 py-1.5 rounded-full text-xs font-semibold border ${activeTopicFilter==='all'?'bg-[var(--teal)] text-white border-[var(--teal)]':'bg-white border-black/15'}">${LANG==='fr'?'Tout':'All'}</button>`;
-  const rest = TOPICS.filter(t => PUBLISHED.some(a => a.topic === t.key)).map(t=>`<button onclick="filterTopic('${t.key}')" class="px-3 py-1.5 rounded-full text-xs font-semibold border ${activeTopicFilter===t.key?'bg-[var(--teal)] text-white border-[var(--teal)]':'bg-white border-black/15'}">${t.emoji} ${t[LANG]}</button>`).join('');
+  const rest = TOPICS.filter(t => CURRENT.some(a => a.topic === t.key)).map(t=>`<button onclick="filterTopic('${t.key}')" class="px-3 py-1.5 rounded-full text-xs font-semibold border ${activeTopicFilter===t.key?'bg-[var(--teal)] text-white border-[var(--teal)]':'bg-white border-black/15'}">${t.emoji} ${t[LANG]}</button>`).join('');
   document.getElementById('topic-filters').innerHTML = all + rest;
 }
 
@@ -1254,7 +1284,7 @@ function filterTopic(key){
 
 function renderTopics(){
   renderTopicFilters();
-  const list = activeTopicFilter==='all' ? PUBLISHED : PUBLISHED.filter(a=>a.topic===activeTopicFilter);
+  const list = activeTopicFilter==='all' ? CURRENT : CURRENT.filter(a=>a.topic===activeTopicFilter);
   renderGrouped(list, 'topics-grid', T("Rien ici pour l'instant.","Nothing here yet."));
 }
 
@@ -1263,17 +1293,17 @@ function renderArticle(id){
   if(!a) return;
   const steps = a.howto[LANG].map((s,i)=>`<li class="flex gap-3"><span class="shrink-0 w-6 h-6 rounded-full bg-[var(--teal)]/10 text-[var(--teal-dark)] text-xs font-bold flex items-center justify-center">${i+1}</span><span class="text-sm leading-relaxed">${s}</span></li>`).join('');
   const news = a.topic === 'monde';
-  const back = document.getElementById('article-back');
-  back.href = news ? '/world/' : '/topics/';
-  back.dataset.fr = news ? '← Retour à « Le monde »' : '← Retour aux sujets';
-  back.dataset.en = news ? '← Back to World' : '← Back to topics';
+  const back = document.getElementById('article-back'), old = isArchived(a);
+  back.href = old ? '/archives/' : news ? '/world/' : '/topics/';
+  back.dataset.fr = old ? '← Retour aux archives' : news ? '← Retour à « Le monde »' : '← Retour aux sujets';
+  back.dataset.en = old ? '← Back to Archives' : news ? '← Back to World' : '← Back to topics';
   back.textContent = T(back.dataset.fr, back.dataset.en);
   const takeaways = a.takeaways[LANG].map(t=>`<li class="flex gap-2 text-sm leading-relaxed"><span class="text-[var(--sun-dark)]">★</span><span>${t}</span></li>`).join('');
   document.getElementById('article-body').innerHTML = `
     <div class="flex flex-wrap items-center gap-2 mb-4">
       <span class="badge badge-topic">${a.topicLabel[LANG]}</span>
       <span class="badge badge-ai">🤖 ${LANG==='fr'?'Rédigé avec assistance IA':'Drafted with AI assistance'}</span>
-      ${verifiedBadge(a, true)}
+      ${verifiedBadge(a, true)}${archivedBadge(a)}
     </div>
     <h1 class="font-display font-800 text-2xl sm:text-3xl leading-tight mb-3">${a.title[LANG]}</h1>
     <p class="text-[var(--ink)]/70 mb-6">${a.summary[LANG]}</p>
@@ -1901,7 +1931,7 @@ function renderCommentList(docs){
 }
 
 /* ---------------- ROUTER (real URLs: /, /topics/, /articles/<id>/ ...) ---------------- */
-const PAGES = ['home','topics','world','ask','about','contact','privacy'];
+const PAGES = ['home','topics','world','archives','ask','about','contact','privacy'];
 function pathFor(route){
   if(route === 'home') return '/';
   if(route.startsWith('article-')) return '/articles/' + route.slice(8) + '/';
@@ -1926,6 +1956,7 @@ const PAGE_TITLES = {
   home:   ['Diankana Cloud — Tech · Mines · Pétrole', 'Diankana Cloud — Tech · Mining · Oil'],
   topics: ['Sujets — Diankana Cloud', 'Topics — Diankana Cloud'],
   world:  ['Ce qui se passe dans le monde — Diankana Cloud', "What's happening in the World — Diankana Cloud"],
+  archives:['Archives — Diankana Cloud', 'Archives — Diankana Cloud'],
   ask:    ["Demander à l'IA — Diankana Cloud", 'Ask the AI — Diankana Cloud'],
   about:  ['À propos — Diankana Cloud', 'About — Diankana Cloud'],
   contact:['Contact — Diankana Cloud', 'Contact — Diankana Cloud'],
@@ -2004,6 +2035,7 @@ document.addEventListener('click', e => {
 renderLatest();
 renderTopics();
 renderWorld();
+renderArchives();
 renderAskSuggestions();
 setLang(LANG);
 render();

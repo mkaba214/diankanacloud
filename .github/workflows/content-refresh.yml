@@ -1,0 +1,69 @@
+# Content refresh: every 2 days, looks for new Guinea news (mining, oil and energy, economy,
+# politics, tech) on GDELT and stages up to 4 leads for review. It never publishes anything:
+# the leads go to staging/ (not part of the site build) on a new branch, and a draft pull
+# request assigned to the repository owner is the notification. No run, no PR when there is
+# nothing new since the previous successful run.
+#
+# Needs: Settings > Actions > General > Workflow permissions >
+#        "Allow GitHub Actions to create and approve pull requests".
+name: Content refresh (staging only)
+
+on:
+  schedule:
+    - cron: '30 6 */2 * *' # 06:30 UTC (Conakry time) every other day
+  workflow_dispatch:
+
+permissions: {}
+
+concurrency:
+  group: content-refresh
+  cancel-in-progress: false
+
+jobs:
+  leads:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: write # push the staging branch (never main)
+      pull-requests: write # open the draft review PR
+      actions: read # find the previous successful run
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: 22
+
+      - name: Start of the window (previous successful run)
+        id: since
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          last=$(gh run list --repo "$GITHUB_REPOSITORY" --workflow content-refresh.yml --status success --limit 1 --json createdAt -q '.[0].createdAt' || true)
+          echo "since=$last" >> "$GITHUB_OUTPUT"
+          echo "Window starts at: ${last:-3 days ago (first run)}"
+
+      - name: Find new leads
+        id: leads
+        env:
+          SINCE: ${{ steps.since.outputs.since }}
+        run: node scripts/refresh/find-leads.mjs --body "$RUNNER_TEMP/pr-body.md"
+
+      - name: Open a draft pull request for review
+        if: steps.leads.outputs.file != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+          FILE: ${{ steps.leads.outputs.file }}
+          OWNER: ${{ github.repository_owner }}
+        run: |
+          day=$(date -u +%Y-%m-%d)
+          branch="staging/leads-$(date -u +%Y-%m-%d-%H%M)"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git switch -c "$branch"
+          git add -- "$FILE"
+          git commit -m "Staging: news leads for review ($day)"
+          git push origin "$branch"
+          gh pr create --draft --base main --head "$branch" \
+            --title "News leads for review ($day)" \
+            --body-file "$RUNNER_TEMP/pr-body.md" \
+            --assignee "$OWNER"
