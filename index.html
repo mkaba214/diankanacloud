@@ -1485,6 +1485,40 @@ function coverage(qi, d, idf){
   return qi.base.some(w => /^(1[5-9]|20)\d\d$/.test(w) && !d.tf.has(w)) ? Math.min(cov, 0.45) : cov;
 }
 
+// Optional AI layer (functions/askai.js). The local result is already on screen; it is only
+// rewritten when the AI answers in time. Any failure or timeout leaves it exactly as it is.
+const ASK_AI_URL = 'https://europe-west1-diankanacloud-a3ef1.cloudfunctions.net/askAI';
+const ASK_AI_TIMEOUT = 5000;
+let askAbort = null;
+
+// Up to ~1200 characters of a passage, starting at its best sentence when it is longer.
+function aiExcerpt(d, q, idf, qi){
+  const max = 1200;
+  if(d.text.length <= max) return d.text;
+  const ss = sentences(d.text), best = bestSentences(d.text, q, idf, qi, d.lead);
+  let i = Math.max(0, ss.findIndex(s => best.startsWith(s))), out = '';
+  for(; i < ss.length && (out + ' ' + ss[i]).length <= max; i++) out += (out ? ' ' : '') + ss[i];
+  return out || d.text.slice(0, max);
+}
+
+// Returns {found:true, answer}, {found:false}, or null (use the local result).
+async function askAI(question, lang, passages){
+  if(askAbort) askAbort.abort();
+  const ctl = askAbort = new AbortController();
+  const timer = setTimeout(() => ctl.abort(), ASK_AI_TIMEOUT);
+  try{
+    const r = await fetch(ASK_AI_URL, {method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({question, lang, passages}), signal: ctl.signal});
+    if(!r.ok) return null;
+    const j = await r.json();
+    if(!j || j.source !== 'ai') return null;
+    if(j.found === true && typeof j.answer === 'string' && j.answer.trim()) return {found:true, answer:j.answer.trim()};
+    if(j.found === false) return {found:false};
+    return null;
+  }catch(e){ return null; }
+  finally{ clearTimeout(timer); }
+}
+
 let askSeq = 0;
 async function askBot(){
   const raw = document.getElementById('ask-input').value.trim();
@@ -1502,7 +1536,8 @@ async function askBot(){
   const docs = siteDocs().concat(wiki ? wiki.docs : []);
   const index = buildIndex(docs);
   const seen = new Set();   // one result per article (an article now has several passages)
-  const results = (q.length ? bm25(index, q, qi) : []).filter(r => {
+  const ranked = q.length ? bm25(index, q, qi) : [];
+  const results = ranked.filter(r => {
     const key = r.d.kind === 'article' ? r.d.a.id : r.d; if(seen.has(key)) return false; seen.add(key); return true; });
   if(!results.length){ box.appendChild(unknownNotice(raw, true)); return; }
   const card = (r, main) => {
@@ -1513,10 +1548,12 @@ async function askBot(){
       : T('Article Diankana Cloud — ','Diankana Cloud article — ') + r.d.section;
     const covered = coverage(qi, r.d, index.idf);
     const label = !main ? '' : covered >= 0.5 ? T('Réponse trouvée dans : ','Answer found in: ') : T('Passage le plus proche : ','Closest passage: ');
-    c.appendChild(el('div','text-xs font-semibold text-[var(--teal-dark)] mb-1', label + from));
+    const lab = el('div','text-xs font-semibold text-[var(--teal-dark)] mb-1', label + from);
+    c.appendChild(lab);
     const p = el('p', main ? 'mb-2' : 'text-[var(--ink)]/75');
     p.appendChild(highlighted(bestSentences(r.d.text, q, index.idf, qi, r.d.lead), q));
     c.appendChild(p);
+    if(main) Object.assign(c, {aiLabel: lab, aiText: p, aiFrom: from});
     if(r.d.kind === 'article' && !r.d.a.hidden){
       const go2 = el('button','text-xs font-semibold text-[var(--teal-dark)]', T('Lire le guide complet →','Read the full guide →'));
       go2.onclick = () => go('article-' + r.d.a.id); c.appendChild(go2);
@@ -1529,8 +1566,10 @@ async function askBot(){
     return c;
   };
   const topCovered = coverage(qi, results[0].d, index.idf);
-  if(topCovered < 0.5) box.appendChild(unknownNotice(raw, false));
-  box.appendChild(card(results[0], true));
+  const notice = topCovered < 0.5 ? unknownNotice(raw, false) : null;
+  if(notice) box.appendChild(notice);
+  const mainCard = card(results[0], true);
+  box.appendChild(mainCard);
   const more = results.slice(1, 3).filter(r => r.s > results[0].s * 0.45);
   if(more.length){
     const m = el('div','mt-4 space-y-3');
@@ -1546,6 +1585,22 @@ async function askBot(){
     const a2 = el('a','underline','CC BY-SA 4.0'); a2.href = 'https://creativecommons.org/licenses/by-sa/4.0/'; a2.target = '_blank'; a2.rel = 'noopener';
     at.append(a2, '.');
     box.appendChild(at);
+  }
+
+  // AI layer: the top passages go to the AI; its answer replaces only the main passage text.
+  // Whether the contact notice shows then follows the AI's own "found" signal.
+  const passages = ranked.slice(0, 5).map(r => ({
+    title: r.d.kind === 'wiki' ? 'Wikipedia — ' + r.d.section : r.d.section,
+    text: aiExcerpt(r.d, q, index.idf, qi)}));
+  const ai = await askAI(raw, lang, passages);
+  if(!ai || seq !== askSeq || LANG !== lang || !mainCard.isConnected) return;
+  if(notice) notice.remove();
+  if(ai.found){
+    mainCard.aiLabel.textContent = T('Réponse trouvée dans : ','Answer found in: ') + mainCard.aiFrom;
+    mainCard.aiText.replaceChildren(highlighted(ai.answer, q));
+  } else {
+    mainCard.aiLabel.textContent = T('Passage le plus proche : ','Closest passage: ') + mainCard.aiFrom;
+    box.insertBefore(unknownNotice(raw, false), mainCard);
   }
 }
 
