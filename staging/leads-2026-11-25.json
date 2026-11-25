@@ -1,0 +1,51 @@
+{
+  "generated": "2026-11-25T17:32:15.566Z",
+  "window": {
+    "from": "2026-11-22T17:32:15.566Z",
+    "to": "2026-11-25T17:32:15.566Z"
+  },
+  "source": "GDELT (api.gdeltproject.org)",
+  "status": "staged, not reviewed",
+  "leads": [
+    {
+      "title": "Guinée / Lutte contre lorpaillage illicite : le Gouvernement étend linterdiction à l échelle nationale",
+      "url": "https://www.africaguinee.com/guinee-lutte-contre-lorpaillage-illicite-le-gouvernement-etend-linterdiction-a-lechelle-nationale/",
+      "outlet": "africaguinee.com",
+      "language": "fr",
+      "seen": "2026-11-24T02:45:00Z",
+      "topic": "mines",
+      "topicLabel": "Mines",
+      "forwardLooking": true
+    },
+    {
+      "title": "Détournement présumé de 3,135 tonnes dor : Yéro Baldé et le gouverneur Karamo Kaba attendus à la CRIEF ce lundi",
+      "url": "https://www.africaguinee.com/detournement-presume-de-3135-tonnes-dor-yero-balde-et-le-gouverneur-karamo-kaba-attendus-a-la-crief-ce-lundi/",
+      "outlet": "africaguinee.com",
+      "language": "fr",
+      "seen": "2026-11-23T02:30:00Z",
+      "topic": "mines",
+      "topicLabel": "Mines",
+      "forwardLooking": false
+    },
+    {
+      "title": "Remaniement au Ministère de la Santé : Qui sont les 38 cadres nommés par Mamadi Doumbouya ?",
+      "url": "https://www.africaguinee.com/remaniement-au-ministere-de-la-sante-qui-sont-les-38-cadres-nommes-par-mamadi-doumbouya/",
+      "outlet": "africaguinee.com",
+      "language": "fr",
+      "seen": "2026-11-24T02:45:00Z",
+      "topic": null,
+      "topicLabel": "Politique",
+      "forwardLooking": false
+    },
+    {
+      "title": "Forécariah : Amadou Oury Bah dévoile la doctrine Mamadi Doumbouya et fixe le cap au Gouvernement",
+      "url": "https://www.guinee7.com/2026/11/25/forecariah-amadou-oury-bah-devoile-la-doctrine-mamadi-doumbouya-et-fixe-le-cap-au-gouvernement/",
+      "outlet": "guinee7.com",
+      "language": "fr",
+      "seen": "2026-11-25T03:30:00Z",
+      "topic": null,
+      "topicLabel": "Politique",
+      "forwardLooking": false
+    }
+  ]
+}
