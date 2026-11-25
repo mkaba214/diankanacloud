@@ -46,11 +46,13 @@ function get(url, timeoutMs = 60000) {
   });
 }
 
-async function gdelt(query) {
+// GitHub's runners share IP addresses, so GDELT's one-request-per-5-seconds limit is often
+// already used up by other people: keep retrying, further apart, for about 9 minutes.
+async function gdelt(query, attempts) {
   const u = new URL('https://api.gdeltproject.org/api/v2/doc/doc');
   Object.entries({ query, mode: 'artlist', format: 'json', maxrecords: '250', sort: 'datedesc',
     startdatetime: stamp(since), enddatetime: stamp(now) }).forEach(([k, v]) => u.searchParams.set(k, v));
-  for (let attempt = 1; attempt <= 4; attempt++) {
+  for (let attempt = 1; attempt <= attempts; attempt++) {
     try {
       const { status, body } = await get(u);
       if (status === 429 || /limit requests/i.test(body)) throw new Error('rate limited');
@@ -59,7 +61,7 @@ async function gdelt(query) {
       return JSON.parse(body).articles || [];
     } catch (e) {
       console.log(`GDELT "${query}" attempt ${attempt}: ${e.message}`);
-      if (attempt < 4) await sleep(20000 * attempt);
+      if (attempt < attempts) await sleep(Math.min(30000 * attempt, 90000));
     }
   }
   throw new Error(`GDELT query failed: ${query}`);
@@ -87,7 +89,7 @@ const raw = [];
 for (const [i, q] of QUERIES.entries()) {
   if (i) await sleep(6000); // GDELT allows one request every 5 seconds
   try {
-    const list = await gdelt(q.query);
+    const list = await gdelt(q.query, q.required ? 8 : 2);
     console.log(`GDELT "${q.query}": ${list.length} articles since ${since.toISOString()}`);
     raw.push(...list);
   } catch (e) {
