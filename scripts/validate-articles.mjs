@@ -6,6 +6,7 @@
 
 const LANGS = ['fr', 'en'];
 const TAG = /<\s*\/?\s*[a-z!?]/i;
+const AUDIENCES = ['students', 'teams', 'firms'];
 
 export function validateArticles(articles, topicKeys) {
   const errors = [];
@@ -42,10 +43,29 @@ export function validateArticles(articles, topicKeys) {
       }
     }
 
-    if (!a.source || typeof a.source !== 'object') bad('source is missing');
-    else {
-      text('source.name', a.source.name);
-      if (typeof a.source.url !== 'string' || !/^https:\/\/[^\s"'<>]+$/.test(a.source.url)) bad('source.url must be an https:// link');
+    // Optional per-audience advice: { students|teams|firms: { fr: [...], en: [...] } }
+    if (a.audiences !== undefined) {
+      const keys = a.audiences && typeof a.audiences === 'object' ? Object.keys(a.audiences) : [];
+      if (!keys.length) bad('audiences must be an object with students, teams and/or firms');
+      for (const k of keys) {
+        if (!AUDIENCES.includes(k)) { bad(`audiences.${k} is not one of ${AUDIENCES.join(', ')}`); continue; }
+        for (const l of LANGS) {
+          const list = a.audiences[k] && a.audiences[k][l];
+          if (!Array.isArray(list) || !list.length) { bad(`audiences.${k}.${l} must be a non-empty list`); continue; }
+          list.forEach((s, j) => text(`audiences.${k}.${l}[${j}]`, s));
+        }
+      }
+    }
+
+    const checkSource = (field, src) => {
+      if (!src || typeof src !== 'object') return bad(`${field} is missing`);
+      text(`${field}.name`, src.name);
+      if (typeof src.url !== 'string' || !/^https:\/\/[^\s"'<>]+$/.test(src.url)) bad(`${field}.url must be an https:// link`);
+    };
+    checkSource('source', a.source);
+    if (a.moreSources !== undefined) {
+      if (!Array.isArray(a.moreSources) || !a.moreSources.length) bad('moreSources must be a non-empty list');
+      else a.moreSources.forEach((src, j) => checkSource(`moreSources[${j}]`, src));
     }
   });
   return errors;
