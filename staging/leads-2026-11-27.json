@@ -1,0 +1,21 @@
+{
+  "generated": "2026-11-27T16:55:42.828Z",
+  "window": {
+    "from": "2026-11-25T17:32:03.000Z",
+    "to": "2026-11-27T16:55:42.828Z"
+  },
+  "source": "GDELT (api.gdeltproject.org)",
+  "status": "staged, not reviewed",
+  "leads": [
+    {
+      "title": "Excision, mariages précoces et violences faites aux femmes : la ministre Aminata Kaba interpelle les Guinéens",
+      "url": "https://guineematin.com/2026/11/26/excision-mariages-precoces-et-violences-faites-aux-femmes-la-ministre-aminata-kaba-interpelle-les-guineens/",
+      "outlet": "guineematin.com",
+      "language": "fr",
+      "seen": "2026-11-26T23:45:00Z",
+      "topic": null,
+      "topicLabel": "Politique",
+      "forwardLooking": false
+    }
+  ]
+}
